@@ -1,0 +1,238 @@
+---
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+type EstiloCard = "gris" | "verde" | "amarillo";
+
+interface CardRecord {
+  estilo: EstiloCard;
+  texto: string;
+  imageSrc: string;
+  imageAlt: string;
+}
+
+interface SectionContent {
+  cards: CardRecord[];
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  cards?: CardRecord[];
+}
+
+const defaultCards: CardRecord[] = [
+  {
+    estilo: "amarillo",
+    texto: "En cada viaje, en cada celebración. Asistencias viales y respaldo permanente, sin preocupaciones.",
+    imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/22eb0363-200d-4a89-8413-37fe069978ea.jpg",
+    imageAlt: "Servicio de valet parking recibiendo un vehiculo en una celebracion.",
+  },
+  {
+    estilo: "verde",
+    texto: "Viaje sin preocupaciones. Su familia y patrimonio están respaldados ante cualquier imprevisto en la vía.",
+    imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/b03342e5-c24b-454c-90e8-2d7722d51da0.jpg",
+    imageAlt: "Pareja viajando en carro por carretera de montana.",
+  },
+  {
+    estilo: "gris",
+    texto: "Una varada, accidente o falla mecánica. Grúa segura, en cualquier momento.",
+    imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/97b933f4-ef61-4e3b-9c24-536c545470c5.jpg",
+    imageAlt: "Familia junto a su carro varado esperando el servicio de grua.",
+  },
+];
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-primario-50",
+  cards,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  cards: defaultCards,
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalCards = cards ?? sectionContent.cards;
+
+const estilosCard: Record<EstiloCard, { card: string; texto: string }> = {
+  gris: {
+    card: "bg-neutral-95 border-neutral-95",
+    texto: "text-neutral-10",
+  },
+  verde: {
+    card: "bg-primario-50 border-white",
+    texto: "text-white",
+  },
+  amarillo: {
+    card: "bg-accion-secundaria border-neutral-95",
+    texto: "text-neutral-20",
+  },
+};
+---
+
+<section id={id} class:list={["w-full pt-10 pb-6 md:pt-16", fondo, className]}>
+  <div class="shell lg:px-10! xl:px-[72px]!">
+    <div class="stack">
+      {finalCards.map((card, index) => {
+        const estilo = estilosCard[card.estilo] ?? estilosCard.gris;
+
+        return (
+          <div
+            class="stack-item"
+            style={`--stack-index: ${finalCards.length - 1 - index};`}
+          >
+            <article
+              class:list={[
+                "flex min-h-[480px] flex-col justify-center gap-6 rounded-3xl border px-6 py-8 md:min-h-[440px] md:px-10 md:py-10 lg:h-[448px] lg:min-h-0 lg:flex-row lg:items-center lg:gap-10 lg:px-[72px] lg:py-16",
+                estilo.card,
+              ]}
+            >
+              <p
+                class:list={[
+                  "m-0 max-w-[553px] text-2xl leading-8 font-bold text-balance md:text-[2rem] md:leading-10 lg:flex-1",
+                  estilo.texto,
+                ]}
+              >
+                {card.texto}
+              </p>
+
+              <div class="h-[200px] w-full overflow-hidden rounded-2xl md:h-[240px] lg:h-[320px] lg:w-[42%] lg:max-w-[511px] lg:shrink-0">
+                <img
+                  src={card.imageSrc}
+                  alt={card.imageAlt}
+                  class="h-full w-full object-cover"
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </div>
+            </article>
+
+            {index === 0 ? (
+              <div
+                aria-hidden="true"
+                class="pointer-events-none absolute left-1/2 top-full z-10 mt-4 -translate-x-1/2"
+              >
+                <div class="scroll-hint">
+                  <span class="scroll-hint-line"></span>
+                </div>
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Indicador de scroll: pill blanco con un dot verde que baja y se desvanece,
+     insinuando que la sección continúa al hacer scroll. */
+  .scroll-hint {
+    position: relative;
+    width: 1.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Ciclo: (1) el dot baja dibujando la línea del trayecto; (2) la línea se
+     contrae hacia abajo dejando solo el dot; (3) el dot sube solo sin rastro.
+     Se anima `top` + `height`; el dot es el borde inferior de la línea. */
+  .scroll-hint-line {
+    position: absolute;
+    left: 50%;
+    top: 0.3rem;
+    width: 0.25rem;
+    height: 0;
+    border-radius: 9999px;
+    background: var(--color-primario-50);
+    transform: translateX(-50%);
+    animation: scroll-hint-draw 2.5s infinite;
+  }
+
+  /* Dot = mismo grosor que la línea; se solapa con la punta para leerse como
+     una sola trayectoria continua. */
+  .scroll-hint-line::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 9999px;
+    background: var(--color-primario-50);
+    transform: translate(-50%, 40%);
+  }
+
+  @keyframes scroll-hint-draw {
+    /* el dot arrastra la trayectoria hacia abajo (rápido, con inercia) */
+    0% {
+      top: 0.4rem;
+      height: 0;
+      animation-timing-function: ease-in;
+    }
+    22% {
+      top: 0.65em;
+      height: 1.45rem;
+      animation-timing-function: ease-out;
+    }
+    /* la línea se contrae hacia abajo dejando solo el dot */
+    38% {
+      top: 2.1rem;
+      height: 0;
+      animation-timing-function: ease-in;
+    }
+    /* el dot sube solo, sin trayecto (lento) */
+    100% {
+      top: 0.4rem;
+      height: 0;
+      animation-timing-function: ease-out;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-hint-line {
+      top: 0.6rem;
+      height: 1.45rem;
+      animation: none;
+    }
+  }
+
+  /* Cada card se pina bajo el menú sticky con un offset decreciente: la
+     siguiente card sube con el scroll, cubre a la anterior y deja visible
+     una franja inferior, acumulando el stack. */
+  .stack-item {
+    position: sticky;
+    top: calc(112px + var(--stack-index, 0) * 46px);
+  }
+
+  /* Separación en el flujo = distancia de scroll entre la llegada de cada card. */
+  .stack-item + .stack-item {
+    margin-top: min(45svh, 420px);
+  }
+
+  /* Cola de scroll: mantiene el stack completo en pantalla antes de que la
+     sección salga; sin ella las cards convergen y se pierden las franjas.
+     Debe ser contenido real (no padding): sticky se limita al content box. */
+  .stack::after {
+    content: "";
+    display: block;
+    height: min(35svh, 360px);
+  }
+
+  /* En mobile la franja debe ser menor que el padding vertical de la card
+     (32px) para que asome solo color, nunca contenido recortado. */
+  @media (max-width: 767px) {
+    .stack-item {
+      top: calc(96px + var(--stack-index, 0) * 24px);
+    }
+
+    .stack-item + .stack-item {
+      margin-top: min(38svh, 320px);
+    }
+  }
+</style>

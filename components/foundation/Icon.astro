@@ -1,0 +1,132 @@
+---
+const colorClasses = {
+  'primario-10': 'text-primario-10',
+  'primario-20': 'text-primario-20',
+  'primario-30': 'text-primario-30',
+  'primario-40': 'text-primario-40',
+  'primario-50': 'text-primario-50',
+  'primario-60': 'text-primario-60',
+  'primario-70': 'text-primario-70',
+  'primario-80': 'text-primario-80',
+  'primario-90': 'text-primario-90',
+  'primario-95': 'text-primario-95',
+  'primario-98': 'text-primario-98',
+  'secundario-10': 'text-secundario-10',
+  'secundario-20': 'text-secundario-20',
+  'secundario-30': 'text-secundario-30',
+  'secundario-40': 'text-secundario-40',
+  'secundario-50': 'text-secundario-50',
+  'secundario-60': 'text-secundario-60',
+  'secundario-70': 'text-secundario-70',
+  'secundario-80': 'text-secundario-80',
+  'secundario-90': 'text-secundario-90',
+  'secundario-95': 'text-secundario-95',
+  'secundario-98': 'text-secundario-98',
+  'neutral-0': 'text-neutral-0',
+  'neutral-10': 'text-neutral-10',
+  'neutral-20': 'text-neutral-20',
+  'neutral-30': 'text-neutral-30',
+  'neutral-40': 'text-neutral-40',
+  'neutral-50': 'text-neutral-50',
+  'neutral-60': 'text-neutral-60',
+  'neutral-70': 'text-neutral-70',
+  'neutral-80': 'text-neutral-80',
+  'neutral-90': 'text-neutral-90',
+  'neutral-95': 'text-neutral-95',
+  'neutral-100': 'text-neutral-100',
+  'alerta-informacion-10': 'text-alerta-informacion-10',
+  'alerta-informacion-20': 'text-alerta-informacion-20',
+  'alerta-informacion-30': 'text-alerta-informacion-30',
+  'alerta-informacion-40': 'text-alerta-informacion-40',
+  'alerta-informacion-50': 'text-alerta-informacion-50',
+  'alerta-informacion-60': 'text-alerta-informacion-60',
+  'alerta-informacion-70': 'text-alerta-informacion-70',
+  'alerta-informacion-80': 'text-alerta-informacion-80',
+  'alerta-informacion-90': 'text-alerta-informacion-90',
+  'alerta-informacion-95': 'text-alerta-informacion-95',
+  'alerta-informacion-98': 'text-alerta-informacion-98',
+  'alerta-exito-10': 'text-alerta-exito-10',
+  'alerta-exito-20': 'text-alerta-exito-20',
+  'alerta-exito-30': 'text-alerta-exito-30',
+  'alerta-exito-40': 'text-alerta-exito-40',
+  'alerta-exito-50': 'text-alerta-exito-50',
+  'alerta-exito-60': 'text-alerta-exito-60',
+  'alerta-exito-70': 'text-alerta-exito-70',
+  'alerta-exito-80': 'text-alerta-exito-80',
+  'alerta-exito-90': 'text-alerta-exito-90',
+  'alerta-exito-95': 'text-alerta-exito-95',
+  'alerta-exito-98': 'text-alerta-exito-98',
+  'alerta-advertencia-10': 'text-alerta-advertencia-10',
+  'alerta-advertencia-20': 'text-alerta-advertencia-20',
+  'alerta-advertencia-30': 'text-alerta-advertencia-30',
+  'alerta-advertencia-40': 'text-alerta-advertencia-40',
+  'alerta-advertencia-50': 'text-alerta-advertencia-50',
+  'alerta-advertencia-60': 'text-alerta-advertencia-60',
+  'alerta-advertencia-70': 'text-alerta-advertencia-70',
+  'alerta-advertencia-80': 'text-alerta-advertencia-80',
+  'alerta-advertencia-90': 'text-alerta-advertencia-90',
+  'alerta-advertencia-95': 'text-alerta-advertencia-95',
+  'alerta-advertencia-98': 'text-alerta-advertencia-98',
+  'alerta-error-10': 'text-alerta-error-10',
+  'alerta-error-20': 'text-alerta-error-20',
+  'alerta-error-30': 'text-alerta-error-30',
+  'alerta-error-40': 'text-alerta-error-40',
+  'alerta-error-50': 'text-alerta-error-50',
+  'alerta-error-60': 'text-alerta-error-60',
+  'alerta-error-70': 'text-alerta-error-70',
+  'alerta-error-80': 'text-alerta-error-80',
+  'alerta-error-90': 'text-alerta-error-90',
+  'alerta-error-95': 'text-alerta-error-95',
+  'alerta-error-98': 'text-alerta-error-98',
+  'accion-primaria': 'text-accion-primaria',
+  'hover-primario': 'text-hover-primario',
+  'pressed-primario': 'text-pressed-primario',
+  'en-primaria': 'text-en-primaria',
+  'accion-secundaria': 'text-accion-secundaria',
+  'hover-secundaria': 'text-hover-secundaria',
+  'pressed-secundaria': 'text-pressed-secundaria',
+  'en-secundaria': 'text-en-secundaria',
+} as const;
+
+const sizeClasses = {
+  xs: 'text-xs',
+  sm: 'text-sm',
+  base: 'text-base',
+  lg: 'text-lg',
+  xl: 'text-xl',
+  '2xl': 'text-2xl',
+  '3xl': 'text-3xl',
+  '4xl': 'text-4xl',
+} as const;
+
+interface Props {
+  name: string;
+  color?: keyof typeof colorClasses;
+  size?: keyof typeof sizeClasses;
+  variant?: 'regular' | 'light' | 'solid' | 'brands';
+  className?: string;
+}
+
+const {
+  name,
+  color,
+  size,
+  variant = 'regular',
+  className = '',
+} = Astro.props;
+
+const variantClass = variant === 'light'
+  ? 'fa-light'
+  : variant === 'solid'
+    ? 'fa-solid'
+    : variant === 'brands'
+      ? 'fa-brands'
+      : 'fa-regular';
+const colorClass = color ? colorClasses[color] : undefined;
+const sizeClass = size ? sizeClasses[size] : undefined;
+---
+
+<i
+  class:list={[variantClass, `fa-${name}`, colorClass, sizeClass, className]}
+  aria-hidden="true"
+></i>

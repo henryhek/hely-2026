@@ -1,0 +1,22 @@
+{
+  "cards": [
+    {
+      "estilo": "amarillo",
+      "texto": "En cada viaje, en cada celebración. Asistencias viales y respaldo permanente, sin preocupaciones.",
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/22eb0363-200d-4a89-8413-37fe069978ea.jpg",
+      "imageAlt": "Servicio de valet parking recibiendo un vehiculo en una celebracion."
+    },
+    {
+      "estilo": "verde",
+      "texto": "Viaje sin preocupaciones. Su familia y patrimonio están respaldados ante cualquier imprevisto en la vía.",
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/b03342e5-c24b-454c-90e8-2d7722d51da0.jpg",
+      "imageAlt": "Pareja viajando en carro por carretera de montana."
+    },
+    {
+      "estilo": "gris",
+      "texto": "Una varada, accidente o falla mecánica. Grúa segura, en cualquier momento.",
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/97b933f4-ef61-4e3b-9c24-536c545470c5.jpg",
+      "imageAlt": "Familia junto a su carro varado esperando el servicio de grua."
+    }
+  ]
+}

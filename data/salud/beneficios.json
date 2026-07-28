@@ -1,0 +1,20 @@
+{
+  "titulo": "Beneficios de este seguro",
+  "beneficios": [
+    {
+      "icono": "message-dots",
+      "titulo": "Especialista sin esperar semanas",
+      "copy": "Accede directamente a 18 especialidades médicas sin tener que pasar primero por medicina general ni esperar autorizaciones que se demoran."
+    },
+    {
+      "icono": "headset",
+      "titulo": "Tu médico en casa, cuando no puedes salir",
+      "copy": "Si te enfermas o tienes un accidente, un médico general va hasta donde estás. Nada de arrastrarte hasta una clínica cuando lo que necesitas es descansar."
+    },
+    {
+      "icono": "mobile-screen-button",
+      "titulo": "Si algo se complica, seguimos contigo",
+      "copy": "Con el Plan L, si te diagnostican una enfermedad de alto costo o necesitas hospitalización, el seguro cubre desde la habitación hasta los honorarios médicos y las cirugías."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "titulo": "Documentos",
+  "descripcion": "Conozca el detalle de cada plan",
+  "tabs": [
+    {
+      "id": "clausulado",
+      "label": "Clausulado",
+      "documentos": [
+        {
+          "titulo": "Seguro para carros particulares",
+          "metadata": "Archivo .PDF - 280 KB",
+          "url": "https://d9b6rardqz97a.cloudfront.net/wp-content/uploads/2019/10/04180814/Clausulado-vehiculos-livianos-20112024-1327-P-03-AU-0000000000112-D00I-04May26.pdf"
+        },
+        {
+          "titulo": "Seguro ligero para carros",
+          "metadata": "Archivo .PDF - 280 KB",
+          "url": "https://d9b6rardqz97a.cloudfront.net/wp-content/uploads/2019/10/04181103/Clausulado-Autos-Ligero-vehiculos-particulares-01112024-1327-P-03-AU-0000000000135-D00I-04My26.pdf"
+        }
+      ]
+    },
+    {
+      "id": "convenio",
+      "label": "Convenio",
+      "documentos": [
+        {
+          "titulo": "Servicios de asistencia para carros livianos",
+          "metadata": "Archivo .PDF - 280 KB",
+          "url": "https://d9b6rardqz97a.cloudfront.net/wp-content/uploads/2019/10/10093401/COVENIO-ASISTENCIA-LIGERA_100523.pdf"
+        }
+      ]
+    },
+    {
+      "id": "manual",
+      "label": "Manual",
+      "documentos": [
+        {
+          "titulo": "Guia practica del seguro de carros",
+          "metadata": "Archivo .PDF - 280 KB",
+          "url": "https://d38xcr033cbh9b.cloudfront.net/wp-content/uploads/2019/10/28204643/Asegurese-de-saber_vehiculos.pdf"
+        }
+      ]
+    }
+  ]
+}

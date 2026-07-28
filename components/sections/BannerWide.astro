@@ -1,0 +1,113 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface SectionContent {
+  titulo: string;
+  copy: string;
+  buttonText: string;
+  buttonId: string;
+  imageSrc: string;
+  imageAlt: string;
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  titulo?: string;
+  copy?: string;
+  buttonText?: string;
+  buttonId?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  /**
+   * Acción del botón, definida por la página:
+   * - `ctaScrollTo`: ancla a la que hace scroll (ej. "#cotizar") cuando el
+   *   formulario ya vive en la misma página.
+   * - `ctaDrawer`: id del drawer que abre (default "navCotizarDrawer").
+   *   `ctaScrollTo` tiene prioridad.
+   */
+  ctaScrollTo?: string;
+  ctaDrawer?: string;
+}
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-accion-primaria",
+  titulo,
+  copy,
+  buttonText,
+  buttonId,
+  imageSrc,
+  imageAlt,
+  ctaScrollTo,
+  ctaDrawer = "navCotizarDrawer",
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "El seguro mas sencillo para su auto",
+  copy: "Coberturas a su medida con asistencia experta las veinticuatro horas y respaldo inmediato.",
+  buttonText: "Cotizar ahora",
+  buttonId: "bannerWideCotizarAhoraButton",
+  imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/ae19c133-e8b9-4ce2-b353-23ae747869ad.jpg",
+  imageAlt: "Conductor y acompanante dentro de un auto durante un trayecto.",
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalCopy = copy ?? sectionContent.copy;
+const finalButtonText = buttonText ?? sectionContent.buttonText;
+const finalButtonId = buttonId ?? sectionContent.buttonId;
+const finalImageSrc = imageSrc ?? sectionContent.imageSrc;
+const finalImageAlt = imageAlt ?? sectionContent.imageAlt;
+---
+
+<section id={id} class:list={["w-full overflow-hidden", fondo, className]}>
+  <div class="relative w-full lg:min-h-[35rem]">
+    <div class="shell lg:px-10! xl:px-[72px]!">
+      <div class="flex w-full max-w-[40rem] flex-col gap-6 py-8 md:py-10 lg:min-h-[35rem] lg:max-w-[36rem] lg:justify-center lg:py-12 xl:max-w-[40rem]">
+        <div class="flex flex-col gap-6">
+          <h1 class="m-0 max-w-[40rem] text-[2.5rem] leading-12 font-extrabold text-white md:text-[3rem] md:leading-[3.5rem] xl:text-[3.5rem] xl:leading-16">
+            {finalTitulo}
+          </h1>
+
+          <p class="m-0 max-w-[40rem] text-lg leading-7 font-normal text-white md:text-xl md:leading-7" set:html={finalCopy} />
+        </div>
+
+        <div class="flex items-start">
+          <Button
+            id={finalButtonId}
+            type="button"
+            tipo="secundario"
+            tamano="lg"
+            texto={finalButtonText}
+            data-scroll-to={ctaScrollTo}
+            data-drawer-target={ctaScrollTo ? undefined : ctaDrawer}
+          />
+        </div>
+
+        <div class="relative w-full overflow-hidden px-0 pb-8 md:px-0 md:pb-0 md:hidden">
+          <img
+            src={finalImageSrc}
+            alt={finalImageAlt}
+            class="h-full min-h-[18rem] w-full rounded-2xl object-cover object-center"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="relative hidden overflow-hidden md:absolute md:inset-y-0  md:w-1/3 md:left-2/3 md:right-0 md:block lg:w-1/2 lg:left-1/2 lg:right-0 lg:block">
+      <img
+        src={finalImageSrc}
+        alt={finalImageAlt}
+        class="h-full w-full object-cover object-center"
+        loading="eager"
+      />
+    </div>
+  </div>
+</section>

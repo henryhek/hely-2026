@@ -1,0 +1,172 @@
+---
+/**
+ * Drawer lateral sin dependencias. Se abre desde cualquier trigger con
+ * `data-drawer-target={id}` (botón, link, etc.) y cierra con el botón X,
+ * clic en el overlay o tecla ESC.
+ *
+ *   <Drawer id="miDrawer" titulo="Detalle">...</Drawer>
+ *   <button data-drawer-target="miDrawer">Abrir</button>
+ */
+
+import Icon from "@/components/foundation/Icon.astro";
+
+interface Props {
+  id: string;
+  titulo?: string;
+  posicion?: "right" | "left";
+  class?: string;
+}
+
+const {
+  id,
+  titulo,
+  posicion = "right",
+  class: className = "",
+} = Astro.props;
+
+const posicionClasses = posicion === "right"
+  ? "right-0 translate-x-full data-[open=true]:translate-x-0"
+  : "left-0 -translate-x-full data-[open=true]:translate-x-0";
+---
+
+<div
+  id={id}
+  data-drawer={id}
+  data-open="false"
+  class="fixed inset-0 z-[100] hidden"
+>
+  <div
+    data-drawer-overlay
+    class="absolute inset-0 bg-neutral-10/50 opacity-0 transition-opacity data-[open=true]:opacity-100 backdrop-blur-xs"
+    data-open="false"
+  ></div>
+
+  <div
+    data-drawer-panel
+    data-open="false"
+    class:list={[
+      "absolute top-0 flex h-full w-full max-w-md flex-col overflow-y-auto bg-white p-6 shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+      posicionClasses,
+      className,
+    ]}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby={titulo ? `${id}-titulo` : undefined}
+  >
+    <div class="flex items-center justify-between gap-4">
+      {titulo ? (
+        <h2 id={`${id}-titulo`} class="m-0 text-xl leading-7 font-bold text-neutral-10">
+          {titulo}
+        </h2>
+      ) : <span />}
+
+      <button
+        type="button"
+        aria-label="Cerrar"
+        data-drawer-close
+        class="interactive-focus-ring flex h-9 w-9 shrink-0 items-center justify-center text-neutral-20 transition-colors duration-200 ease-out hover:text-primario-50"
+      >
+        <Icon name="xmark" variant="regular" size="lg" />
+      </button>
+    </div>
+
+    <slot />
+  </div>
+</div>
+
+<script>
+  const initDrawers = () => {
+    if (document.body.dataset.drawerBound === "true") {
+      return;
+    }
+
+    document.body.dataset.drawerBound = "true";
+
+    const drawers = document.querySelectorAll<HTMLElement>("[data-drawer]");
+
+    if (drawers.length === 0) {
+      return;
+    }
+
+    let activeDrawer: HTMLElement | null = null;
+    let lastFocusedElement: HTMLElement | null = null;
+
+    const setOpenState = (drawer: HTMLElement, open: boolean) => {
+      const overlay = drawer.querySelector<HTMLElement>("[data-drawer-overlay]");
+      const panel = drawer.querySelector<HTMLElement>("[data-drawer-panel]");
+
+      drawer.dataset.open = open ? "true" : "false";
+      overlay?.setAttribute("data-open", open ? "true" : "false");
+      panel?.setAttribute("data-open", open ? "true" : "false");
+    };
+
+    const closeDrawer = (drawer: HTMLElement) => {
+      setOpenState(drawer, false);
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+
+      window.setTimeout(() => {
+        if (drawer.dataset.open === "false") {
+          drawer.classList.add("hidden");
+        }
+      }, 300);
+
+      if (activeDrawer === drawer) {
+        activeDrawer = null;
+      }
+
+      lastFocusedElement?.focus();
+    };
+
+    const openDrawer = (drawer: HTMLElement) => {
+      lastFocusedElement = document.activeElement as HTMLElement | null;
+      drawer.classList.remove("hidden");
+
+      requestAnimationFrame(() => {
+        setOpenState(drawer, true);
+      });
+
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      activeDrawer = drawer;
+
+      const panel = drawer.querySelector<HTMLElement>("[data-drawer-panel]");
+      const closeButton = panel?.querySelector<HTMLElement>("[data-drawer-close]");
+      closeButton?.focus();
+    };
+
+    drawers.forEach((drawer) => {
+      const closeButton = drawer.querySelector("[data-drawer-close]");
+      const overlay = drawer.querySelector("[data-drawer-overlay]");
+
+      closeButton?.addEventListener("click", () => closeDrawer(drawer));
+      overlay?.addEventListener("click", () => closeDrawer(drawer));
+    });
+
+    document.querySelectorAll<HTMLElement>("[data-drawer-target]").forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        const targetId = trigger.dataset.drawerTarget;
+        const drawer = targetId ? document.getElementById(targetId) : null;
+
+        if (!drawer) {
+          return;
+        }
+
+        event.preventDefault();
+        openDrawer(drawer);
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && activeDrawer) {
+        closeDrawer(activeDrawer);
+      }
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initDrawers, { once: true });
+  } else {
+    initDrawers();
+  }
+</script>

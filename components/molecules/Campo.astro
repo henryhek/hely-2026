@@ -1,0 +1,113 @@
+---
+import Icon from "@/components/foundation/Icon.astro";
+
+interface Opcion {
+  value: string;
+  label: string;
+  noAsegurable?: boolean;
+}
+
+const configuracionPorTipo = {
+  nombreCompleto: {
+    mensaje: "Ingrese al menos nombre y apellido.",
+    atributos: { type: "text", autocomplete: "name" },
+  },
+  celular: {
+    mensaje: "Ingrese un celular válido de 10 dígitos que inicie en 3.",
+    atributos: { type: "tel", inputmode: "numeric", maxlength: 10, autocomplete: "tel" },
+  },
+  email: {
+    mensaje: "Ingrese un correo electrónico válido.",
+    atributos: { type: "email", autocomplete: "email" },
+  },
+  documento: {
+    mensaje: "Ingrese un número de documento válido.",
+    atributos: { type: "text", inputmode: "numeric" },
+  },
+  placa: {
+    mensaje: "La placa debe ser 3 letras + 3 números (ej: ABC123).",
+    atributos: { type: "text", maxlength: 6, autocomplete: "off", autocapitalize: "characters" },
+  },
+  select: {
+    mensaje: "Seleccione una opción.",
+    atributos: {},
+  },
+  texto: {
+    mensaje: "Este campo es obligatorio.",
+    atributos: { type: "text" },
+  },
+} as const;
+
+type Tipo = keyof typeof configuracionPorTipo;
+
+interface Props {
+  tipo: Tipo;
+  label: string;
+  id: string;
+  name?: string;
+  placeholder?: string;
+  opciones?: Opcion[];
+  mensajeError?: string;
+  class?: string;
+}
+
+const {
+  tipo,
+  label,
+  id,
+  name = id,
+  placeholder,
+  opciones = [],
+  mensajeError,
+  class: className = "",
+} = Astro.props;
+
+const configuracion = configuracionPorTipo[tipo] ?? configuracionPorTipo.texto;
+const mensaje = mensajeError ?? configuracion.mensaje;
+const inputClasses =
+  "h-10 w-full rounded-[8px] border border-neutral-80 px-2 text-base text-neutral-20 outline-none transition-colors focus:border-accion-primaria";
+---
+
+<div class:list={["flex flex-col gap-1", className]}>
+  <label for={id} class="text-base font-bold text-neutral-10">{label}</label>
+
+  {tipo === "select" ? (
+    <div class="relative">
+      <select
+        id={id}
+        name={name}
+        class:list={[inputClasses, "appearance-none bg-white pr-10"]}
+        data-campo-input
+        data-campo="select"
+        aria-describedby={`error-${id}`}
+      >
+        <option value="" selected disabled>{placeholder ?? "Seleccione una opción"}</option>
+        {opciones.map((opcion) => (
+          <option value={opcion.value} data-no-asegurable={opcion.noAsegurable ? "true" : undefined}>
+            {opcion.label}
+          </option>
+        ))}
+      </select>
+      <Icon
+        name="chevron-down"
+        className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-base text-neutral-40"
+      />
+    </div>
+  ) : (
+    <input
+      id={id}
+      name={name}
+      placeholder={placeholder}
+      class={inputClasses}
+      data-campo-input
+      data-campo={tipo}
+      aria-describedby={`error-${id}`}
+      {...configuracion.atributos}
+    />
+  )}
+
+  <span class="hidden px-2 text-xs text-alerta-error-40" id={`error-${id}`} data-campo-error>
+    <Icon name="xmark" size="xs" />
+    {mensaje}
+  </span>
+</div>

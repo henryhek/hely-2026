@@ -1,0 +1,20 @@
+{
+  "titulo": "Beneficios de este seguro",
+  "beneficios": [
+    {
+      "icono": "message-dots",
+      "titulo": "Si chocas o algo le pasa a tu carro, tú no lo pagas solo",
+      "copy": "Ante un accidente de tránsito, un incendio, una inundación o hasta un acto vandálico, el seguro cubre la reparación o el reemplazo de tu vehículo."
+    },
+    {
+      "icono": "headset",
+      "titulo": "Si te lo roban, respondemos por él",
+      "copy": "Ante el hurto de tu carro o de sus accesorios, el seguro te indemniza dentro de los límites contratados, sin que tengas que empezar de cero."
+    },
+    {
+      "icono": "mobile-screen-button",
+      "titulo": "Si le causas un daño a alguien, un abogado va contigo",
+      "copy": "El seguro cubre los perjuicios que le causes a un tercero o a sus bienes, y te asigna un abogado que te representa desde el primer momento, sea un proceso civil o penal."
+    }
+  ]
+}

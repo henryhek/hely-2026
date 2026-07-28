@@ -1,0 +1,125 @@
+---
+import AOS from "@/components/foundation/AOS.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface CifraRecord {
+  imageSrc: string;
+  imageAlt: string;
+  cifra: string;
+  texto: string;
+  posicionBurbuja?: "arriba" | "abajo";
+}
+
+interface SectionContent {
+  titulo: string;
+  tarjetas: CifraRecord[];
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  titulo?: string;
+  tarjetas?: CifraRecord[];
+  reversible?: boolean;
+}
+
+const defaultTarjetas: CifraRecord[] = [
+  {
+    imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/97b933f4-ef61-4e3b-9c24-536c545470c5.jpg",
+    imageAlt: "Carros circulando por una calle de la ciudad.",
+    cifra: "88%",
+    texto: "de los carros en la calle circula sin seguro. <strong>No dejes que el bolsillo de otro defina el futuro de tu patrimonio.</strong>",
+    posicionBurbuja: "arriba",
+  },
+  {
+    imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/6d6fa99a-a5ec-4f9f-aae1-24b88490c6d4.jpg",
+    imageAlt: "Mecanico reparando un carro en el taller.",
+    cifra: "Hasta 34,7%",
+    texto: "del valor de tu vehículo cuesta reparar un choque simple. <strong>Equivale a casi un tercio de lo que vale tu auto.</strong>",
+    posicionBurbuja: "abajo",
+  },
+];
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-accion-primaria",
+  titulo,
+  tarjetas,
+  reversible = false,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "Los gastos de un accidente pueden arruinar su mes",
+  tarjetas: defaultTarjetas,
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalTarjetas = tarjetas ?? sectionContent.tarjetas;
+
+// Secuencia de entrada por tarjeta; la salida (si es reversible) va invertida:
+// el último elemento en entrar es el primero en salir.
+const retrasos = finalTarjetas.map((_, index) => {
+  const imagen = index * 250;
+  return { imagen, burbuja: imagen + 350 };
+});
+const retrasoMaximo = retrasos.length > 0 ? retrasos[retrasos.length - 1].burbuja : 0;
+---
+
+<section id={id} class:list={["w-full py-10 md:py-12 xl:py-16", fondo, className]}>
+  <div class="shell lg:px-10! xl:px-[72px]!">
+    <div class="flex flex-col gap-10">
+      <AOS
+        as="h2"
+        animacion="fade-up"
+        reversible={reversible}
+        delaySalida={retrasoMaximo}
+        class="m-0 text-2xl leading-8 font-bold text-white md:text-[2rem] md:leading-10"
+      >
+        {finalTitulo}
+      </AOS>
+
+      <div class="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-12 xl:gap-[75px]">
+        {finalTarjetas.map((tarjeta, index) => {
+          const burbujaAbajo = (tarjeta.posicionBurbuja ?? (index % 2 === 0 ? "arriba" : "abajo")) === "abajo";
+          const { imagen: retrasoImagen, burbuja: retrasoBurbuja } = retrasos[index];
+
+          return (
+            <AOS
+              animacion={index % 2 === 0 ? "fade-right" : "fade-left"}
+              delay={retrasoImagen}
+              reversible={reversible}
+              delaySalida={retrasoMaximo - retrasoImagen}
+              class="relative"
+            >
+              <img
+                src={tarjeta.imageSrc}
+                alt={tarjeta.imageAlt}
+                class="h-[400px] w-full rounded-2xl object-cover"
+                loading="lazy"
+              />
+
+              <AOS
+                animacion="fade-up"
+                delay={retrasoBurbuja}
+                reversible={reversible}
+                delaySalida={retrasoMaximo - retrasoBurbuja}
+                class:list={[
+                  "absolute flex w-[339px] max-w-[calc(100%-1rem)] flex-col gap-2 rounded-2xl border border-neutral-80 bg-white p-6",
+                  burbujaAbajo ? "-bottom-4 -left-4 md:-left-10" : "top-8 -left-4 md:-left-10",
+                ]}
+              >
+                <h3 class="m-0 text-xl leading-7 font-bold text-neutral-10">{tarjeta.cifra}</h3>
+                <p class="m-0 text-base leading-6 text-neutral-10" set:html={tarjeta.texto} />
+              </AOS>
+            </AOS>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+{
+  "titulo": "¿Tiene dudas? ¡Nosotros respondemos!",
+  "descripcion": "Si necesita informacion adicional, puede preguntarle a nuestra asistente virtual.",
+  "faqs": [
+    {
+      "pregunta": "¿Por que asegurar mi carro?",
+      "respuesta": "Asegurar su carro le ayuda a responder mejor ante accidentes, robos, danos a terceros y eventos inesperados. Ademas, le da acompanamiento y respaldo para que no tenga que asumir solo todos los costos de una eventualidad."
+    },
+    {
+      "pregunta": "¿Como cotizar un seguro para mi carro?",
+      "respuesta": "Puede cotizar compartiendo la informacion basica de su vehiculo y del conductor. Con esos datos se valida el plan disponible, sus coberturas y el valor estimado para que pueda elegir la opcion que mejor se ajuste a su necesidad."
+    },
+    {
+      "pregunta": "¿Cuanto vale asegurar mi carro?",
+      "respuesta": "El valor depende de variables como el modelo del vehiculo, su uso, la ciudad de circulacion, el perfil del conductor y las coberturas seleccionadas. Por eso la cotizacion final siempre se calcula con los datos concretos de su caso."
+    },
+    {
+      "pregunta": "Ya estoy asegurado, ¿Que hago en caso de accidente?",
+      "respuesta": "Lo ideal es reportar el evento lo antes posible, seguir las instrucciones de asistencia y tener a la mano los datos del siniestro. Asi el equipo puede orientarle sobre pasos, documentacion y acompanamiento segun la situacion presentada."
+    },
+    {
+      "pregunta": "¿Que pasa si alguien que no esta asegurado choca mi carro?",
+      "respuesta": "Dependiendo del plan contratado, su seguro puede apoyarle en la atencion del dano y luego continuar con el proceso correspondiente. La cobertura exacta depende de las condiciones del producto y del tipo de afectacion ocurrida."
+    },
+    {
+      "pregunta": "¿Que reparaciones cubre mi seguro de carro?",
+      "respuesta": "Las reparaciones cubiertas dependen de la poliza y del evento reportado. Normalmente se revisa el tipo de dano, las coberturas activas y las condiciones del seguro para determinar el alcance de la atencion y del arreglo autorizado."
+    }
+  ],
+  "cta": {
+    "titulo": "Tienes alguna otra en mente",
+    "botonTexto": "Ir al centro de ayuda",
+    "url": "#"
+  }
+}

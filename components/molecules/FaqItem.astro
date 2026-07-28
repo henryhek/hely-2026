@@ -1,0 +1,62 @@
+---
+import Divider from "@/components/atoms/Divider.astro";
+import Icon from "@/components/foundation/Icon.astro";
+
+interface Props {
+  itemId: string;
+  pregunta: string;
+  respuesta: string;
+  showDivider?: boolean;
+}
+
+const {
+  itemId,
+  pregunta,
+  respuesta,
+  showDivider = true,
+} = Astro.props;
+---
+
+<div class="flex flex-col">
+  <button
+    id={`${itemId}-trigger`}
+    type="button"
+    aria-expanded="false"
+    aria-controls={`${itemId}-panel`}
+    data-open="false"
+    data-faq-trigger="true"
+    class="group flex w-full items-center gap-2 rounded-lg py-2 pl-4 pr-1 text-left outline-none transition-colors duration-150 ease-out active:bg-neutral-90 focus-visible:shadow-[inset_0_0_0_2px_var(--color-boton-focus)] focus-visible:outline-none "
+  >
+    <span class="flex-1 text-base leading-6 text-neutral-10">
+      {pregunta}
+    </span>
+
+    <span class="inline-flex shrink-0 items-center rounded-full bg-neutral-95 p-0">
+      <span
+        data-faq-icon="true"
+        class="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-10 transition-all duration-150 ease-out group-hover:bg-white group-active:bg-neutral-95 group-data-[open=true]:rotate-180 group-data-[open=true]:bg-white"
+      >
+        <Icon name="chevron-down" size="xs" variant="regular" />
+      </span>
+    </span>
+  </button>
+
+  <div
+    id={`${itemId}-panel`}
+    role="region"
+    aria-labelledby={`${itemId}-trigger`}
+    hidden
+    class="p-2"
+    data-faq-panel="true"
+  >
+    <p class="m-0 text-sm leading-5 text-neutral-10">
+      {respuesta}
+    </p>
+  </div>
+
+  {showDivider ? (
+    <div class="py-1">
+      <Divider tone="neutral" />
+    </div>
+  ) : null}
+</div>

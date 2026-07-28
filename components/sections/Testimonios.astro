@@ -1,0 +1,168 @@
+---
+import CardFeedback from "@/components/molecules/CardFeedback.astro";
+import CarouselControls from "@/components/molecules/CarouselControls.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface Testimonio {
+  cita: string;
+  nombre: string;
+  cargo: string;
+  avatar: string;
+  avatarAlt?: string;
+}
+
+interface SectionContent {
+  titulo: string;
+  izquierda: Testimonio[];
+  derecha: Testimonio[];
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  idBase?: string;
+}
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-white",
+  idBase = "testimoniosSection",
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "Esto es lo que dicen nuestros asegurados",
+  izquierda: [],
+  derecha: [],
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+
+const columnas = [
+  { items: sectionContent.izquierda, direccion: "down" },
+  { items: sectionContent.derecha, direccion: "up" },
+].filter((columna) => columna.items.length > 0);
+
+const todos = [...sectionContent.izquierda, ...sectionContent.derecha];
+---
+
+<section
+  id={id ?? idBase}
+  class:list={["w-full py-6 lg:py-16", fondo, className]}
+  aria-label={sectionContent.titulo}
+>
+  <div class="shell lg:px-16">
+    <!-- Desktop: título + marquee vertical -->
+    <div class="hidden items-center gap-10 lg:flex">
+      <h2 class="shrink-0 font-bolivar text-[32px] leading-10 font-bold text-neutral-10 lg:w-[352px]">
+        {sectionContent.titulo}
+      </h2>
+
+      <div
+        data-marquee
+        class="flex h-[582px] min-w-0 flex-1 justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]"
+      >
+        {columnas.map((columna) => (
+          <div class="w-full max-w-[400px] min-w-0">
+            <div
+              data-marquee-track={columna.direccion}
+              class="flex flex-col will-change-transform"
+              style={`--marquee-duration: ${columna.items.length * 10}s;`}
+            >
+              {[0, 1].map((copia) => (
+                <div
+                  class="flex flex-col gap-6 pb-6"
+                  aria-hidden={copia === 1 ? "true" : undefined}
+                >
+                  {columna.items.map((testimonio) => (
+                    <CardFeedback
+                      cita={testimonio.cita}
+                      nombre={testimonio.nombre}
+                      cargo={testimonio.cargo}
+                      avatar={testimonio.avatar}
+                      avatarAlt={testimonio.avatarAlt}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Mobile: header con flechas + carrusel horizontal -->
+    <div class="flex flex-col gap-6 lg:hidden">
+      <div class="flex items-end justify-between gap-6">
+        <h2 class="max-w-[202px] font-bolivar text-[32px] leading-10 font-bold text-neutral-10">
+          {sectionContent.titulo}
+        </h2>
+
+        <CarouselControls
+          class="shrink-0"
+          target={`${idBase}-movil`}
+          prevLabel="Testimonio anterior"
+          nextLabel="Testimonio siguiente"
+        />
+      </div>
+
+      <div
+        data-carousel-scroll={`${idBase}-movil`}
+        class="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {todos.map((testimonio) => (
+          <div class="w-[85%] max-w-[293px] shrink-0 snap-start">
+            <CardFeedback
+              cita={testimonio.cita}
+              nombre={testimonio.nombre}
+              cargo={testimonio.cargo}
+              avatar={testimonio.avatar}
+              avatarAlt={testimonio.avatarAlt}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes marquee-up {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-50%);
+    }
+  }
+
+  @keyframes marquee-down {
+    from {
+      transform: translateY(-50%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  [data-marquee-track="up"] {
+    animation: marquee-up var(--marquee-duration, 30s) linear infinite;
+  }
+
+  [data-marquee-track="down"] {
+    animation: marquee-down var(--marquee-duration, 30s) linear infinite;
+  }
+
+  [data-marquee]:hover [data-marquee-track] {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-marquee-track] {
+      animation: none;
+    }
+  }
+</style>

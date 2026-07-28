@@ -1,0 +1,169 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import Card from "@/components/molecules/Card.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface AppCardRecord {
+  icono: string;
+  iconoVariant?: "regular" | "light" | "solid" | "brands";
+  etiqueta: string;
+  titulo: string;
+  copy: string;
+  buttonText: string;
+  buttonId: string;
+  buttonUrl?: string;
+  buttonTarget?: string;
+  buttonRel?: string;
+}
+
+interface SectionContent {
+  titulo: string;
+  buttonText: string;
+  buttonId: string;
+  buttonUrl?: string;
+  buttonTarget?: string;
+  buttonRel?: string;
+  imageSrc: string;
+  imageAlt: string;
+  cards: AppCardRecord[];
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  titulo?: string;
+  buttonText?: string;
+  buttonId?: string;
+  buttonUrl?: string;
+  buttonTarget?: string;
+  buttonRel?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  cards?: AppCardRecord[];
+}
+
+const defaultCards: AppCardRecord[] = [
+  {
+    icono: "whatsapp",
+    iconoVariant: "brands",
+    etiqueta: "WHATSAPP",
+    titulo: "322 3322 322",
+    copy: "Escribanos a traves de nuestro canal oficial de WhatsApp.",
+    buttonText: "Ir al chat",
+    buttonId: "appBolivarWhatsappButton",
+  },
+  {
+    icono: "hand-holding-heart",
+    iconoVariant: "regular",
+    etiqueta: "PORTAL WEB",
+    titulo: "Gestion de Asistencias",
+    copy: "Solicite aqui de manera rapida sus asistencias vehiculares prioritarias.",
+    buttonText: "Ingresar al portal",
+    buttonId: "appBolivarPortalButton",
+  },
+  {
+    icono: "phone",
+    iconoVariant: "regular",
+    etiqueta: "LINEA DE ATENCION",
+    titulo: "MI #322",
+    copy: "Tambien puede llamarnos directamente desde su celular al #322.",
+    buttonText: "Llamar ahora",
+    buttonId: "appBolivarLineaButton",
+  },
+];
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-primario-60",
+  titulo,
+  buttonText,
+  buttonId,
+  buttonUrl,
+  buttonTarget,
+  buttonRel,
+  imageSrc,
+  imageAlt,
+  cards,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "Descargue la App Bolivar Conmigo para usar y disfrutar de su seguro.",
+  buttonText: "Descargar App",
+  buttonId: "appBolivarDescargarButton",
+  imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/8f464a5c-7ea6-416f-9ff6-14a8c3e9f2b6.jpg",
+  imageAlt: "Persona usando la App Bolivar Conmigo desde su celular.",
+  cards: defaultCards,
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalButtonText = buttonText ?? sectionContent.buttonText;
+const finalButtonId = buttonId ?? sectionContent.buttonId;
+const finalButtonUrl = buttonUrl ?? sectionContent.buttonUrl;
+const finalButtonTarget = buttonTarget ?? sectionContent.buttonTarget;
+const finalButtonRel = buttonRel ?? sectionContent.buttonRel;
+const finalImageSrc = imageSrc ?? sectionContent.imageSrc;
+const finalImageAlt = imageAlt ?? sectionContent.imageAlt;
+const finalCards = cards ?? sectionContent.cards;
+---
+
+<section id={id} class:list={["w-full py-10 md:py-10 xl:py-16", fondo, className]}>
+  <div class="shell lg:px-10! xl:px-[72px]!">
+    <div class="flex flex-col gap-12 md:gap-12 xl:gap-12">
+      <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,37.375rem)] lg:items-center lg:gap-10">
+        <div class="flex max-w-[36rem] flex-col gap-6">
+          <h2 class="m-0 text-2xl leading-8 font-bold text-white md:text-[2rem] md:leading-10">
+            {finalTitulo}
+          </h2>
+
+          <div class="flex items-start">
+            <Button
+              id={finalButtonId}
+              type="button"
+              tipo="secundario"
+              tamano="lg"
+              texto={finalButtonText}
+              url={finalButtonUrl}
+              target={finalButtonTarget}
+              rel={finalButtonRel}
+            />
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl">
+          <img
+            src={finalImageSrc}
+            alt={finalImageAlt}
+            class="h-[17rem] w-full object-cover md:h-[19rem] lg:h-[17rem]"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 xl:gap-8">
+        {finalCards.map((card) => (
+          <Card
+            tipo="icono"
+            estilo="outlined"
+            icono={card.icono}
+            iconoVariant={card.iconoVariant ?? "regular"}
+            titulo={card.etiqueta}
+            subtitulo={card.titulo}
+            copy={card.copy}
+            botonPrincipal={{ texto: card.buttonText, tipo: "outlined", tamano: "md", id: card.buttonId, url: card.buttonUrl, target: card.buttonTarget, rel: card.buttonRel }}
+            className="min-h-[18rem] rounded-2xl bg-white"
+            titleClassName="text-sm leading-5 font-normal uppercase tracking-normal text-neutral-10"
+            subtitleClassName="text-lg leading-7 font-bold text-neutral-10"
+            copyClassName="text-base leading-6 font-normal text-neutral-10"
+            infoContainerClassName="gap-2"
+            iconContainerClassName="bg-primario-98"
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

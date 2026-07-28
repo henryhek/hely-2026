@@ -1,0 +1,35 @@
+{
+  "titulo": "Asistencias incluidas",
+  "asistencias": [
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/bb16238a-f5ad-42dc-85f6-ad2180b56f94.jpg",
+      "imageAlt": "Conductor elegido para traslado seguro.",
+      "titulo": "Conductor elegido",
+      "copy": "Solicite un conductor para que lo lleve a casa en su propio vehiculo cuando no se sienta en condiciones de manejar."
+    },
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/6d6fa99a-a5ec-4f9f-aae1-24b88490c6d4.jpg",
+      "imageAlt": "Servicio de carro taller.",
+      "titulo": "Carro taller",
+      "copy": "Reciba ayuda con carro taller ante bateria descargada, cambio de llanta o combustible. Disponible en ciudades principales."
+    },
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/97b933f4-ef61-4e3b-9c24-536c545470c5.jpg",
+      "imageAlt": "Servicio de grua para traslado del vehiculo.",
+      "titulo": "Grua",
+      "copy": "Traslade su carro por accidente, robo o fallas mecanicas hacia su residencia, taller o ciudad principal."
+    },
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/2ac0246c-83ff-49f1-96f8-2848920f7277.jpg",
+      "imageAlt": "Conductor familiar para traslados.",
+      "titulo": "Conductor familiar",
+      "copy": "Solicite un conductor que lo traslade a usted, su familia o su vehiculo maximo durante 3 horas."
+    },
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/22eb0363-200d-4a89-8413-37fe069978ea.jpg",
+      "imageAlt": "Servicio de valet parking para invitados.",
+      "titulo": "Valet parking",
+      "copy": "Delegue el recibir, estacionar y cuidar los vehiculos de sus invitados en el lugar que usted defina."
+    }
+  ]
+}

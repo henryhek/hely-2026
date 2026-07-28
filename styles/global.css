@@ -1,0 +1,311 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light-Italic.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light-Italic.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light-Italic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Regular.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Regular.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Italic.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Italic.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold-Italic.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold-Italic.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold-Italic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold-Italic.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold-Italic.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold-Italic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bolivar";
+  src:
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold-Italic.woff2") format("woff2"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold-Italic.woff") format("woff"),
+    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold-Italic.ttf") format("truetype");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@theme {
+  --font-bolivar: "Bolivar", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --color-primario-10: #0b200f;
+  --color-primario-20: #0d381c;
+  --color-primario-30: #005229;
+  --color-primario-40: #006d3c;
+  --color-primario-50: #008951;
+  --color-primario-60: #2aa468;
+  --color-primario-70: #58be87;
+  --color-primario-80: #85d8a8;
+  --color-primario-90: #bdeed0;
+  --color-primario-95: #e0f6e9;
+  --color-primario-98: #f1fcf5;
+
+  --color-secundario-10: #241a00;
+  --color-secundario-20: #3d2f00;
+  --color-secundario-30: #564500;
+  --color-secundario-40: #705d00;
+  --color-secundario-50: #8a7600;
+  --color-secundario-60: #a7901c;
+  --color-secundario-70: #c1ab47;
+  --color-secundario-80: #dcc673;
+  --color-secundario-90: #f9e17f;
+  --color-secundario-95: #f8f0da;
+  --color-secundario-98: #fdf9ee;
+
+  --color-neutral-0: #000000;
+  --color-neutral-10: #1a1c1c;
+  --color-neutral-20: #2e3033;
+  --color-neutral-30: #42474d;
+  --color-neutral-40: #595e66;
+  --color-neutral-50: #707880;
+  --color-neutral-60: #8b9299;
+  --color-neutral-70: #a8abb2;
+  --color-neutral-80: #c2c7cf;
+  --color-neutral-90: #e0e3e5;
+  --color-neutral-95: #f0f0f2;
+  --color-neutral-100: #ffffff;
+
+  --color-alerta-informacion-10: #081c36;
+  --color-alerta-informacion-20: #05305e;
+  --color-alerta-informacion-30: #00478c;
+  --color-alerta-informacion-40: #005ebd;
+  --color-alerta-informacion-50: #0075f2;
+  --color-alerta-informacion-60: #598fff;
+  --color-alerta-informacion-70: #8cabff;
+  --color-alerta-informacion-80: #b5c4ff;
+  --color-alerta-informacion-90: #dbe3ff;
+  --color-alerta-informacion-95: #edf0fc;
+  --color-alerta-informacion-98: #f7faff;
+
+  --color-alerta-exito-10: #0d2103;
+  --color-alerta-exito-20: #0d380d;
+  --color-alerta-exito-30: #00540f;
+  --color-alerta-exito-40: #006e1f;
+  --color-alerta-exito-50: #008a30;
+  --color-alerta-exito-60: #28a745;
+  --color-alerta-exito-70: #57bf69;
+  --color-alerta-exito-80: #87d98f;
+  --color-alerta-exito-90: #bdf0bf;
+  --color-alerta-exito-95: #def7e0;
+  --color-alerta-exito-98: #f2fcf2;
+
+  --color-alerta-advertencia-10: #362100;
+  --color-alerta-advertencia-20: #422b00;
+  --color-alerta-advertencia-30: #5e4000;
+  --color-alerta-advertencia-40: #7a5700;
+  --color-alerta-advertencia-50: #967000;
+  --color-alerta-advertencia-60: #b58a00;
+  --color-alerta-advertencia-70: #d4a300;
+  --color-alerta-advertencia-80: #edbf4d;
+  --color-alerta-advertencia-90: #ffde99;
+  --color-alerta-advertencia-95: #fff0d1;
+  --color-alerta-advertencia-98: #fff7ed;
+
+  --color-alerta-error-10: #421721;
+  --color-alerta-error-20: #5e121a;
+  --color-alerta-error-30: #8f001c;
+  --color-alerta-error-40: #ba0824;
+  --color-alerta-error-50: #de3030;
+  --color-alerta-error-60: #fc5247;
+  --color-alerta-error-70: #ff8775;
+  --color-alerta-error-80: #ffb2a6;
+  --color-alerta-error-90: #ffd9d1;
+  --color-alerta-error-95: #ffede8;
+  --color-alerta-error-98: #fff7f5;
+
+  --color-accion-primaria: var(--color-primario-50);
+  --color-hover-primario: var(--color-primario-40);
+  --color-pressed-primario: var(--color-primario-30);
+  --color-en-primaria: var(--color-primario-98);
+
+  --color-superficie-secundaria: #fff6d4;
+
+  --color-link-external: #007eff;
+
+  --color-accion-secundaria: var(--color-secundario-90);
+  --color-hover-secundaria: var(--color-secundario-80);
+  --color-pressed-secundaria: var(--color-secundario-70);
+  --color-en-secundaria: var(--color-primario-30);
+
+  --color-accion-terciaria: var(--color-superficie-secundaria);
+  --color-hover-terciaria: var(--color-secundario-95);
+  --color-pressed-terciaria: var(--color-secundario-90);
+  --color-en-terciaria: var(--color-accion-primaria);
+
+  --color-boton-primario-default: var(--color-accion-primaria);
+  --color-boton-primario-hover: var(--color-hover-primario);
+  --color-boton-primario-pressed: var(--color-pressed-primario);
+  --color-boton-primario-contenido: var(--color-en-primaria);
+
+  --color-boton-secundario-default: var(--color-accion-secundaria);
+  --color-boton-secundario-hover: var(--color-hover-secundaria);
+  --color-boton-secundario-pressed: var(--color-pressed-secundaria);
+  --color-boton-secundario-contenido: var(--color-en-secundaria);
+
+  --color-boton-terciario-default: var(--color-accion-terciaria);
+  --color-boton-terciario-hover: var(--color-hover-terciaria);
+  --color-boton-terciario-pressed: var(--color-pressed-terciaria);
+  --color-boton-terciario-contenido: var(--color-en-terciaria);
+
+  --color-boton-outlined-default: var(--color-neutral-100);
+  --color-boton-outlined-hover: var(--color-neutral-95);
+  --color-boton-outlined-pressed: var(--color-neutral-90);
+  --color-boton-outlined-borde: var(--color-accion-primaria);
+  --color-boton-outlined-contenido: var(--color-accion-primaria);
+
+  --color-boton-disabled-fondo: var(--color-neutral-95);
+  --color-boton-disabled-borde: var(--color-neutral-60);
+  --color-boton-disabled-contenido: var(--color-neutral-60);
+  --color-boton-focus: var(--color-primario-40);
+  --shadow-interactive-focus:
+    0 0 0 2px var(--color-neutral-100),
+    0 0 0 4px var(--color-boton-focus);
+
+  --shadow-nav:
+    1px 1px 8px rgba(115, 115, 115, 0.16),
+    1px 4px 4px rgba(115, 115, 115, 0.04);
+}
+
+@layer components {
+  .shell {
+    @apply relative mx-auto w-full max-w-[1360px] px-6 text-balance md:px-4 lg:px-0;
+  }
+
+  .interactive-focus-ring {
+    outline: none;
+  }
+
+  .interactive-focus-ring:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-interactive-focus);
+  }
+
+  .interactive-focus-ring-forced {
+    box-shadow: var(--shadow-interactive-focus);
+  }
+
+  main > section:last-of-type .shell {
+    @apply pl-16 lg:pl-6;
+  }
+
+  .campo-invalido {
+    @apply border-alerta-error-40! focus:border-alerta-error-40!;
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    @apply m-0 bg-white p-0 font-bolivar font-normal text-black overflow-x-clip scroll-smooth;
+  }
+
+  body {
+    min-width: 320px;
+  }
+
+  * {
+    @apply box-border;
+  }
+
+  strong {
+    @apply font-bold;
+  }
+
+  button,
+  a {
+    @apply cursor-pointer;
+  }
+
+  /*a[target="_blank"]::after {
+    @apply ml-1 inline-block font-sans font-light content-['\2197'];
+  }*/
+}

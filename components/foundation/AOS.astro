@@ -1,0 +1,165 @@
+---
+/**
+ * Wrapper declarativo de animación al scroll (estilo AOS, sin dependencias).
+ * Envuelve cualquier contenido:
+ *
+ *   <AOS animacion="fade-right" delay={300}>...</AOS>
+ *   <AOS animacion="fade-up" delay={600} reversible delaySalida={0}>...</AOS>
+ *
+ * Variantes: fade | fade-up | fade-down | fade-left | fade-right | zoom-in
+ * `delay` y `duracion` en ms. Con `reversible` el contenido vuelve a ocultarse
+ * al salir del viewport y re-anima en cada entrada; `delaySalida` permite
+ * invertir la secuencia en la salida (el último en entrar sale primero).
+ */
+
+type Animacion = "fade" | "fade-up" | "fade-down" | "fade-left" | "fade-right" | "zoom-in";
+
+interface Props {
+  animacion?: Animacion;
+  delay?: number;
+  duracion?: number;
+  reversible?: boolean;
+  delaySalida?: number;
+  as?: string;
+  class?: string;
+}
+
+const {
+  animacion = "fade-up",
+  delay,
+  duracion,
+  reversible = false,
+  delaySalida,
+  as: Tag = "div",
+  class: className = "",
+} = Astro.props;
+---
+
+<Tag
+  class={className || undefined}
+  data-anima={animacion}
+  data-anima-delay={delay || undefined}
+  data-anima-duration={duracion || undefined}
+  data-anima-reversible={reversible ? "true" : undefined}
+  data-anima-delay-salida={reversible && delaySalida !== undefined ? delaySalida : undefined}
+>
+  <slot />
+</Tag>
+
+<style is:global>
+  [data-anima] {
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-duration: var(--anima-duration, 700ms);
+    transition-delay: var(--anima-delay, 0ms);
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-anima="fade-up"] {
+    transform: translateY(24px);
+  }
+
+  [data-anima="fade-down"] {
+    transform: translateY(-24px);
+  }
+
+  [data-anima="fade-left"] {
+    transform: translateX(24px);
+  }
+
+  [data-anima="fade-right"] {
+    transform: translateX(-24px);
+  }
+
+  [data-anima="zoom-in"] {
+    transform: scale(0.94);
+  }
+
+  [data-anima].anima-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-anima] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const initAnimarScroll = () => {
+    if (document.body.dataset.animaBound === "true") {
+      return;
+    }
+
+    document.body.dataset.animaBound = "true";
+
+    const elementos = document.querySelectorAll<HTMLElement>("[data-anima]");
+
+    if (elementos.length === 0) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      elementos.forEach((elemento) => elemento.classList.add("anima-visible"));
+      return;
+    }
+
+    elementos.forEach((elemento) => {
+      if (elemento.dataset.animaDelay) {
+        elemento.style.setProperty("--anima-delay", `${elemento.dataset.animaDelay}ms`);
+      }
+
+      if (elemento.dataset.animaDuration) {
+        elemento.style.setProperty("--anima-duration", `${elemento.dataset.animaDuration}ms`);
+      }
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const elemento = entry.target;
+
+          if (!(elemento instanceof HTMLElement)) {
+            return;
+          }
+
+          const esReversible = elemento.dataset.animaReversible === "true";
+
+          if (entry.isIntersecting) {
+            elemento.style.setProperty("--anima-delay", `${elemento.dataset.animaDelay || 0}ms`);
+            elemento.classList.add("anima-visible");
+
+            if (!esReversible) {
+              observer.unobserve(elemento);
+            }
+
+            return;
+          }
+
+          // Reversible: al salir del viewport se oculta de nuevo. El delay de
+          // salida (data-anima-delay-salida) permite invertir la secuencia.
+          if (esReversible && elemento.classList.contains("anima-visible")) {
+            elemento.style.setProperty(
+              "--anima-delay",
+              `${elemento.dataset.animaDelaySalida || 0}ms`,
+            );
+            elemento.classList.remove("anima-visible");
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -40px 0px" },
+    );
+
+    elementos.forEach((elemento) => observer.observe(elemento));
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAnimarScroll, { once: true });
+  } else {
+    initAnimarScroll();
+  }
+</script>

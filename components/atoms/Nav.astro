@@ -1,0 +1,109 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import Logo from "@/components/foundation/Logo.astro";
+
+interface HeaderLink {
+  text: string;
+  url: string;
+}
+
+interface HeaderCta {
+  text: string;
+  url: string;
+}
+
+interface Props {
+  /**
+   * Acción del botón "Cotizar ahora", definida por la página:
+   * - `ctaScrollTo`: ancla a la que hace scroll (ej. "#cotizar") si el
+   *   formulario ya vive en la página.
+   * - `ctaDrawer`: id del drawer que abre (default "navCotizarDrawer").
+   *   `ctaScrollTo` tiene prioridad.
+   */
+  ctaScrollTo?: string;
+  ctaDrawer?: string;
+  header?: {
+    logo?: string;
+    desktopLinks?: HeaderLink[];
+    mobileLinks?: HeaderLink[];
+    cta?: HeaderCta;
+  };
+  showLogin?: boolean;
+}
+
+const {
+  ctaScrollTo,
+  ctaDrawer = "navCotizarDrawer",
+  header,
+  showLogin = false,
+} = Astro.props;
+
+const headerConfig = {
+  logo: header?.logo ?? "https://image.comunicaciones.proyectivaseguros.com/lib/fe2a117473640574761479/m/1/e60e8a62-aba0-42b8-b7b8-a2b65c1662b0.png",
+  desktopLinks: header?.desktopLinks ?? [
+    { text: "Nuestros productos", url: "/nuestros-productos" },
+    //{ text: "Nosotros", url: "#" },
+    //{ text: "Blog", url: "#" },
+    //{ text: "Centro de ayuda", url: "#" },
+  ],
+  mobileLinks: header?.mobileLinks ?? [
+    { text: "Nuestros productos", url: "/nuestros-productos" },
+    //{ text: "Quienes somos", url: "#" },
+    //{ text: "Blog", url: "#" },
+    //{ text: "Centro de ayuda", url: "#" },
+  ],
+  cta: header?.cta ?? { text: "Comprar seguros", url: "#" },
+};
+---
+<header class="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
+  <input type="checkbox" id="menu-toggle" class="peer hidden" />
+  <div class="container mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2 cursor-pointer" aria-label="Proyectiva">
+      {headerConfig.logo ? (
+        <img src={headerConfig.logo} alt="Proyectiva" class="h-8 w-auto" />
+      ) : (
+        <Logo class="w-39 h-auto" title="Proyectiva" />
+      )}
+    </a>
+
+    <nav class="hidden lg:flex items-center space-x-8">
+      {headerConfig.desktopLinks.map((link) => (
+        <a href={link.url} class="text-[#1A1A1A] font-medium hover:text-[#E85D25]">
+          {link.text}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center space-x-4">
+      <a href={headerConfig.cta.url} class="hidden sm:inline-block bg-[#D44102] text-white px-6 py-2.5 rounded-full font-bold hover:bg-[#d15321] transition-shadow shadow-sm">
+        {headerConfig.cta.text}
+      </a>
+
+      <label for="menu-toggle" class="lg:hidden p-2 text-gray-600 cursor-pointer">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </label>
+    </div>
+  </div>
+
+  <div class="peer-not-checked:hidden peer-checked:flex lg:hidden flex-col bg-white px-4 pt-2 pb-6 border-t border-gray-100 shadow-lg absolute w-full left-0 top-full">
+    <nav class="flex flex-col">
+      {!showLogin && headerConfig.mobileLinks.map((link) => (
+        <a href={link.url} class="py-3 border-b border-gray-100 text-[#1A1A1A] font-medium">
+          {link.text}
+        </a>
+      ))}
+
+      {showLogin && (
+        <a href="#" class="py-3 border-b border-gray-100 text-[#1A1A1A] font-medium">
+          Ingresar
+        </a>
+      )}
+
+      <a href={headerConfig.cta.url} class="sm:hidden mt-6 text-center bg-[#D44102] text-white px-6 py-3 rounded-full font-bold hover:bg-[#d15321] transition-shadow shadow-sm">
+        {headerConfig.cta.text}
+      </a>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,9 @@
+{
+  "home": { "text": "Inicio", "url": "https://proyectivaseguros.com", "icon": "Casa" },
+  "productos": { "text": "Nuestros Productos", "url": "/nuestros-productos" },
+  "seguro-arrendamiento": { "text": "Seguro de Arrendamiento", "url": "/seguro-arrendamiento" },
+  "seguro-autos": { "text": "Seguro para Carros", "url": "/seguro-autos" },
+  "seguro-salud": { "text": "Seguro de Salud", "url": "/seguro-salud" },
+  "seguro-pymes": { "text": "Seguro para Pymes", "url": "/seguro-pymes" },
+  "seguro-casa": { "text": "Seguro para la Casa", "url": "/seguro-casa" }
+}

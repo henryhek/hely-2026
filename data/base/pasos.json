@@ -1,0 +1,21 @@
+{
+  "titulo": "Asi empieza a proteger su carro",
+  "copy": "Cotice en minutos y encuentre el seguro que mejor se adapta a su uso y presupuesto.",
+  "pasos": [
+    {
+      "icono": "1",
+      "titulo": "Complete sus datos",
+      "copy": "Ingrese sus datos para que nos podamos comunicar con usted."
+    },
+    {
+      "icono": "2",
+      "titulo": "Nos ponemos en contacto",
+      "copy": "Un asesor se pondra en contacto con usted en menos de 10 minutos."
+    },
+    {
+      "icono": "3",
+      "titulo": "Compare y elija",
+      "copy": "Conozca la oferta que mejor se adapta a usted y cotice su seguro."
+    }
+  ]
+}

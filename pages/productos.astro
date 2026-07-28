@@ -1,0 +1,25 @@
+---
+import Nav from "@/components/atoms/Nav.astro";
+import Footer from "@/components/atoms/Footer.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Breadcrumb from "@/components/atoms/Breadcrumb.astro";
+import BannerHero from "@/components/sections/BannerHero.astro";
+import Beneficios from "@/components/sections/Beneficios.astro";
+import Seguros from "@/components/sections/Seguros-tabs.astro";
+import PreguntasFrecuentes from "@/components/sections/PreguntasFrecuentes.astro";
+
+---
+
+<BaseLayout title="Seguros">
+    <Nav ctaScrollTo="#cotizar" />
+
+    <main class="flex flex-col">
+        <Breadcrumb crumbs={['home', 'productos']} bgColor="bg-white" />
+       
+        <Beneficios id="productos" data="productos.json" fondo="bg-white" />
+        <Seguros id="seguros" data="seguros-tabs.json" fondo="bg-neutral-95" />
+        <PreguntasFrecuentes id="preguntas" data="preguntasFrecuentes.json" fondo="bg-white" />
+    </main>
+
+    <Footer class="py-8"/>
+</BaseLayout>

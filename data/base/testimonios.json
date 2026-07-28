@@ -1,0 +1,43 @@
+{
+  "titulo": "Esto es lo que dicen nuestros asegurados",
+  "izquierda": [
+    {
+      "cita": "\"Cambié a Seguros Bolívar y no solo pago menos, sino que la cobertura es mucho más clara. Sin letras pequeñas.\"",
+      "nombre": "Pablo Rincón",
+      "cargo": "Gerente comercial | Inmobiliaria Bogotá",
+      "avatar": "https://i.pravatar.cc/96?img=12"
+    },
+    {
+      "cita": "\"Tuve un choque menor y la asistencia llegó en menos de veinte minutos. El proceso del taller fue impecable.\"",
+      "nombre": "Laura Cifuentes",
+      "cargo": "Diseñadora industrial | Medellín",
+      "avatar": "https://i.pravatar.cc/96?img=47"
+    },
+    {
+      "cita": "\"Cotizar fue cuestión de minutos y un asesor me llamó de una vez. Cero filas y cero papeleo.\"",
+      "nombre": "Andrés Beltrán",
+      "cargo": "Ingeniero de sistemas | Cali",
+      "avatar": "https://i.pravatar.cc/96?img=33"
+    }
+  ],
+  "derecha": [
+    {
+      "cita": "\"Renovar el seguro del carro de la empresa era un dolor de cabeza. Ahora todo queda al día desde la app.\"",
+      "nombre": "Carolina Méndez",
+      "cargo": "Directora administrativa | Logística Andina",
+      "avatar": "https://i.pravatar.cc/96?img=45"
+    },
+    {
+      "cita": "\"El conductor elegido me ha salvado más de una vez. Es de esos beneficios que uno agradece de verdad.\"",
+      "nombre": "Julián Ospina",
+      "cargo": "Médico | Bucaramanga",
+      "avatar": "https://i.pravatar.cc/96?img=13"
+    },
+    {
+      "cita": "\"Me orientaron con calma para escoger el plan según el uso que le doy al carro. Se siente el respaldo.\"",
+      "nombre": "Sandra Quintero",
+      "cargo": "Docente universitaria | Barranquilla",
+      "avatar": "https://i.pravatar.cc/96?img=26"
+    }
+  ]
+}

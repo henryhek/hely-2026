@@ -1,0 +1,36 @@
+{
+  "titulo": "Descargue la App Bolivar Conmigo para usar y disfrutar de su seguro.",
+  "buttonText": "Descargar App",
+  "buttonId": "appBolivarDescargarButton",
+  "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/8f464a5c-7ea6-416f-9ff6-14a8c3e9f2b6.jpg",
+  "imageAlt": "Persona usando la App Bolivar Conmigo desde su celular.",
+  "cards": [
+    {
+      "icono": "whatsapp",
+      "iconoVariant": "brands",
+      "etiqueta": "WHATSAPP",
+      "titulo": "322 3322 322",
+      "copy": "Escribanos a traves de nuestro canal oficial de WhatsApp.",
+      "buttonText": "Ir al chat",
+      "buttonId": "appBolivarWhatsappButton"
+    },
+    {
+      "icono": "hand-holding-heart",
+      "iconoVariant": "regular",
+      "etiqueta": "PORTAL WEB",
+      "titulo": "Gestion de Asistencias",
+      "copy": "Solicite aqui de manera rapida sus asistencias vehiculares prioritarias.",
+      "buttonText": "Ingresar al portal",
+      "buttonId": "appBolivarPortalButton"
+    },
+    {
+      "icono": "phone",
+      "iconoVariant": "regular",
+      "etiqueta": "LINEA DE ATENCION",
+      "titulo": "MI #322",
+      "copy": "Tambien puede llamarnos directamente desde su celular al #322.",
+      "buttonText": "Llamar ahora",
+      "buttonId": "appBolivarLineaButton"
+    }
+  ]
+}

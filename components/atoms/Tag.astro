@@ -1,0 +1,38 @@
+---
+import Icon from "@/components/foundation/Icon.astro";
+
+type Tone = "informativo" | "neutral";
+type IconVariant = "regular" | "light" | "solid" | "brands";
+
+const toneClasses = {
+  informativo: "bg-alerta-informacion-90 text-alerta-informacion-20",
+  neutral: "bg-neutral-95 text-neutral-30",
+} as const;
+
+interface Props {
+  texto: string;
+  tono?: Tone;
+  icono?: string;
+  iconoVariant?: IconVariant;
+  className?: string;
+}
+
+const {
+  texto,
+  tono = "neutral",
+  icono,
+  iconoVariant = "solid",
+  className = "",
+} = Astro.props;
+---
+
+<span
+  class:list={[
+    "inline-flex h-8 w-fit items-center gap-1 rounded px-2 py-1 font-bolivar text-sm leading-5 font-bold",
+    toneClasses[tono],
+    className,
+  ]}
+>
+  {icono ? <Icon name={icono} variant={iconoVariant} size="xs" className="leading-none" /> : null}
+  <span>{texto}</span>
+</span>

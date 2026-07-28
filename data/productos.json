@@ -1,0 +1,20 @@
+{
+  "titulo": "¿Por qué elegir Proyectiva? Aquí tenemos protección real, sin letra chiquita",
+  "beneficios": [
+    {
+      "icono": "mobile-screen-button",
+      "titulo": "Sencillo",
+      "copy": "Déjanos tus datos en minutos desde cualquier dispositivo. Nos encargamos de la papelería compleja para que disfrutes de un proceso transparente, sin filas ni citas intermedias."
+    },
+    {
+      "icono": "users",
+      "titulo": "Acompañamiento humano",
+      "copy": "Usamos las herramientas digitales para conectarte con un equipo de expertos de carne y hueso, listos para escuchar tu caso y ayudarte de verdad cuando lo necesites."
+    },
+    {
+      "icono": "calendar",
+      "titulo": "Pensado a largo plazo",
+      "copy": "Analizamos tu situación de forma personalizada para diseñar coberturas estables y sostenibles que protejan tus metas hoy y en el futuro."
+    }
+  ]
+}

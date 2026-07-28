@@ -1,0 +1,35 @@
+{
+  "titulo": "¿Tiene dudas? ¡Nosotros respondemos!",
+  "descripcion": "",
+  "faqs": [
+    {
+      "pregunta": "¿Qué cubre exactamente este seguro?",
+      "respuesta": "Te hablamos con total honestidad: este respaldo cubre los daños a terceros (responsabilidad civil extracontractual) que tú o una persona autorizada por ti causen con el vehículo, y de forma opcional, según el plan que elijas, también los daños al carro por accidente, eventos de la naturaleza o terrorismo, el hurto del vehículo o de sus partes, y accesorios como vidrios, espejos o llaves. Todo depende del plan y las coberturas que hayas contratado, tal como quedan indicadas en el certificado de tu póliza."
+    },
+    {
+      "pregunta": "¿Cuándo y cómo se activa la ayuda si tengo un accidente?",
+      "respuesta": "La ayuda se activa apenas nos llamas: tienes hasta tres días hábiles para avisarnos sobre cualquier accidente, pérdida o demanda relacionada. Un asesor de carne y hueso te guía desde ese momento, ya sea para enviarte una grúa o una ambulancia el mismo día, o para empezar el proceso de indemnización si hay daños o hurto."
+    },
+    {
+      "pregunta": "Para hablar sin rodeos, ¿qué cosas NO están incluidas en el contrato?",
+      "respuesta": "Nos gusta la transparencia total: este seguro no cubre el desgaste normal del vehículo, daños mecánicos o eléctricos, fallas por falta de mantenimiento, ni los perjuicios que se generen si el conductor no tenía licencia vigente, estaba bajo efectos del alcohol o desatendió las normas de tránsito. Tampoco cubre el vehículo mientras esté en proceso de venta, arrendado, participando en competencias o usado para fines distintos al particular. Si quieres cubrir riesgos adicionales como bicicleta o patineta, existe la cobertura opcional de Movilidad 360."
+    },
+    {
+      "pregunta": "¿Qué papeles me van a pedir si tengo que reclamar el seguro?",
+      "respuesta": "Nada de trámites fríos ni imposibles. Debes demostrar que eres el propietario del vehículo, que no está en trámite de traspaso o venta, y acreditar cómo y cuánto perdiste: fotos del accidente, cotizaciones de reparación o, en caso de hurto, la copia de la solicitud de cancelación de la matrícula ante el organismo de tránsito. Si hace falta algo más, tienes total libertad para aportar las pruebas que respalden tu pérdida."
+    },
+    {
+      "pregunta": "¿Hay alguna razón por la que podría perder el derecho a recibir mi indemnización?",
+      "respuesta": "Sí, y te lo decimos de frente para que te cuides. No te pagarán si actuaste con dolo o mala fe, si reconoces tu responsabilidad en el accidente o llegas a un acuerdo con la víctima sin nuestra autorización previa, o si el conductor nunca tuvo licencia, esta era falsa o estaba suspendida. Tampoco se cubre si el vehículo se pone en marcha después de un accidente sin autorización, o si estabas participando en competencias automovilísticas o usando el carro para fines distintos al particular."
+    },
+    {
+      "pregunta": "¿Qué compromisos tengo yo como asegurado para que el seguro sea completamente válido?",
+      "respuesta": "Asumes algunas promesas esenciales pero muy sencillas: mantener tu carro en buen estado y notificarnos por escrito si algo cambia de forma importante (por ejemplo, un cambio de propietario o de uso del vehículo), avisarnos oportunamente ante cualquier accidente, y colaborar con diligencia en los trámites judiciales o de tránsito a que haya lugar. Cumpliendo con esto, tu carro está blindado de principio a fin."
+    }
+  ],
+  "cta": {
+    "titulo": "Tienes alguna otra en mente",
+    "botonTexto": "Ir al centro de ayuda",
+    "url": "#"
+  }
+}

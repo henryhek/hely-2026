@@ -1,0 +1,66 @@
+---
+import Icon from "@/components/foundation/Icon.astro";
+
+interface Props {
+  texto: string;
+  resaltado?: boolean;
+  mostrarAccion?: boolean;
+  accionLabel?: string;
+  accionId?: string;
+  drawerTarget?: string;
+  mostrarDivisor?: boolean;
+}
+
+const {
+  texto,
+  resaltado = false,
+  mostrarAccion = false,
+  accionLabel = "Ver detalle de cobertura",
+  accionId,
+  drawerTarget,
+  mostrarDivisor = true,
+} = Astro.props;
+
+const filaClases = [
+  "flex w-full items-start justify-start gap-2 rounded-2xl py-2 px-2 -mx-2 text-left transition-colors duration-200 ease-out",
+  mostrarAccion && "hover:bg-boton-terciario-default cursor-pointer interactive-focus-ring outline-none",
+];
+---
+
+<div class="flex flex-col gap-2">
+  {mostrarAccion ? (
+    <button
+      type="button"
+      id={accionId}
+      aria-label={accionLabel}
+      data-drawer-target={drawerTarget}
+      class:list={filaClases}
+    >
+      <span class="flex shrink-0 items-center justify-center py-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="fill-accion-primaria leading-none size-4" viewBox="0 0 10.5 7.31"><path d="M10.34.17c.22.22.22.58,0,.79l-6.19,6.19c-.22.22-.58.22-.79,0L.17,3.96c-.22-.22-.22-.58,0-.79.22-.22.58-.22.79,0l2.79,2.79L9.54.17c.22-.22.58-.22.79,0h0Z"/></svg>
+      </span>
+
+      <span class:list={["m-0 flex-1 text-base text-neutral-10", resaltado && "font-bold"]}>
+        {texto}
+      </span>
+
+      <span
+        class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-boton-terciario-default text-boton-terciario-contenido -mt-0.5"
+      >
+        <Icon name="arrow-right" variant="regular" size="xs" className="leading-none" />
+      </span>
+    </button>
+  ) : (
+    <div class:list={filaClases}>
+      <span class="flex shrink-0 items-center justify-center py-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="fill-accion-primaria leading-none size-4" viewBox="0 0 10.5 7.31"><path d="M10.34.17c.22.22.22.58,0,.79l-6.19,6.19c-.22.22-.58.22-.79,0L.17,3.96c-.22-.22-.22-.58,0-.79.22-.22.58-.22.79,0l2.79,2.79L9.54.17c.22-.22.58-.22.79,0h0Z"/></svg>
+      </span>
+
+      <p class:list={["m-0 flex-1 text-base text-neutral-10", resaltado && "font-bold"]}>
+        {texto}
+      </p>
+    </div>
+  )}
+
+  {mostrarDivisor ? <div class="h-0.5 rounded-lg bg-neutral-90"></div> : null}
+</div>

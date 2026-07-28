@@ -1,0 +1,205 @@
+---
+import CarouselControls from "@/components/molecules/CarouselControls.astro";
+import PlanCardExpanded from "@/components/molecules/PlanCardExpanded.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface FeatureItem {
+  texto: string;
+  resaltado?: boolean;
+  mostrarAccion?: boolean;
+  accionLabel?: string;
+  accionId?: string;
+  drawerTarget?: string;
+}
+
+interface PlanRecord {
+  titulo: string;
+  precioLabel: string;
+  precio: string;
+  beneficio: string;
+  destacado?: boolean;
+  tagTexto?: string;
+  tagIcono?: string;
+  botonPrincipalTexto: string;
+  botonPrincipalId: string;
+  disclosureTexto: string;
+  disclosureId: string;
+  disclosureUrl?: string;
+  disclosureTarget?: string;
+  disclosureRel?: string;
+  bullets: FeatureItem[];
+}
+
+interface SectionContent {
+  titulo: string;
+  copy?: string;
+  planes: PlanRecord[];
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  idBase?: string;
+  titulo?: string;
+  copy?: string;
+  planes?: PlanRecord[];
+  /**
+   * Acción del botón principal ("Recibir asesoría"), definida por la página:
+   * - `ctaScrollTo`: ancla a la que hace scroll (ej. "#cotizar") cuando el
+   *   formulario ya vive en la misma página.
+   * - `ctaDrawer`: id del drawer que abre (default "navCotizarDrawer") cuando
+   *   el formulario está en un drawer. `ctaScrollTo` tiene prioridad.
+   */
+  ctaScrollTo?: string;
+  ctaDrawer?: string;
+}
+
+const defaultPlanes: PlanRecord[] = [
+  {
+    titulo: "Premium + Cobertura 360",
+    precioLabel: "Ano sin IVA desde:",
+    precio: "$2,927,392",
+    beneficio: "Carro de reemplazo extendido.",
+    botonPrincipalTexto: "Recibir Asesoria",
+    botonPrincipalId: "planExpandedPremium360Button",
+    disclosureTexto: "Consultar todas las coberturas",
+    disclosureId: "planExpandedPremium360DisclosureButton",
+    bullets: [
+      { texto: "Cubrimos danos a otras personas." },
+      { texto: "Dano y hurto total o parcial del carro." },
+      { texto: "Protegemos sus recorridos en bici, patineta o transporte publico." },
+      {
+        texto: "Deducible desde 0% - 0,8 SMMLV.",
+        resaltado: true,
+        mostrarAccion: true,
+        accionId: "planExpandedPremium360FeatureButton",
+      },
+    ],
+  },
+  {
+    titulo: "Premium",
+    precioLabel: "Ano sin IVA desde:",
+    precio: "$2,843,625",
+    beneficio: "Carro de reemplazo extendido.",
+    destacado: true,
+    tagTexto: "Recomendado",
+    tagIcono: "star",
+    botonPrincipalTexto: "Recibir Asesoria",
+    botonPrincipalId: "planExpandedPremiumButton",
+    disclosureTexto: "Consultar todas las coberturas",
+    disclosureId: "planExpandedPremiumDisclosureButton",
+    bullets: [
+      { texto: "Cubrimos danos a otras personas." },
+      { texto: "Dano y hurto total o parcial del carro." },
+      { texto: "Vehiculo de reemplazo hasta por 30 dias." },
+      {
+        texto: "Deducible desde 0% - 0,8 SMMLV.",
+        resaltado: true,
+        mostrarAccion: true,
+        accionId: "planExpandedPremiumFeatureButton",
+      },
+    ],
+  },
+  {
+    titulo: "Ligero",
+    precioLabel: "Ano sin IVA desde:",
+    precio: "$1,482,298",
+    beneficio: "El precio mas bajo",
+    botonPrincipalTexto: "Recibir Asesoria",
+    botonPrincipalId: "planExpandedLigeroButton",
+    disclosureTexto: "Consultar todas las coberturas",
+    disclosureId: "planExpandedLigeroDisclosureButton",
+    bullets: [
+      { texto: "Cubrimos danos a otras personas." },
+      { texto: "Dano y hurto total." },
+      {
+        texto: "Deducible desde 0% hasta 10 anos.",
+        resaltado: true,
+        mostrarAccion: true,
+        accionId: "planExpandedLigeroFeatureButton",
+      },
+    ],
+  },
+];
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-neutral-95",
+  idBase = "planesExpandedSection",
+  titulo,
+  copy,
+  planes,
+  ctaScrollTo,
+  ctaDrawer = "navCotizarDrawer",
+} = Astro.props;
+
+// La página decide qué hace "Recibir asesoría": scroll a una sección propia
+// (formulario ya presente) o abrir el drawer. El contenido del plan no cambia.
+const accionPrincipal = ctaScrollTo
+  ? { scrollTo: ctaScrollTo }
+  : { drawerTarget: ctaDrawer };
+
+const defaultContent: SectionContent = {
+  titulo: "Elija la proteccion ideal para su carro",
+  planes: defaultPlanes,
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalCopy = copy ?? sectionContent.copy;
+const finalPlanes = planes ?? sectionContent.planes;
+---
+
+<section id={id} class:list={["w-full py-10 md:py-12 xl:py-16", fondo, className]}>
+  <div class="shell lg:px-10! xl:px-[72px]!">
+    <div class="flex flex-col gap-8">
+      <div class="flex items-end justify-between gap-4">
+        <div class="flex flex-col gap-2">
+          <h2 class="m-0 text-2xl leading-8 font-bold text-neutral-10 md:text-[2rem] md:leading-10">
+            {finalTitulo}
+          </h2>
+
+          {finalCopy ? (
+            <p class="m-0 text-lg leading-7 font-normal text-neutral-10">
+              {finalCopy}
+            </p>
+          ) : null}
+        </div>
+
+        <CarouselControls
+          target={idBase}
+          prevLabel="Ver plan expandido anterior"
+          nextLabel="Ver siguiente plan expandido"
+        />
+      </div>
+
+      <div
+        class="-mx-6 flex snap-x snap-mandatory gap-[29px] overflow-x-auto scroll-px-6 px-6 md:-mx-4 md:scroll-px-4 md:px-4 lg:-mx-10 lg:scroll-px-10 lg:px-10 xl:mx-0 xl:scroll-px-0 xl:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        data-carousel-scroll={idBase}
+      >
+        {finalPlanes.map((plan) => (
+          <div
+            class="min-w-0 shrink-0 basis-full snap-start md:max-w-[390px] md:basis-[390px] xl:max-w-none xl:basis-[calc((100%-58px)/3)]"
+          >
+            <PlanCardExpanded
+              titulo={plan.titulo}
+              precioLabel={plan.precioLabel}
+              precio={plan.precio}
+              beneficio={plan.beneficio}
+              destacado={plan.destacado}
+              tagTexto={plan.tagTexto}
+              tagIcono={plan.tagIcono}
+              botonPrincipal={{ texto: plan.botonPrincipalTexto, id: plan.botonPrincipalId, ...accionPrincipal }}
+              disclosure={{ texto: plan.disclosureTexto, id: plan.disclosureId, url: plan.disclosureUrl, target: plan.disclosureTarget, rel: plan.disclosureRel }}
+              bullets={plan.bullets}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

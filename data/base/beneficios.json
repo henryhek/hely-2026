@@ -1,0 +1,20 @@
+{
+  "titulo": "Beneficios de este seguro",
+  "beneficios": [
+    {
+      "icono": "message-dots",
+      "titulo": "Respuesta oportuna",
+      "copy": "Si tiene un accidente o un imprevisto, reciba atencion rapida y acompanamiento en todo momento."
+    },
+    {
+      "icono": "headset",
+      "titulo": "Asistencia 24/7",
+      "copy": "Grua, cerrajeria o carro taller cuando lo necesite, sin importar la hora o el lugar."
+    },
+    {
+      "icono": "mobile-screen-button",
+      "titulo": "Gestion de su seguro",
+      "copy": "Gestione solicitudes, haga seguimiento y reciba ayuda directamente desde la App de Seguros Bolivar o WhatsApp."
+    }
+  ]
+}

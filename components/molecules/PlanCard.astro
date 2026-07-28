@@ -1,0 +1,119 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import Tag from "@/components/atoms/Tag.astro";
+
+interface ButtonAction {
+  texto: string;
+  id?: string;
+  url?: string;
+  target?: string;
+  rel?: string;
+  drawerTarget?: string;
+  scrollTo?: string;
+}
+
+interface Props {
+  titulo: string;
+  precioLabel: string;
+  precio: string;
+  beneficio: string;
+  destacado?: boolean;
+  tagTexto?: string;
+  tagIcono?: string;
+  botonPrincipal?: ButtonAction;
+  botonSecundario?: ButtonAction;
+  className?: string;
+}
+
+const {
+  titulo,
+  precioLabel,
+  precio,
+  beneficio,
+  destacado = false,
+  tagTexto,
+  tagIcono,
+  botonPrincipal,
+  botonSecundario,
+  className = "",
+} = Astro.props;
+
+const containerClasses = destacado
+  ? "bg-accion-primaria"
+  : "bg-neutral-100";
+
+const textToneClasses = destacado ? "text-en-primaria" : "text-neutral-20";
+const titleToneClasses = destacado ? "text-en-primaria" : "text-neutral-20";
+const secondaryButtonClassName = destacado
+  ? "border-neutral-100! bg-transparent! text-neutral-100! hover:bg-neutral-100/10! active:bg-neutral-100/20!"
+  : "";
+---
+
+<article
+  class:list={[
+    "flex h-full min-h-[23.8125rem] flex-col rounded-3xl p-6",
+    containerClasses,
+    className,
+  ]}
+>
+  <div class="flex h-full flex-col gap-6">
+    <div class="flex min-h-[12.3125rem] flex-col justify-end gap-4">
+      {tagTexto ? (
+        <Tag
+          texto={tagTexto}
+          icono={tagIcono}
+          tono="informativo"
+        />
+      ) : null}
+
+      <div class="flex flex-col gap-2">
+        <h3 class:list={["m-0 text-2xl leading-[1.4] font-bold", titleToneClasses]}>
+          {titulo}
+        </h3>
+
+        <div class="flex flex-col">
+          <p class:list={["m-0 text-base leading-6 font-normal", textToneClasses]}>
+            {precioLabel}
+          </p>
+          <p class:list={["m-0 text-4xl leading-[1.2] font-bold", textToneClasses]}>
+            {precio}
+          </p>
+          <p class:list={["m-0 text-base leading-6 font-normal", textToneClasses]}>
+            {beneficio}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-auto flex flex-col gap-4">
+      {botonPrincipal ? (
+        <Button
+          texto={botonPrincipal.texto}
+          tipo="secundario"
+          tamano="lg"
+          id={botonPrincipal.id}
+          url={botonPrincipal.url}
+          target={botonPrincipal.target}
+          rel={botonPrincipal.rel}
+          data-drawer-target={botonPrincipal.drawerTarget}
+          data-scroll-to={botonPrincipal.scrollTo}
+          fullWidth={true}
+        />
+      ) : null}
+
+      {botonSecundario ? (
+        <Button
+          texto={botonSecundario.texto}
+          tipo="outlined"
+          tamano="md"
+          id={botonSecundario.id}
+          url={botonSecundario.url}
+          target={botonSecundario.target}
+          rel={botonSecundario.rel}
+          fullWidth={true}
+          className={secondaryButtonClassName || undefined}
+        />
+      ) : null}
+    </div>
+  </div>
+</article>

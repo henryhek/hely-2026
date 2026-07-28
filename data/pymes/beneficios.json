@@ -1,0 +1,20 @@
+{
+  "titulo": "Beneficios de este seguro",
+  "beneficios": [
+    {
+      "icono": "message-dots",
+      "titulo": "Respaldo total para tus herramientas y local",
+      "copy": "Si algo daña tus equipos, mercancías o local, te ayudamos a reponerlos rápido."
+    },
+    {
+      "icono": "headset",
+      "titulo": "Apoyo económico si debes parar actividades",
+      "copy": "Si tu negocio cierra temporalmente por un accidente, recibes un apoyo mensual de dinero."
+    },
+    {
+      "icono": "mobile-screen-button",
+      "titulo": "Protección si afectas a un tercero o cliente",
+      "copy": "El seguro responde económicamente si causas un daño accidental a un cliente o vecino."
+    }
+  ]
+}

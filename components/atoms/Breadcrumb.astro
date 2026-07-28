@@ -1,0 +1,57 @@
+---
+import allBreadcrumbs from '@/data/breadcrumbs.json';
+
+interface Props {
+  crumbs: string[];
+  currentPage?: string;
+  bgColor?: string;
+  textColor?: string;
+  activeColor?: string;
+  class?: string;
+}
+
+const {
+  crumbs = [],
+  currentPage,
+  bgColor = "bg-white",
+  textColor = "text-gray-400",
+  activeColor = "text-[#E85D25]",
+  class: className = "",
+} = Astro.props;
+
+const items = crumbs.map((key, index) => {
+    const breadcrumbData = allBreadcrumbs[key];
+    if (!breadcrumbData) {
+        console.warn(`Breadcrumb key "${key}" not found.`);
+        return null;
+    }
+
+    const isLast = index === crumbs.length - 1;
+
+    return {
+        text: isLast && currentPage ? currentPage : breadcrumbData.text,
+        url: breadcrumbData.url,
+        active: isLast,
+        icon: breadcrumbData.icon
+    };
+}).filter(Boolean);
+
+---
+<section class:list={["w-full py-4", bgColor, className]}>
+  <div class="container mx-auto max-w-7xl px-4 flex items-center text-sm font-medium flex-wrap">
+    {items.map((item, index) => (
+      <>
+        {index > 0 && <span class="mx-2 text-gray-300">&rsaquo;</span>}
+        {item.url && !item.active ? (
+          <a href={item.url} class:list={[textColor, "flex items-center gap-2"]}>
+            {item.text}
+          </a>
+        ) : (
+          <span class:list={[item.active ? activeColor : textColor]}>
+            {item.text}
+          </span>
+        )}
+      </>
+    ))}
+  </div>
+</section>

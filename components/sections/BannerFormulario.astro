@@ -1,0 +1,49 @@
+---
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface SectionContent {
+  titulo: string;
+  copy: string;
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  titulo?: string;
+  copy?: string;
+}
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-accion-primaria",
+  titulo,
+  copy,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: '<span class="inline font-bold text-accion-secundaria md:block">El seguro más sencillo</span><span class="inline md:block"> para su carro</span>',
+  copy: "Coberturas a su medida con asistencia experta y <strong>el respaldo de Seguros Bolívar cuando lo necesite.</strong>",
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalCopy = copy ?? sectionContent.copy;
+---
+
+<section id={id} class:list={["w-full", fondo, className]}>
+  <div class="shell lg:px-10! xl:px-[72px]!">
+    <div class="grid grid-cols-1 items-center gap-8 py-8 md:grid-cols-[1fr_300px] md:gap-16 lg:grid-cols-[1fr_480px]">
+      <div class="flex w-full max-w-full flex-col gap-4 text-white xl:max-w-[656px]">
+        <h1 class="text-6xl leading-tight font-bold tracking-tight text-secundario-90 text-balance" set:html={finalTitulo} />
+
+        <p class="max-w-full text-lg leading-snug text-white/95" set:html={finalCopy} />
+      </div>
+
+      <slot />
+    </div>
+  </div>
+</section>

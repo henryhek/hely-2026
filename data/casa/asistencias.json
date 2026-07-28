@@ -1,0 +1,24 @@
+{
+  "titulo": "Asistencias incluidas",
+  "asistencias": [
+    
+    {
+      "imageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1376' height='768'><rect width='100%' height='100%' fill='%23d1d5db'/><rect x='630' y='336' width='117' height='96' rx='10' fill='none' stroke='%239ca3af' stroke-width='7'/><circle cx='660' cy='367' r='10' fill='%239ca3af'/><path d='M636 425 L678 384 L705 408 L722 394 L740 425 Z' fill='%239ca3af'/></svg>",
+      "imageAlt": "Plomería, electricidad y gas sin dolores de cabeza",
+      "titulo": "Plomería, electricidad y gas sin dolores de cabeza",
+      "copy": "Si se rompe un tubo, hay un corto eléctrico o una fuga de gas en las redes internas de tu casa, enviamos un técnico de inmediato para restablecer el servicio antes de que el daño se vuelva mayor."
+    },
+    {
+      "imageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1376' height='768'><rect width='100%' height='100%' fill='%23d1d5db'/><rect x='630' y='336' width='117' height='96' rx='10' fill='none' stroke='%239ca3af' stroke-width='7'/><circle cx='660' cy='367' r='10' fill='%239ca3af'/><path d='M636 425 L678 384 L705 408 L722 394 L740 425 Z' fill='%239ca3af'/></svg>",
+      "imageAlt": "Cerrajería en emergencias",
+      "titulo": "Cerrajería de emergencia",
+      "copy": "Si se te pierden las llaves, las dejas adentro o la cerradura de la puerta principal falla, un cerrajero va directo a tu casa para solucionar la entrada a cualquier hora del día."
+    },
+    {
+      "imageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1376' height='768'><rect width='100%' height='100%' fill='%23d1d5db'/><rect x='630' y='336' width='117' height='96' rx='10' fill='none' stroke='%239ca3af' stroke-width='7'/><circle cx='660' cy='367' r='10' fill='%239ca3af'/><path d='M636 425 L678 384 L705 408 L722 394 L740 425 Z' fill='%239ca3af'/></svg>",
+      "imageAlt": "Vidrios y carpintería sin esperar semanas",
+      "titulo": "Vidrios y carpintería sin esperar semanas",
+      "copy": "Si se rompe un vidrio de tus ventanas o un mueble fijo de tu casa se desajusta y no cierra bien, gestionamos el arreglo rápido para que tu hogar siga funcionando como debe."
+    }
+  ]
+}

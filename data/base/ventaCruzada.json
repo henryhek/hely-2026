@@ -1,0 +1,47 @@
+{
+  "titulo": "¿Que mas quiere asegurar hoy?",
+  "cards": [
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/82d1da26-55e3-4023-8dff-0a7c0d8b53b5.jpg",
+      "imageAlt": "Familia recibiendo asesoria sobre seguro de salud.",
+      "titulo": "Seguro de salud",
+      "copy": "Atencion medica integral para usted y su familia",
+      "botonPrincipal": {
+        "texto": "Proteger Seguro de salud",
+        "url": "/seguro-salud"
+      },
+      "botonSecundario": {
+        "texto": "Conocer más",
+        "url": "/seguro-salud"
+      }
+    },
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/be04eed1-2644-472d-9151-d2e792371433.jpg",
+      "imageAlt": "Pareja revisando alternativas de seguro de vida en casa.",
+      "titulo": "Seguro de vida",
+      "copy": "Tranquilidad para el futuro de los que mas quiere",
+      "botonPrincipal": {
+        "texto": "Proteger Seguro de vida",
+        "url": "#"
+      },
+      "botonSecundario": {
+        "texto": "Conocer más",
+        "url": "#"
+      }
+    },
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/f8cc4ab0-ebf7-455e-902b-bd952e265aea.jpg",
+      "imageAlt": "Interior de hogar moderno relacionado con seguro de hogar digital.",
+      "titulo": "Seguro de hogar digital",
+      "copy": "Coberturas ante danos, robos e imprevistos",
+      "botonPrincipal": {
+        "texto": "Proteger Seguro de hogar digital",
+        "url": "/seguro-casa"
+      },
+      "botonSecundario": {
+        "texto": "Conocer más",
+        "url": "/seguro-casa"
+      }
+    }
+  ]
+}

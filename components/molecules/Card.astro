@@ -1,0 +1,169 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import Icon from "@/components/foundation/Icon.astro";
+
+type CardTipo = "imagen" | "icono";
+type CardEstilo = "outlined" | "rellena";
+type ButtonTipo = "primario" | "secundario" | "outlined";
+type ButtonTamano = "sm" | "md" | "lg";
+type IconVariant = "regular" | "light" | "solid" | "brands";
+
+interface CardAction {
+  texto: string;
+  icono?: string;
+  tipo?: ButtonTipo;
+  tamano?: ButtonTamano;
+  id?: string;
+  disabled?: boolean;
+  url?: string;
+  target?: string;
+  rel?: string;
+}
+
+interface Props {
+  tipo?: CardTipo;
+  estilo?: CardEstilo;
+  imageSrc?: string;
+  imageAlt?: string;
+  icono?: string;
+  iconoVariant?: IconVariant;
+  titulo?: string;
+  subtitulo?: string;
+  copy?: string;
+  botonPrincipal?: CardAction;
+  botonSecundario?: CardAction;
+  className?: string;
+  titleClassName?: string;
+  subtitleClassName?: string;
+  copyClassName?: string;
+  iconContainerClassName?: string;
+  iconInnerClassName?: string;
+  infoContainerClassName?: string;
+}
+
+const {
+  tipo = "imagen",
+  estilo = "outlined",
+  imageSrc,
+  imageAlt = "",
+  icono,
+  iconoVariant = "regular",
+  titulo,
+  subtitulo,
+  copy,
+  botonPrincipal,
+  botonSecundario,
+  className = "",
+  titleClassName = "",
+  subtitleClassName = "",
+  copyClassName = "",
+  iconContainerClassName = "",
+  iconInnerClassName = "",
+  infoContainerClassName = "",
+} = Astro.props;
+
+const iconContainerClasses = iconContainerClassName || "bg-accion-secundaria";
+const iconInnerClasses = iconInnerClassName || "text-primario-50";
+
+const cardContainerClasses = {
+  outlined: "border border-neutral-80 bg-white",
+  rellena: "border border-transparent bg-neutral-95",
+} as const;
+
+const cardSpacingClasses = tipo === "imagen"
+  ? "gap-4 px-4 py-6"
+  : "gap-6 p-6";
+
+const titleClasses = tipo === "imagen"
+  ? "text-xl leading-7 font-bold text-neutral-10 md:text-xl md:leading-8"
+  : "text-xl leading-8 font-semibold text-neutral-10";
+
+const subtitleClasses = "text-lg leading-7 font-bold text-neutral-10";
+const copyClasses = tipo === "imagen"
+  ? "text-base leading-6 font-normal text-neutral-10"
+  : "text-base leading-6 font-normal text-neutral-30";
+const hasMedia = tipo === "imagen" && Boolean(imageSrc);
+const hasIcon = tipo === "icono" && Boolean(icono);
+const hasInfo = Boolean(titulo || subtitulo || copy);
+const hasActions = Boolean(botonPrincipal || botonSecundario);
+
+const primaryButtonTipo = botonPrincipal?.tipo ?? (tipo === "imagen" ? "primario" : "outlined");
+const primaryButtonTamano = botonPrincipal?.tamano ?? (tipo === "imagen" ? "lg" : "md");
+const secondaryButtonTipo = botonSecundario?.tipo ?? "outlined";
+const secondaryButtonTamano = botonSecundario?.tamano ?? "md";
+---
+
+<article
+  class:list={[
+    "flex h-full min-h-[12rem] flex-col rounded-2xl",
+    cardContainerClasses[estilo],
+    cardSpacingClasses,
+    className,
+  ]}
+>
+  {hasMedia ? (
+    <div class="overflow-hidden rounded-lg">
+      <img
+        src={imageSrc}
+        alt={imageAlt}
+        class="aspect-[328/184] w-full object-cover"
+        loading="lazy"
+      />
+    </div>
+  ) : null}
+
+  {hasIcon ? (
+    <div class:list={["inline-flex w-fit items-center rounded-md p-1", iconContainerClasses]}>
+      <span class:list={["inline-flex h-9 w-9 items-center justify-center", iconInnerClasses]}>
+        <Icon name={icono!} variant={iconoVariant} size="2xl" className="leading-none" />
+      </span>
+    </div>
+  ) : null}
+
+  {hasInfo ? (
+    <div class:list={["flex flex-col gap-2", infoContainerClassName]}>
+      {titulo ? <p class:list={["m-0", titleClasses, titleClassName]}>{titulo}</p> : null}
+
+      {(subtitulo || copy) ? (
+        <div class="flex flex-col gap-1">
+          {subtitulo ? <p class:list={["m-0", subtitleClasses, subtitleClassName]}>{subtitulo}</p> : null}
+          {copy ? <p class:list={["m-0", copyClasses, copyClassName]}>{copy}</p> : null}
+        </div>
+      ) : null}
+    </div>
+  ) : null}
+
+  {hasActions ? (
+    <div class="mt-auto flex flex-col gap-4">
+      {botonPrincipal ? (
+        <Button
+          texto={botonPrincipal.texto}
+          tipo={primaryButtonTipo}
+          tamano={primaryButtonTamano}
+          icono={botonPrincipal.icono}
+          id={botonPrincipal.id}
+          disabled={botonPrincipal.disabled}
+          url={botonPrincipal.url}
+          target={botonPrincipal.target}
+          rel={botonPrincipal.rel}
+          fullWidth={true}
+        />
+      ) : null}
+
+      {botonSecundario ? (
+        <Button
+          texto={botonSecundario.texto}
+          tipo={secondaryButtonTipo}
+          tamano={secondaryButtonTamano}
+          icono={botonSecundario.icono}
+          id={botonSecundario.id}
+          disabled={botonSecundario.disabled}
+          url={botonSecundario.url}
+          target={botonSecundario.target}
+          rel={botonSecundario.rel}
+          fullWidth={true}
+        />
+      ) : null}
+    </div>
+  ) : null}
+</article>

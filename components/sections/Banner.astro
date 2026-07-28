@@ -1,0 +1,91 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface SectionContent {
+  titulo: string;
+  copy: string;
+  buttonText: string;
+  buttonId: string;
+  imageSrc: string;
+  imageAlt: string;
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  titulo?: string;
+  copy?: string;
+  buttonText?: string;
+  buttonId?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  /**
+   * Acción del botón, definida por la página:
+   * - `ctaScrollTo`: ancla a la que hace scroll (ej. "#cotizar") cuando el
+   *   formulario ya vive en la misma página.
+   * - `ctaDrawer`: id del drawer que abre (default "navCotizarDrawer").
+   *   `ctaScrollTo` tiene prioridad.
+   */
+  ctaScrollTo?: string;
+  ctaDrawer?: string;
+  showButton?: boolean;
+  titleSize?: string;
+}
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-[#F3550C]",
+  titulo,
+  copy,
+  buttonText,
+  buttonId,
+  imageSrc,
+  imageAlt,
+  ctaScrollTo,
+  ctaDrawer = "navCotizarDrawer",
+  showButton = true,
+  titleSize = "text-4xl md:text-5xl",
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "¿Listo para estar protegido?",
+  copy: "Cotice hoy mismo y acceda a talleres, gruas y asistencias viales en Colombia.",
+  buttonText: "Cotizar ahora",
+  buttonId: "bannerCotizarAhoraButton",
+  imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/b03342e5-c24b-454c-90e8-2d7722d51da0.jpg",
+  imageAlt: "Pareja viajando en carro por carretera de montana.",
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalCopy = copy ?? sectionContent.copy;
+const finalButtonText = buttonText ?? sectionContent.buttonText;
+const finalButtonId = buttonId ?? sectionContent.buttonId;
+const finalImageSrc = imageSrc ?? sectionContent.imageSrc;
+const finalImageAlt = imageAlt ?? sectionContent.imageAlt;
+const finalTitleSize = titleSize ?? "text-4xl md:text-5xl";
+---
+
+<section id={id} class:list={["w-full py-16", fondo, className]}>
+  <div class="container mx-auto max-w-6xl px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <!-- Texto -->
+      <div class="pr-0 md:pr-10">
+        <h2 class:list={["font-bold text-white leading-tight", titleSize]}>
+          {finalTitulo}
+          {finalCopy && <span class="text-[#ffe17f]"> {finalCopy}</span>}
+        </h2>
+      </div>
+
+      <!-- Caja vacía (Placeholder para imagen/formulario) -->
+      <div class="bg-[#F07B4F] rounded-2xl w-full min-h-[300px] shadow-inner opacity-90">
+        <!-- Aquí va el contenido del bloque derecho de la imagen -->
+      </div>
+    </div>
+  </div>
+</section>

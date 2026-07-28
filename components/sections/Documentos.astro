@@ -1,0 +1,251 @@
+---
+import Divider from "@/components/atoms/Divider.astro";
+import Tab from "@/components/atoms/Tab.astro";
+import DocumentItem from "@/components/molecules/DocumentItem.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface DocumentRecord {
+  titulo: string;
+  metadata: string;
+  url: string;
+}
+
+interface DocumentTab {
+  id: string;
+  label: string;
+  documentos: DocumentRecord[];
+}
+
+interface SectionContent {
+  titulo: string;
+  descripcion: string;
+  tabs: DocumentTab[];
+}
+
+const defaultTabs: DocumentTab[] = [
+  {
+    id: "clausulado",
+    label: "Clausulado",
+    documentos: [
+      {
+        titulo: "Seguro para carros particulares",
+        metadata: "Archivo .PDF - 280 KB",
+        url: "https://d9b6rardqz97a.cloudfront.net/wp-content/uploads/2019/10/04180814/Clausulado-vehiculos-livianos-20112024-1327-P-03-AU-0000000000112-D00I-04May26.pdf",
+      },
+      {
+        titulo: "Seguro ligero para carros",
+        metadata: "Archivo .PDF - 280 KB",
+        url: "https://d9b6rardqz97a.cloudfront.net/wp-content/uploads/2019/10/04181103/Clausulado-Autos-Ligero-vehiculos-particulares-01112024-1327-P-03-AU-0000000000135-D00I-04My26.pdf",
+      },
+    ],
+  },
+  {
+    id: "convenio",
+    label: "Convenio",
+    documentos: [
+      {
+        titulo: "Servicios de asistencia para carros livianos",
+        metadata: "Archivo .PDF - 280 KB",
+        url: "https://d9b6rardqz97a.cloudfront.net/wp-content/uploads/2019/10/10093401/COVENIO-ASISTENCIA-LIGERA_100523.pdf",
+      },
+    ],
+  },
+  {
+    id: "manual",
+    label: "Manual",
+    documentos: [
+      {
+        titulo: "Guía práctica del seguro de carros",
+        metadata: "Archivo .PDF - 280 KB",
+        url: "https://d38xcr033cbh9b.cloudfront.net/wp-content/uploads/2019/10/28204643/Asegurese-de-saber_vehiculos.pdf",
+      },
+    ],
+  },
+];
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  idBase?: string;
+  titulo?: string;
+  descripcion?: string;
+  tabs?: DocumentTab[];
+}
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-white",
+  idBase = "documentosSection",
+  titulo,
+  descripcion,
+  tabs,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "Documentos",
+  descripcion: "Conozca el detalle de cada plan",
+  tabs: defaultTabs,
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalDescripcion = descripcion ?? sectionContent.descripcion;
+const finalTabs = tabs ?? sectionContent.tabs;
+const initialTabId = finalTabs[0]?.id ?? "documentos";
+---
+
+<section id={id} class:list={["w-full py-8 md:py-12 lg:py-16", fondo, className]} data-documentos={idBase}>
+  <div class="shell">
+    <div class="flex flex-col gap-10 lg:px-16">
+      <div class="flex flex-col gap-4">
+        <h2 class="m-0 text-[2rem] leading-10 font-bold text-neutral-10">
+          {finalTitulo}
+        </h2>
+        <p class="m-0 text-lg leading-7 text-neutral-10">
+          {finalDescripcion}
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-6">
+        <div class="flex flex-col">
+          <div>
+            <div class="flex min-w-max items-center gap-2 mb-1" role="tablist" aria-label={finalTitulo}>
+              {finalTabs.map((tab) => (
+                <Tab
+                  texto={tab.label}
+                  tabId={`${idBase}-tab-${tab.id}`}
+                  panelId={`${idBase}-panel-${tab.id}`}
+                  selected={tab.id === initialTabId}
+                  data-tab-trigger="true"
+                  data-tab-target={tab.id}
+                />
+              ))}
+            </div>
+          </div>
+
+          <Divider tone="primario" />
+        </div>
+
+        {finalTabs.map((tab) => (
+          <div
+            id={`${idBase}-panel-${tab.id}`}
+            role="tabpanel"
+            aria-labelledby={`${idBase}-tab-${tab.id}`}
+            data-tab-panel={tab.id}
+            hidden={tab.id !== initialTabId}
+            class="max-w-[741px]"
+          >
+            <div class="flex flex-col gap-2">
+              {tab.documentos.map((documento, index) => (
+                <div class="flex flex-col gap-2">
+                  <DocumentItem
+                    titulo={documento.titulo}
+                    metadata={documento.metadata}
+                    url={documento.url}
+                  />
+
+                  {index < tab.documentos.length - 1 ? (
+                    <Divider tone="neutral" />
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const initDocumentSections = () => {
+    document.querySelectorAll("[data-documentos]").forEach((section) => {
+      if (!(section instanceof HTMLElement) || section.dataset.bound === "true") {
+        return;
+      }
+
+      section.dataset.bound = "true";
+
+      const tabButtons = Array.from(section.querySelectorAll("[data-tab-trigger='true']"));
+      const tabPanels = Array.from(section.querySelectorAll("[data-tab-panel]"));
+
+      const setActiveTab = (tabId) => {
+        if (!tabId) {
+          return;
+        }
+
+        tabButtons.forEach((button) => {
+          if (!(button instanceof HTMLButtonElement)) {
+            return;
+          }
+
+          const isSelected = button.dataset.tabTarget === tabId;
+          button.dataset.selected = isSelected ? "true" : "false";
+          button.setAttribute("aria-selected", isSelected ? "true" : "false");
+          button.tabIndex = isSelected ? 0 : -1;
+        });
+
+        tabPanels.forEach((panel) => {
+          if (!(panel instanceof HTMLElement)) {
+            return;
+          }
+
+          panel.hidden = panel.dataset.tabPanel !== tabId;
+        });
+      };
+
+      tabButtons.forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        button.addEventListener("click", () => {
+          setActiveTab(button.dataset.tabTarget ?? "");
+        });
+
+        button.addEventListener("keydown", (event) => {
+          const currentIndex = tabButtons.indexOf(button);
+
+          if (currentIndex === -1) {
+            return;
+          }
+
+          let nextIndex = currentIndex;
+
+          if (event.key === "ArrowRight") {
+            nextIndex = (currentIndex + 1) % tabButtons.length;
+          } else if (event.key === "ArrowLeft") {
+            nextIndex = (currentIndex - 1 + tabButtons.length) % tabButtons.length;
+          } else if (event.key === "Home") {
+            nextIndex = 0;
+          } else if (event.key === "End") {
+            nextIndex = tabButtons.length - 1;
+          } else {
+            return;
+          }
+
+          event.preventDefault();
+
+          const nextButton = tabButtons[nextIndex];
+
+          if (!(nextButton instanceof HTMLButtonElement)) {
+            return;
+          }
+
+          setActiveTab(nextButton.dataset.tabTarget ?? "");
+          nextButton.focus();
+        });
+      });
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initDocumentSections, { once: true });
+  } else {
+    initDocumentSections();
+  }
+</script>

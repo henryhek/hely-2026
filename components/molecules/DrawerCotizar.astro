@@ -1,0 +1,87 @@
+---
+/**
+ * Drawer de cotización reutilizable: encapsula el Drawer + FormularioAutosStep.
+ * Se abre desde cualquier trigger con `data-drawer-target="navCotizarDrawer"`
+ * (ej. botón "Cotizar ahora" del Nav, botones "Recibir asesoría" de los planes).
+ */
+
+import Drawer from "@/components/foundation/Drawer.astro";
+import FormularioAutosStep from "@/components/molecules/FormularioAutosStep.astro";
+import Campo from "@/components/molecules/Campo.astro";
+import MensajeFinal from "@/components/molecules/MensajeFinal.astro";
+
+const planes = [
+  { value: "Autos Premium + Cobertura 360", label: "Autos Premium + Cobertura 360" },
+  { value: "Autos Estándar", label: "Autos Estándar" },
+  { value: "Autos Clásico", label: "Autos Clásico" },
+  { value: "Autos Verde", label: "Autos Verde" },
+  { value: "Autos Premium", label: "Autos Premium" },
+  { value: "Autos Ligero", label: "Autos Ligero" },
+];
+
+const tiposDocumento = [
+  { value: "CC", label: "Cédula de ciudadanía" },
+  { value: "CE", label: "Cédula de extranjería" },
+  { value: "NT", label: "Nit" },
+];
+
+const tiposVehiculo = [
+  {
+    value: "Vehículo liviano (automóvil, camionetas, pickups)",
+    label: "Vehículo liviano (automóvil, camionetas, pickups)",
+  },
+  { value: "Vehículo de carga", label: "Vehículo de carga", noAsegurable: true },
+  { value: "Moto", label: "Moto", noAsegurable: true },
+];
+
+const legal = `Acepto la <a href="https://d9b6rardqz97a.cloudfront.net/wp-content/uploads/2024/02/16112906/240213_transv_5335_15Feb24.pdf" target="_blank" rel="noopener noreferrer" class="font-semibold text-link-external underline">Política de Tratamiento de Datos Personales</a> y el <a href="https://www.segurosbolivar.com/politicas-de-privacidad" target="_blank" rel="noopener noreferrer" class="font-semibold text-link-external underline">Tratamiento de mis datos</a>.`;
+---
+
+<Drawer id="navCotizarDrawer" titulo="Solicitar mi cotización ahora">
+  <FormularioAutosStep
+    id="navFormulario"
+    formId="navForm"
+    pasos="2"
+    titulo=""
+    copy="Complete los datos, le contactaremos"
+    legal={legal}
+    class="justify-start! p-0!"
+  >
+    <Fragment slot="paso-1">
+      <Campo tipo="nombreCompleto" label="Nombre completo" placeholder="Ej: Aureliano Buendía" id="nav_full_name" />
+      <Campo tipo="celular" label="Número de celular" placeholder="Ej: 3105559999" id="nav_mobile" />
+      <Campo tipo="email" label="Correo electrónico" placeholder="Ej: juanperez@mail.com" id="nav_email" />
+    </Fragment>
+
+    <Fragment slot="paso-2">
+      <Campo tipo="select" label="Plan a cotizar" placeholder="Seleccione una opción" id="nav_planRef" opciones={planes} />
+      <Campo tipo="select" label="Tipo de documento" placeholder="Seleccione una opción" id="nav_tipoDoc" opciones={tiposDocumento} />
+      <Campo tipo="documento" label="Número de documento" placeholder="Ej: 1032508877" id="nav_numberDoc" />
+      <Campo tipo="select" label="Tipo de Vehículo" placeholder="Seleccione una opción" id="nav_vehicleType" opciones={tiposVehiculo} />
+      <Campo tipo="placa" label="Placa del vehículo" placeholder="Ej: ABC123" id="nav_vehiclePlate" />
+    </Fragment>
+
+    <Fragment slot="ocultos">
+      <input id="nav_Fuente" name="Fuente" type="hidden" />
+      <input id="nav_Campaign" name="Campaign" type="hidden" />
+      <input id="nav_plan" name="plan" type="hidden" data-espejo-de="nav_planRef" />
+      <input id="nav_utm_content" name="utm_content" type="hidden" />
+      <input id="nav_utm_medium" name="utm_medium" type="hidden" />
+    </Fragment>
+
+    <Fragment slot="mensajes">
+      <MensajeFinal
+        id="nav-mensaje-exito"
+        color="exito"
+        titulo="¡Ya tenemos sus datos!"
+        contenido="Un asesor se pondrá en contacto con usted pronto"
+      />
+      <MensajeFinal
+        id="nav-mensaje-alerta"
+        color="alerta"
+        titulo="Por ahora no tenemos una opción de seguro para este tipo de vehículo."
+        contenido="Actualmente nuestras pólizas no aplican para motos ni para vehículos de carga. Gracias por su interés y confianza."
+      />
+    </Fragment>
+  </FormularioAutosStep>
+</Drawer>

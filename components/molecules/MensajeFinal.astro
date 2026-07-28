@@ -1,0 +1,56 @@
+---
+import Icon from "@/components/foundation/Icon.astro";
+
+const temas = {
+  exito: {
+    fondo: "bg-alerta-exito-95",
+    texto: "text-alerta-exito-60",
+    icono: "circle-check",
+  },
+  error: {
+    fondo: "bg-alerta-error-95",
+    texto: "text-alerta-error-50",
+    icono: "circle-xmark",
+  },
+  alerta: {
+    fondo: "bg-alerta-advertencia-95",
+    texto: "text-alerta-advertencia-70",
+    icono: "circle-exclamation",
+  },
+} as const;
+
+interface Props {
+  id: string;
+  color?: keyof typeof temas;
+  icono?: string;
+  titulo: string;
+  contenido?: string;
+  class?: string;
+}
+
+const {
+  id,
+  color = "exito",
+  icono,
+  titulo,
+  contenido,
+  class: className = "",
+} = Astro.props;
+
+const tema = temas[color];
+---
+
+<div
+  id={id}
+  class:list={["hidden w-full flex-col items-center justify-center gap-4 text-center", className]}
+  data-mensaje-final={color}
+  role="status"
+>
+  <div class:list={["inline-flex size-12 items-center justify-center rounded-full p-2 text-2xl", tema.fondo, tema.texto]}>
+    <Icon name={icono ?? tema.icono} />
+  </div>
+
+  <h2 class="text-xl font-bold text-neutral-10">{titulo}</h2>
+
+  {contenido && <p class="text-base leading-snug text-neutral-20" set:html={contenido} />}
+</div>

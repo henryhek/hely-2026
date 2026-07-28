@@ -1,0 +1,399 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import BarraProgreso from "@/components/molecules/BarraProgreso.astro";
+
+interface Props {
+  pasos?: number | string;
+  titulo: string;
+  copy?: string;
+  legal?: string;
+  botonContinuar?: string;
+  botonEnviar?: string;
+  id?: string;
+  formId?: string;
+  class?: string;
+}
+
+const {
+  pasos = 2,
+  titulo,
+  copy,
+  legal,
+  botonContinuar = "Continuar",
+  botonEnviar = "Cotizar",
+  id = "formulario",
+  formId = "form",
+  class: className = "",
+} = Astro.props;
+
+const pasosTotal = Math.max(1, Number(pasos) || 1);
+const listaPasos = Array.from({ length: pasosTotal }, (_, indice) => indice + 1);
+const legalId = `${formId}-legal`;
+---
+
+<aside
+  id={id}
+  class:list={[
+    "flex min-h-[525px] w-full max-w-lg flex-col items-center justify-center rounded-3xl bg-white p-6",
+    className,
+  ]}
+  data-formulario-card
+>
+  <form id={formId} class="flex w-full flex-col gap-6" data-quote-form novalidate>
+    <div class="flex flex-col gap-2">
+      <h2 class="text-lg font-semibold text-neutral-10">{titulo}</h2>
+      {copy && <p class="text-base leading-snug text-neutral-10">{copy}</p>}
+    </div>
+
+    <BarraProgreso />
+
+    {listaPasos.map((paso) => (
+      <div
+        id={`${formId}-step-${paso}`}
+        class:list={["flex-col gap-4", paso === 1 ? "flex" : "hidden"]}
+        data-form-step={paso}
+      >
+        <slot name={`paso-${paso}`} />
+
+        {paso === 1 && legal && (
+          <div class="flex flex-col gap-1">
+            <label
+              class="flex items-start gap-2 px-2 py-1 text-base leading-snug text-neutral-50"
+              for={legalId}
+            >
+              <input
+                id={legalId}
+                name="authorize"
+                type="checkbox"
+                checked
+                value="1"
+                class="mt-0.5 h-[18px] w-[18px] accent-accion-primaria"
+                data-campo-input
+                data-campo="legal"
+                aria-describedby={`error-${legalId}`}
+              />
+              <span set:html={legal} />
+            </label>
+            <span class="hidden px-2 text-xs text-alerta-error-40" id={`error-${legalId}`}>
+              Debe aceptar la política de tratamiento de datos para continuar.
+            </span>
+          </div>
+        )}
+
+        {paso < pasosTotal ? (
+          <Button
+            type="button"
+            tipo="secundario"
+            texto={botonContinuar}
+            disabled
+            className="w-[216px] self-center"
+            data-step-continue
+          />
+        ) : (
+          <Button
+            id={`${formId}-btn_enviar`}
+            type="submit"
+            tipo="secundario"
+            texto={botonEnviar}
+            disabled
+            className="w-[216px] self-center"
+            data-step-submit
+          />
+        )}
+      </div>
+    ))}
+
+    <slot name="ocultos" />
+  </form>
+
+  <slot name="mensajes" />
+</aside>
+
+<script>
+  type CampoElemento = HTMLInputElement | HTMLSelectElement;
+
+  const validadores: Record<string, (campo: CampoElemento) => boolean> = {
+    nombreCompleto: (campo) => {
+      const palabras = campo.value.trim().replace(/\s+/g, " ").split(" ").filter(Boolean);
+      return palabras.length >= 2 && palabras.every((palabra) => palabra.length >= 2);
+    },
+    celular: (campo) => {
+      campo.value = campo.value.replace(/\D/g, "").slice(0, 10);
+      return /^3\d{9}$/.test(campo.value);
+    },
+    email: (campo) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(campo.value.trim()),
+    documento: (campo) => /^\d{5,20}$/.test(campo.value.trim()),
+    placa: (campo) => {
+      const bruto = campo.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+      let letras = "";
+      let numeros = "";
+
+      for (const caracter of bruto) {
+        if (letras.length < 3) {
+          if (/[A-Z]/.test(caracter)) {
+            letras += caracter;
+          }
+          continue;
+        }
+
+        if (numeros.length < 3 && /\d/.test(caracter)) {
+          numeros += caracter;
+        }
+      }
+
+      campo.value = `${letras}${numeros}`;
+      return /^[A-Z]{3}\d{3}$/.test(campo.value);
+    },
+    select: (campo) => campo.value.trim() !== "",
+    texto: (campo) => campo.value.trim() !== "",
+    legal: (campo) => (campo as HTMLInputElement).checked,
+  };
+
+  const CLASES_BOTON_DESHABILITADO = [
+    "bg-boton-disabled-fondo",
+    "text-boton-disabled-contenido",
+    "pointer-events-none",
+  ];
+  const CLASES_BOTON_HABILITADO = [
+    "bg-boton-secundario-default",
+    "text-boton-secundario-contenido",
+    "hover:bg-boton-secundario-hover",
+    "active:bg-boton-secundario-pressed",
+  ];
+
+  const initFormulariosStep = () => {
+    document.querySelectorAll<HTMLFormElement>("[data-quote-form]").forEach((form) => {
+      if (form.dataset.bound === "true") {
+        return;
+      }
+
+      form.dataset.bound = "true";
+
+      const pasos = [...form.querySelectorAll<HTMLElement>("[data-form-step]")].sort(
+        (a, b) => Number(a.dataset.formStep) - Number(b.dataset.formStep),
+      );
+      const relleno = form.querySelector<HTMLElement>("[data-form-progress-fill]");
+      const contenedor = form.parentElement;
+      const tocados = new WeakSet<Element>();
+
+      if (pasos.length === 0) {
+        return;
+      }
+
+      const camposDe = (paso: HTMLElement) => [
+        ...paso.querySelectorAll<CampoElemento>("[data-campo-input]"),
+      ];
+
+      // Los inputs ocultos con data-espejo-de="<id>" replican el valor de ese campo.
+      const sincronizarEspejos = (campo: CampoElemento) => {
+        form
+          .querySelectorAll<HTMLInputElement>(`[data-espejo-de="${campo.id}"]`)
+          .forEach((espejo) => {
+            espejo.value = campo.value;
+          });
+      };
+
+      const validarCampo = (campo: CampoElemento, mostrarError: boolean) => {
+        const tipo = campo.dataset.campo ?? "texto";
+        const esValido = (validadores[tipo] ?? validadores.texto)(campo);
+
+        sincronizarEspejos(campo);
+
+        if (mostrarError) {
+          const error = document.getElementById(`error-${campo.id}`);
+          error?.classList.toggle("hidden", esValido);
+
+          if (campo.type !== "checkbox") {
+            campo.classList.toggle("campo-invalido", !esValido);
+          }
+
+          campo.setAttribute("aria-invalid", esValido ? "false" : "true");
+        }
+
+        return esValido;
+      };
+
+      const pasoValido = (paso: HTMLElement) =>
+        camposDe(paso)
+          .map((campo) => validarCampo(campo, tocados.has(campo)))
+          .every(Boolean);
+
+      const pasoIniciado = (paso: HTMLElement) =>
+        camposDe(paso).some((campo) => campo.type !== "checkbox" && campo.value.trim() !== "");
+
+      const indiceVisible = () =>
+        Math.max(
+          0,
+          pasos.findIndex((paso) => !paso.classList.contains("hidden")),
+        );
+
+      const botonDe = (paso: HTMLElement) =>
+        paso.querySelector<HTMLButtonElement>("[data-step-continue], [data-step-submit]");
+
+      const setEstadoBoton = (boton: HTMLButtonElement | null, habilitado: boolean) => {
+        if (!boton) {
+          return;
+        }
+
+        boton.disabled = !habilitado;
+        CLASES_BOTON_DESHABILITADO.forEach((clase) => boton.classList.toggle(clase, !habilitado));
+        CLASES_BOTON_HABILITADO.forEach((clase) => boton.classList.toggle(clase, habilitado));
+      };
+
+      // El progreso se reparte en segmentos iguales según la cantidad de pasos:
+      // paso iniciado suma medio segmento, paso completo suma el segmento entero.
+      const actualizarProgreso = () => {
+        if (!relleno) {
+          return;
+        }
+
+        const segmento = 100 / pasos.length;
+        const indice = indiceVisible();
+        const actual = pasos[indice];
+        const avance = pasoValido(actual) ? 1 : pasoIniciado(actual) ? 0.5 : 0;
+
+        relleno.style.width = `${Math.min(100, (indice + avance) * segmento)}%`;
+      };
+
+      const refrescar = () => {
+        const actual = pasos[indiceVisible()];
+        setEstadoBoton(botonDe(actual), pasoValido(actual));
+        actualizarProgreso();
+      };
+
+      const irAlPaso = (indice: number) => {
+        pasos.forEach((paso, i) => {
+          paso.classList.toggle("hidden", i !== indice);
+          paso.classList.toggle("flex", i === indice);
+        });
+
+        refrescar();
+        camposDe(pasos[indice])[0]?.focus();
+      };
+
+      const mostrarMensaje = () => {
+        const noAsegurable = Boolean(form.querySelector("option:checked[data-no-asegurable]"));
+        const mensajes = contenedor
+          ? [...contenedor.querySelectorAll<HTMLElement>("[data-mensaje-final]")]
+          : [];
+        const objetivo =
+          (noAsegurable && mensajes.find((mensaje) => mensaje.dataset.mensajeFinal === "alerta")) ||
+          mensajes.find((mensaje) => mensaje.dataset.mensajeFinal === "exito") ||
+          mensajes[0];
+
+        if (!objetivo) {
+          return;
+        }
+
+        form.classList.add("hidden");
+        objetivo.classList.remove("hidden");
+        objetivo.classList.add("flex");
+      };
+
+      pasos.forEach((paso, indice) => {
+        camposDe(paso).forEach((campo) => {
+          const eventoCambio =
+            campo instanceof HTMLSelectElement || campo.type === "checkbox" ? "change" : "input";
+
+          campo.addEventListener("blur", () => {
+            tocados.add(campo);
+            refrescar();
+          });
+
+          campo.addEventListener(eventoCambio, () => {
+            if (campo.type === "checkbox") {
+              tocados.add(campo);
+            }
+
+            refrescar();
+          });
+        });
+
+        const boton = botonDe(paso);
+
+        if (boton?.hasAttribute("data-step-continue")) {
+          boton.addEventListener("click", () => {
+            if (!pasoValido(paso)) {
+              camposDe(paso).forEach((campo) => tocados.add(campo));
+              pasoValido(paso);
+              refrescar();
+              return;
+            }
+
+            irAlPaso(indice + 1);
+          });
+        }
+      });
+
+      form.addEventListener("submit", (evento) => {
+        evento.preventDefault();
+
+        const actual = pasos[indiceVisible()];
+        camposDe(actual).forEach((campo) => tocados.add(campo));
+
+        if (!pasoValido(actual)) {
+          refrescar();
+          return;
+        }
+
+        if (relleno) {
+          relleno.style.width = "100%";
+        }
+
+        form.dispatchEvent(
+          new CustomEvent("formulario:enviado", {
+            bubbles: true,
+            detail: { datos: new FormData(form) },
+          }),
+        );
+
+        mostrarMensaje();
+      });
+
+      refrescar();
+    });
+
+    // Los CTA con data-plan-select (ej. cards de planes) sincronizan el select
+    // del formulario que tenga una opción con ese valor y hacen scroll al form.
+    const marcador = document.body;
+
+    if (marcador.dataset.planSelectBound !== "true") {
+      marcador.dataset.planSelectBound = "true";
+
+      document.addEventListener("click", (evento) => {
+        const objetivo = evento.target instanceof Element ? evento.target : null;
+        const boton = objetivo?.closest("[data-plan-select]");
+
+        if (!boton) {
+          return;
+        }
+
+        const planSeleccionado = boton.getAttribute("data-plan-select") ?? "";
+
+        document.querySelectorAll<HTMLFormElement>("[data-quote-form]").forEach((form) => {
+          const select = [...form.querySelectorAll<HTMLSelectElement>("select[data-campo-input]")].find(
+            (elemento) => [...elemento.options].some((opcion) => opcion.value === planSeleccionado),
+          );
+
+          if (!select) {
+            return;
+          }
+
+          select.value = planSeleccionado;
+          select.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+
+        document.querySelector("[data-formulario-card]")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFormulariosStep, { once: true });
+  } else {
+    initFormulariosStep();
+  }
+</script>

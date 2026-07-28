@@ -1,0 +1,39 @@
+{
+  "titulo": "¿Tiene dudas? ¡Nosotros respondemos!",
+  "descripcion": "",
+  "faqs": [
+    {
+      "pregunta": "¿Qué cubre exactamente este seguro para mi negocio?",
+      "respuesta": "Este respaldo cubre los daños que sufran tus bienes (edificio, mercancía, maquinaria, muebles y equipo electrónico) por incendio, explosión, fenómenos naturales, rotura de tuberías o vidrios y actos vandálicos. \n\nTambién te cubre si te roban con o sin violencia, si un empleado te roba, y si tu empresa le causa un daño a un tercero o a un cliente, incluyendo los gastos de defensa legal. \n\nSi tienes contratada la cobertura de movilización, tus mercancías y tu dinero también quedan protegidos cuando salen de tu local. Todo depende del plan y las coberturas que hayas contratado, tal como quedan indicadas en la carátula de tu póliza."
+    },
+    {
+      "pregunta": "¿Cómo funciona el apoyo económico si me veo obligado a cerrar unos días?",
+      "respuesta": "Si por culpa de un daño grave en tu negocio tus ventas se detienen, la protección te brinda un alivio económico mensual para que no pierdas tus ganancias. Recibirás un dinero extra equivalente a un porcentaje del valor de tus bienes afectados por cada mes que pases sin poder operar, hasta por un máximo de tres meses consecutivos. De esta manera, tienes un colchón financiero mientras dejas tu negocio a punto otra vez."
+    },
+    {
+      "pregunta": "¿Qué cosas no están cubiertas en el contrato?",
+      "respuesta": "Este seguro no cubre el desgaste normal de tus equipos, daños por falta de mantenimiento preventivo, faltantes de inventario o desaparición de bienes, ni daños causados con dolo o mala fe tuya, de tus socios o empleados. \n\nTampoco cubre bienes como joyas, dinero en tránsito no asegurado, celulares, vehículos propios (salvo los amparos específicos), ni pérdidas por guerra, actos nucleares o pérdida de clientela y de mercado. Si algo de esto te preocupa, nuestro equipo te ayuda a revisar qué coberturas adicionales podrías necesitar."
+    },
+    {
+      "pregunta": "¿Qué debo hacer si ocurre una emergencia o un robo en mis instalaciones?",
+      "respuesta": "Lo primero es mantener la calma y avisarnos sobre lo sucedido. Una persona de nuestro equipo  te ayudará a reportar el caso de forma rápida y sin trabas. Si fue un robo, debes poner la denuncia correspondiente ante las autoridades. Tu único compromiso es conservar las partes dañadas y no hacer arreglos definitivos ni modificaciones por tu cuenta sin autorización, a menos que sea estrictamente urgente para que la estructura no sufra más daños."
+    },
+    {
+      "pregunta": "¿Qué papeles me van a pedir si tengo que reportar un imprevisto?",
+      "respuesta": "Tienes hasta tres días hábiles para avisarnos lo que pasó. Para reportar el caso, puedes presentar documentos como fotos del daño, facturas o cotizaciones de reposición y, si hubo robo, la denuncia ante las autoridades. Si hace falta algo más, te lo pediremos según tu caso. ."
+    },
+    {
+      "pregunta": "¿Hay alguna razón por la que podría perder el derecho al respaldo económico?",
+      "respuesta": "Sí, y te lo decimos de frente para que te cuides. No te pagarán si tu reclamación es fraudulenta o engañosa, si usas documentos falsos para sustentarla, o si al reportar el siniestro ocultas que tienes otros seguros vigentes sobre los mismos bienes. Tampoco se cubre si renuncias a tus derechos contra el tercero responsable del daño sin nuestra autorización previa."
+    },
+    {
+      "pregunta": "¿Qué compromisos tengo yo como dueño para que la protección sea totalmente válida?",
+      "respuesta": "Asumes la tarea de mantener tu local en buen estado físico y avisarnos por escrito si cambias de dirección o si las condiciones de tu negocio cambian significativamente con 10 días de antelación. \n\nAdemás, te comprometes a realizar revisiones y mantenimientos preventivos regulares a tus máquinas y equipos electrónicos de la mano de técnicos expertos, siguiendo las recomendaciones del fabricante. Cumpliendo con cuidar tu negocio tal como lo haces a diario, tu patrimonio está blindado de principio a fin."
+    }
+  ],
+  "cta": {
+    "titulo": "Tienes alguna otra en mente",
+    "botonTexto": "Ir al centro de ayuda",
+    "url": "#"
+  }
+}

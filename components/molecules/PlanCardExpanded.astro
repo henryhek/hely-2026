@@ -1,0 +1,148 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import Icon from "@/components/foundation/Icon.astro";
+import Tag from "@/components/atoms/Tag.astro";
+import PlanFeatureItem from "@/components/molecules/PlanFeatureItem.astro";
+
+interface ButtonAction {
+  texto: string;
+  id?: string;
+  url?: string;
+  target?: string;
+  rel?: string;
+  drawerTarget?: string;
+  scrollTo?: string;
+}
+
+interface DisclosureAction {
+  texto: string;
+  id?: string;
+  url?: string;
+  target?: string;
+  rel?: string;
+}
+
+interface FeatureItem {
+  texto: string;
+  resaltado?: boolean;
+  mostrarAccion?: boolean;
+  accionLabel?: string;
+  accionId?: string;
+  drawerTarget?: string;
+}
+
+interface Props {
+  titulo: string;
+  precioLabel: string;
+  precio: string;
+  beneficio: string;
+  destacado?: boolean;
+  tagTexto?: string;
+  tagIcono?: string;
+  botonPrincipal?: ButtonAction;
+  disclosure?: DisclosureAction;
+  bullets?: FeatureItem[];
+  className?: string;
+}
+
+const {
+  titulo,
+  precioLabel,
+  precio,
+  beneficio,
+  destacado = false,
+  tagTexto,
+  tagIcono,
+  botonPrincipal,
+  disclosure,
+  bullets = [],
+  className = "",
+} = Astro.props;
+
+const topContainerClasses = destacado ? "bg-accion-primaria" : "bg-neutral-100";
+const topTitleClasses = destacado ? "text-en-primaria" : "text-neutral-10";
+const topTextClasses = destacado ? "text-en-primaria" : "text-neutral-20";
+---
+
+<article class:list={["flex h-full min-h-[44.6875rem] flex-col rounded-3xl", className]}>
+  <div class:list={["rounded-t-3xl p-6", topContainerClasses]}>
+    <div class="flex flex-col gap-6">
+      <div class="flex min-h-[12.3125rem] flex-col justify-end gap-4">
+        {tagTexto ? (
+          <Tag
+            texto={tagTexto}
+            icono={tagIcono}
+            tono="informativo"
+          />
+        ) : null}
+
+        <div class="flex flex-col gap-2">
+          <h3 class:list={["m-0 text-2xl leading-[1.4] font-bold", topTitleClasses]}>
+            {titulo}
+          </h3>
+
+          <div class="flex flex-col">
+            <p class:list={["m-0 text-base leading-6", topTextClasses]}>
+              {precioLabel}
+            </p>
+            <p class:list={["m-0 text-4xl leading-[1.2] font-bold", topTextClasses]}>
+              {precio}
+            </p>
+            <p class:list={["m-0 text-base leading-6", topTextClasses]}>
+              {beneficio}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {botonPrincipal ? (
+        <Button
+          texto={botonPrincipal.texto}
+          tipo="secundario"
+          tamano="lg"
+          id={botonPrincipal.id}
+          url={botonPrincipal.url}
+          target={botonPrincipal.target}
+          rel={botonPrincipal.rel}
+          data-drawer-target={botonPrincipal.drawerTarget}
+          data-scroll-to={botonPrincipal.scrollTo}
+          fullWidth={true}
+        />
+      ) : null}
+    </div>
+  </div>
+
+  <div class="flex flex-1 flex-col justify-between rounded-b-3xl bg-neutral-100 px-6 pt-6 pb-8">
+    <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-2">
+        {bullets.map((bullet, index) => (
+          <PlanFeatureItem
+            texto={bullet.texto}
+            resaltado={bullet.resaltado}
+            mostrarAccion={bullet.mostrarAccion}
+            accionLabel={bullet.accionLabel}
+            accionId={bullet.accionId}
+            drawerTarget={bullet.drawerTarget}
+            mostrarDivisor={index < bullets.length - 1}
+          />
+        ))}
+      </div>
+    </div>
+
+    {disclosure ? (
+      <a
+        id={disclosure.id}
+        href={disclosure.url}
+        target={disclosure.target ?? "_blank"}
+        rel={disclosure.rel ?? "noopener noreferrer"}
+        aria-label={disclosure.texto}
+        class="interactive-focus-ring mt-6 inline-flex w-full items-start justify-between gap-2 rounded-2xl bg-boton-terciario-default px-4 py-4 text-left text-neutral-10 transition-colors duration-200 ease-out hover:bg-neutral-95 active:bg-boton-terciario-pressed"
+      >
+        <span class="text-base leading-6 font-normal">{disclosure.texto}</span>
+        <span class="inline-flex h-6 w-6 shrink-0 items-center justify-center text-boton-terciario-contenido">
+          <Icon name="chevron-right" variant="regular" size="base" className="leading-none" />
+        </span>
+      </a>
+    ) : null}
+  </div>
+</article>

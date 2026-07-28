@@ -1,0 +1,95 @@
+---
+import Card from "@/components/molecules/Card.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface BenefitRecord {
+  icono: string;
+  titulo: string;
+  copy: string;
+}
+
+interface SectionContent {
+  titulo: string;
+  beneficios: BenefitRecord[];
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  titulo?: string;
+  beneficios?: BenefitRecord[];
+}
+
+const defaultBeneficios: BenefitRecord[] = [
+  {
+    icono: "message-dots",
+    titulo: "Respuesta oportuna",
+    copy: "Si tiene un accidente o un imprevisto, reciba atencion rapida y acompanamiento en todo momento.",
+  },
+  {
+    icono: "headset",
+    titulo: "Asistencia 24/7",
+    copy: "Grua, cerrajeria o carro taller cuando lo necesite, sin importar la hora o el lugar.",
+  },
+  {
+    icono: "mobile-screen-button",
+    titulo: "Gestion de su seguro",
+    copy: "Gestione solicitudes, haga seguimiento y reciba ayuda directamente desde la App de Seguros Bolivar o WhatsApp.",
+  },
+];
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-white",
+  titulo,
+  beneficios,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "Beneficios de este seguro",
+  beneficios: defaultBeneficios,
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalBeneficios = beneficios ?? sectionContent.beneficios;
+
+const highlightPhrase = "sin letra chiquita";
+const hasHighlight = finalTitulo.toLowerCase().includes(highlightPhrase);
+const tituloBefore = hasHighlight ? finalTitulo.replace(new RegExp(highlightPhrase, 'i'), '').trim() : finalTitulo;
+const tituloHighlight = hasHighlight ? finalTitulo.match(new RegExp(highlightPhrase, 'i'))?.[0] ?? highlightPhrase : "";
+---
+
+<section id={id} class:list={["w-full py-10 md:py-10 xl:py-16", fondo, className]}>
+  <div class="shell text-wrap lg:px-10! xl:px-[72px]!">
+    <div class="flex flex-col gap-10">
+      <div class="flex items-center justify-between gap-4 !text-wrap">
+        <h2 class="m-0 text-2xl leading-8 font-bold text-neutral-10 md:text-[2rem] md:leading-10">
+          {tituloBefore}
+          {tituloHighlight && (
+            <span class="text-accion-primaria"> {tituloHighlight}</span>
+          )}
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        {finalBeneficios.map((beneficio) => (
+          <Card
+            tipo="icono"
+            estilo="outlined"
+            icono={beneficio.icono}
+            iconoVariant="regular"
+            titulo={beneficio.titulo}
+            copy={beneficio.copy}
+            className="min-h-0 rounded-3xl"
+            infoContainerClassName="gap-4"
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

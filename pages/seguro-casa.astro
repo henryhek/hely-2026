@@ -1,0 +1,31 @@
+---
+import Nav from "@/components/atoms/Nav.astro";
+import Breadcrumb from "@/components/atoms/Breadcrumb.astro";
+import Footer from "@/components/atoms/Footer.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import MenuAncla from "@/components/sections/MenuAncla.astro";
+import Asistencias from "@/components/sections/Asistencias.astro";
+import Banner from "@/components/sections/Banner.astro";
+import BannerHero from "@/components/sections/BannerHero.astro";
+import Beneficios from "@/components/sections/Beneficios.astro";
+import VentaCruzada from "@/components/sections/VentaCruzada.astro";
+import PreguntasFrecuentes from "@/components/sections/PreguntasFrecuentes.astro";
+
+---
+
+<BaseLayout title="Seguro para Casa">
+    <Nav ctaScrollTo="#cotizar" />
+
+    <main class="flex flex-col">
+        <Breadcrumb crumbs={['home', 'productos', 'seguro-casa']} bgColor="bg-white" />
+        <BannerHero id="bannerHero" data="casa/bannerHero.json" fondo="bg-primario-60" showButton={true} />
+        <MenuAncla data="casa/menuAncla.json" fondo="bg-transparent" />
+        <Beneficios id="beneficios" data="casa/beneficios.json" fondo="bg-white" />
+        <Banner data="casa/banner.json" fondo="bg-primario-50" ctaScrollTo="#cotizar" />
+        <Asistencias id="asistencias" data="casa/asistencias.json" fondo="bg-neutra-95" />
+        <PreguntasFrecuentes id="preguntas" data="casa/preguntasFrecuentes.json" fondo="bg-white" />
+        <VentaCruzada id="otros-productos" data="casa/ventaCruzada.json" fondo="bg-neutral-95" />
+    </main>
+
+    <Footer class="py-8"/>
+</BaseLayout>

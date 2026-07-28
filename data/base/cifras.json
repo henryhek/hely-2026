@@ -1,0 +1,19 @@
+{
+  "titulo": "Los gastos de un accidente pueden arruinar su mes",
+  "tarjetas": [
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/97b933f4-ef61-4e3b-9c24-536c545470c5.jpg",
+      "imageAlt": "Carros circulando por una calle de la ciudad.",
+      "cifra": "88%",
+      "texto": "de los carros en la calle circula sin seguro. <strong>No dejes que el bolsillo de otro defina el futuro de tu patrimonio.</strong>",
+      "posicionBurbuja": "arriba"
+    },
+    {
+      "imageSrc": "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/6d6fa99a-a5ec-4f9f-aae1-24b88490c6d4.jpg",
+      "imageAlt": "Mecanico reparando un carro en el taller.",
+      "cifra": "Hasta 34,7%",
+      "texto": "del valor de tu vehículo cuesta reparar un choque simple. <strong>Equivale a casi un tercio de lo que vale tu auto.</strong>",
+      "posicionBurbuja": "abajo"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+---
+const toneClasses = {
+  primario: "bg-primario-50",
+  neutral: "bg-neutral-80",
+} as const;
+
+interface Props {
+  tone?: keyof typeof toneClasses;
+  className?: string;
+}
+
+const {
+  tone = "neutral",
+  className = "",
+} = Astro.props;
+
+const dividerClasses = [
+  "h-px w-full rounded-full",
+  toneClasses[tone],
+  className,
+].join(" ");
+---
+
+<div class={dividerClasses} aria-hidden="true"></div>

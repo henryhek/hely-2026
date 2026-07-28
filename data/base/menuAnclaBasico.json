@@ -1,0 +1,35 @@
+{
+  "etiqueta": "Menú de secciones",
+  "items": [
+    {
+      "id": "planes",
+      "label": "Planes",
+      "icono": "shield",
+      "href": "#planes"
+    },
+    {
+      "id": "asistencias",
+      "label": "Asistencias",
+      "icono": "circle-check",
+      "href": "#asistencias"
+    },
+    {
+      "id": "beneficios",
+      "label": "Beneficios",
+      "icono": "heart",
+      "href": "#beneficios"
+    },
+    {
+      "id": "contacto",
+      "label": "Contacto",
+      "icono": "circle-phone",
+      "href": "#contacto"
+    },
+    {
+      "id": "mas-productos",
+      "label": "Más productos",
+      "icono": "badge-dollar",
+      "href": "#mas-productos"
+    }
+  ]
+}

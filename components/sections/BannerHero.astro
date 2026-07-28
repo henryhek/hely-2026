@@ -1,0 +1,123 @@
+---
+import Button from "@/components/atoms/Button.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface SectionContent {
+  titulo: string;
+  tituloDestacado?: string;
+  colorDestacado?: string;
+  copy: string;
+  buttonText: string;
+  buttonId: string;
+  imageSrc: string;
+  imageAlt: string;
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  titulo?: string;
+  tituloDestacado?: string;
+  colorDestacado?: string;
+  copy?: string;
+  buttonText?: string;
+  buttonId?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  /**
+   * Acción del botón, definida por la página:
+   * - `ctaScrollTo`: ancla a la que hace scroll (ej. "#cotizar") cuando el
+   *   formulario ya vive en la misma página.
+   * - `ctaDrawer`: id del drawer que abre (default "navCotizarDrawer").
+   *   `ctaScrollTo` tiene prioridad.
+   */
+  ctaScrollTo?: string;
+  ctaDrawer?: string;
+  showButton?: boolean;
+}
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-primario-50",
+  titulo,
+  tituloDestacado,
+  colorDestacado,
+  copy,
+  buttonText,
+  buttonId,
+  imageSrc,
+  imageAlt,
+  ctaScrollTo,
+  ctaDrawer = "navCotizarDrawer",
+  showButton = true,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "¿Listo para estar protegido?",
+  tituloDestacado: "",
+  colorDestacado: "text-amarillo-400",
+  copy: "Cotice hoy mismo y acceda a talleres, gruas y asistencias viales en Colombia.",
+  buttonText: "Cotizar ahora",
+  buttonId: "bannerCotizarAhoraButton",
+  imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/b03342e5-c24b-454c-90e8-2d7722d51da0.jpg",
+  imageAlt: "Pareja viajando en carro por carretera de montana.",
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalTituloDestacado = tituloDestacado ?? sectionContent.tituloDestacado ?? "";
+const finalColorDestacado = colorDestacado ?? sectionContent.colorDestacado ?? "text-amarillo-400";
+const finalCopy = copy ?? sectionContent.copy;
+const finalButtonText = buttonText ?? sectionContent.buttonText;
+const finalButtonId = buttonId ?? sectionContent.buttonId;
+const finalImageSrc = imageSrc ?? sectionContent.imageSrc;
+const finalImageAlt = imageAlt ?? sectionContent.imageAlt;
+---
+
+<section id={id} class:list={["w-full pt-10 pb-10", fondo, className]}>
+  <div class="container mx-auto max-w-6xl px-4">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,32rem)] lg:items-center">
+      <div class="max-w-2xl">
+        <div class="p-4 px-8 w-fit rounded-xl bg-primario-50 mb-8">
+          <h1 class="text-4xl text-wrap md:text-5xl font-bold text-white mb-6 leading-[1.1]">
+            {finalTitulo}
+            {finalTituloDestacado && (
+              <>
+                <br />
+                <span class:list={[finalColorDestacado]}>{finalTituloDestacado}</span>
+              </>
+            )}
+          </h1>
+          <p class="!text-white text-lg text-wrap leading-relaxed max-w-lg font-light">
+            {finalCopy}
+          </p>
+        </div>
+
+        {showButton && (
+          <button
+            id={finalButtonId}
+            type="button"
+            class="bg-white text-[#E85D25] font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition duration-300 shadow-sm"
+            data-scroll-to={ctaScrollTo}
+            data-drawer-target={ctaScrollTo ? undefined : ctaDrawer}
+          >
+            {finalButtonText}
+          </button>
+        )}
+      </div>
+
+      <div class="overflow-hidden rounded-2xl">
+        <img
+          src={finalImageSrc}
+          alt={finalImageAlt}
+          class="h-64 w-full object-cover md:h-72 lg:h-full lg:min-h-[20rem]"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>

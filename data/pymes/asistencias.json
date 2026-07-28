@@ -1,0 +1,23 @@
+{
+  "titulo": "Asistencias incluidas",
+  "asistencias": [
+    {
+      "imageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1376' height='768'><rect width='100%' height='100%' fill='%23d1d5db'/><rect x='630' y='336' width='117' height='96' rx='10' fill='none' stroke='%239ca3af' stroke-width='7'/><circle cx='660' cy='367' r='10' fill='%239ca3af'/><path d='M636 425 L678 384 L705 408 L722 394 L740 425 Z' fill='%239ca3af'/></svg>",
+      "imageAlt": "Soluciones de plomería y electricidad",
+      "titulo": "Soluciones de plomería y electricidad",
+      "copy": "Si ocurre un cortocircuito, una falla eléctrica o una filtración de agua que ponga en riesgo tu operación, un técnico va directo a tu local las 24 horas para solucionarlo."
+    },
+    {
+      "imageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1376' height='768'><rect width='100%' height='100%' fill='%23d1d5db'/><rect x='630' y='336' width='117' height='96' rx='10' fill='none' stroke='%239ca3af' stroke-width='7'/><circle cx='660' cy='367' r='10' fill='%239ca3af'/><path d='M636 425 L678 384 L705 408 L722 394 L740 425 Z' fill='%239ca3af'/></svg>",
+       "imageAlt": "Cerrajería comercial de emergencia",
+      "titulo": "Cerrajería comercial de emergencia",
+      "copy": "Si se pierden las llaves del negocio, dañan las cerraduras principales tras un intento de robo o quedan adentro, un experto resolverá el ingreso a cualquier hora."
+    },
+    {
+      "imageSrc": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1376' height='768'><rect width='100%' height='100%' fill='%23d1d5db'/><rect x='630' y='336' width='117' height='96' rx='10' fill='none' stroke='%239ca3af' stroke-width='7'/><circle cx='660' cy='367' r='10' fill='%239ca3af'/><path d='M636 425 L678 384 L705 408 L722 394 L740 425 Z' fill='%239ca3af'/></svg>",
+      "imageAlt": "Cambio rápido de vidrios rotos",
+      "titulo": "Cambio rápido de vidrios rotos",
+      "copy": "Si se rompe un vidrio de la fachada, ventanas o puertas de acceso de tu local, gestionamos su reemplazo inmediato para mantener las instalaciones seguras."
+    }
+  ]
+}

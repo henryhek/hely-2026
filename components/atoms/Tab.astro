@@ -1,0 +1,39 @@
+---
+interface Props {
+  texto: string;
+  tabId: string;
+  panelId: string;
+  selected?: boolean;
+  className?: string;
+}
+
+const {
+  texto,
+  tabId,
+  panelId,
+  selected = false,
+  className = "",
+  ...rest
+} = Astro.props;
+
+const buttonClasses = [
+  "interactive-focus-ring inline-flex min-h-10 items-center justify-center rounded-lg px-4 py-2 font-bolivar text-base leading-6 whitespace-nowrap outline-none transition-colors duration-200 ease-out",
+  "data-[selected=true]:bg-accion-secundaria data-[selected=true]:text-en-secundaria",
+  "data-[selected=false]:bg-transparent data-[selected=false]:text-neutral-10 data-[selected=false]:hover:bg-neutral-95",
+  className,
+].join(" ");
+---
+
+<button
+  id={tabId}
+  type="button"
+  role="tab"
+  aria-selected={selected ? "true" : "false"}
+  aria-controls={panelId}
+  data-selected={selected ? "true" : "false"}
+  tabindex={selected ? "0" : "-1"}
+  class={buttonClasses}
+  {...rest}
+>
+  {texto}
+</button>

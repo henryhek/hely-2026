@@ -1,0 +1,35 @@
+{
+  "titulo": "¿Tiene dudas? ¡Nosotros respondemos!",
+  "descripcion": "",
+  "faqs": [
+    {
+      "pregunta": "¿Cómo elijo el seguro correcto para mí?",
+      "respuesta": "Solo debes elegir la categoría que más se acerque a lo que quieres proteger y dejarnos tus datos. A partir de ahí, una persona de nuestro equipo te ayudará a comparar coberturas y planes según tu situación."
+    },
+    {
+      "pregunta": "¿Cuánto tiempo me tomará comprar un seguro?",
+      "respuesta": "Desde que dejas tus datos hasta que un asesor te contacta, suele pasar menos de un día hábil. El tiempo de la contratación depende del producto: algunos se activan casi de inmediato, otros (como salud o vida) pueden requerir una breve evaluación antes de emitir tu póliza."
+    },
+    {
+      "pregunta": "¿Necesito pagar algo para poder hablar con un asesor?",
+      "respuesta": "No. Dejar tus datos y hablar con nuestro equipo no tiene ningún costo. Solo pagas cuando decides contratar y activar tu póliza."
+    },
+    {
+      "pregunta": "¿Puedo comparar varios seguros antes de decidirme?",
+      "respuesta": "Sí, y te lo recomendamos. Puedes explorar cuantos productos quieras en nuestra web y tu asesor asignado te ayudará a comparar coberturas y precios para que tomes la decisión con toda la información y sin presión."
+    },
+    {
+      "pregunta": "¿Qué hago si tengo un siniestro o una emergencia?",
+      "respuesta": "Si se trata de una asistencia o un servicio urgente, como una grúa o un técnico, te atenderá directamente la aseguradora que respalda tu póliza, las 24 horas. Si necesitas apoyo con una reclamación o quieres que alguien haga seguimiento por ti, cuéntanos tu caso y una persona de nuestro equipo te acompañará durante el proceso."
+    },
+    {
+      "pregunta": "¿Qué pasa después de que compro mi seguro?",
+      "respuesta": "Recibirás tu póliza y todos los documentos correspondientes por los canales que autorices. Tu asesor sigue siendo tu punto de contacto: si más adelante quieres ajustar coberturas, agregar un producto o resolver una duda, no tienes que empezar de cero con alguien nuevo."
+    }
+  ],
+  "cta": {
+    "titulo": "Tienes alguna otra en mente",
+    "botonTexto": "Ir al centro de ayuda",
+    "url": "#"
+  }
+}

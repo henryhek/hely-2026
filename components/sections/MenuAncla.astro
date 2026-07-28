@@ -1,0 +1,487 @@
+---
+import Icon from "@/components/foundation/Icon.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface MenuAnclaItem {
+  id: string;
+  label: string;
+  icono: string;
+  href?: string;
+}
+
+interface SectionContent {
+  etiqueta: string;
+  items: MenuAnclaItem[];
+}
+
+const defaultItems: MenuAnclaItem[] = [
+  { id: "planes", label: "Planes", icono: "shield", href: "#planes" },
+  { id: "asistencias", label: "Asistencias", icono: "circle-check", href: "#asistencias" },
+  { id: "beneficios", label: "Beneficios", icono: "heart", href: "#beneficios" },
+  { id: "contacto", label: "Contacto", icono: "circle-phone", href: "#contacto" },
+  { id: "mas-productos", label: "Más productos", icono: "badge-dollar", href: "#mas-productos" },
+  { id: "preguntas", label: "Preguntas", icono: "circle-question", href: "#preguntas" },
+];
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  idBase?: string;
+  etiqueta?: string;
+  items?: MenuAnclaItem[];
+}
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-white",
+  idBase = "menuAnclaSection",
+  etiqueta,
+  items,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  etiqueta: "Menú de secciones",
+  items: defaultItems,
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalEtiqueta = etiqueta ?? sectionContent.etiqueta;
+const finalItems = items ?? sectionContent.items;
+
+const itemClasses = [
+  "interactive-focus-ring relative z-10 flex shrink-0 items-center justify-center gap-2 rounded-full p-4 font-bolivar text-base leading-6 font-normal whitespace-nowrap outline-none transition-colors duration-200 ease-out",
+  "data-[selected=true]:text-en-secundaria",
+  "data-[selected=false]:text-neutral-10",
+].join(" ");
+
+const arrowClasses = [
+  "interactive-focus-ring absolute top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-accion-secundaria p-2 text-en-secundaria outline-none transition-colors duration-200 ease-out hover:bg-hover-secundaria",
+].join(" ");
+---
+
+<nav
+  id={id}
+  class:list={["fixed top-24 left-0 right-0 z-40 w-full py-2 transition-all duration-300 ease-out opacity-0 pointer-events-none -translate-y-4", fondo, className]}
+  aria-label={finalEtiqueta}
+  data-menu-ancla={idBase}
+>
+  <div class="shell lg:px-16">
+    <div class="relative w-full rounded-full border border-neutral-80 bg-white/90 backdrop-blur-sm px-6 py-4">
+      <div
+        data-menu-scroll
+        class="relative flex w-full items-center justify-between gap-2 overflow-x-auto rounded-full [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <span
+          data-menu-pill
+          aria-hidden="true"
+          class="absolute top-0 left-0 h-full w-0 rounded-full bg-accion-secundaria transition-[transform,width] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,width] motion-reduce:transition-none"
+        ></span>
+
+        {finalItems.map((item, index) => (
+          <button
+            type="button"
+            id={`${idBase}-item-${item.id}`}
+            class={itemClasses}
+            data-menu-item="true"
+            data-menu-index={index}
+            data-menu-href={item.href}
+            data-selected={index === 0 ? "true" : "false"}
+            aria-current={index === 0 ? "location" : "false"}
+          >
+            <Icon name={item.icono} className="text-[20px] leading-5" />
+            <span>{item.label}</span>
+          </button>
+        ))}
+      </div>
+
+      <div
+        data-menu-fade-prev
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-y-0 left-0 z-[15] w-44 rounded-l-full bg-gradient-to-r from-white from-25% via-white/70 to-transparent"
+        hidden
+      ></div>
+
+      <div
+        data-menu-fade-next
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-y-0 right-0 z-[15] w-44 rounded-r-full bg-gradient-to-l from-white from-25% via-white/70 to-transparent"
+        hidden
+      ></div>
+
+      <button
+        type="button"
+        class:list={[arrowClasses, "left-6"]}
+        data-menu-prev="true"
+        aria-label="Desplazar menú hacia la izquierda"
+        hidden
+      >
+        <Icon name="chevron-left" className="text-base leading-4" />
+      </button>
+
+      <button
+        type="button"
+        class:list={[arrowClasses, "right-6"]}
+        data-menu-next="true"
+        aria-label="Desplazar menú hacia la derecha"
+        hidden
+      >
+        <Icon name="chevron-right" className="text-base leading-4" />
+      </button>
+    </div>
+  </div>
+</nav>
+
+<script is:inline>
+  const initMenuAnclaSections = () => {
+    document.querySelectorAll("[data-menu-ancla]").forEach((menu) => {
+      if (!(menu instanceof HTMLElement) || menu.dataset.bound === "true") {
+        return;
+      }
+
+      menu.dataset.bound = "true";
+
+      const scroller = menu.querySelector("[data-menu-scroll]");
+      const pill = menu.querySelector("[data-menu-pill]");
+      const prevButton = menu.querySelector("[data-menu-prev='true']");
+      const nextButton = menu.querySelector("[data-menu-next='true']");
+      const prevFade = menu.querySelector("[data-menu-fade-prev]");
+      const nextFade = menu.querySelector("[data-menu-fade-next]");
+      const menuItems = Array.from(menu.querySelectorAll("[data-menu-item='true']"));
+
+      if (!(scroller instanceof HTMLElement) || menuItems.length === 0) {
+        return;
+      }
+
+      let activeIndex = 0;
+      let scrollAnimation = null;
+      let pageScrollAnimation = null;
+      let spySuppressed = false;
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const animateScroll = (target) => {
+        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+        const destination = Math.max(0, Math.min(target, maxScroll));
+
+        if (scrollAnimation !== null) {
+          cancelAnimationFrame(scrollAnimation);
+          scrollAnimation = null;
+        }
+
+        if (prefersReducedMotion.matches) {
+          scroller.scrollLeft = destination;
+          return;
+        }
+
+        const start = scroller.scrollLeft;
+        const distance = destination - start;
+
+        if (Math.abs(distance) < 1) {
+          return;
+        }
+
+        const duration = 500;
+        let startTime = null;
+
+        const step = (now) => {
+          if (startTime === null) {
+            startTime = now;
+          }
+
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 4);
+          scroller.scrollLeft = start + distance * eased;
+
+          if (progress < 1) {
+            scrollAnimation = requestAnimationFrame(step);
+          } else {
+            scrollAnimation = null;
+          }
+        };
+
+        scrollAnimation = requestAnimationFrame(step);
+      };
+
+      // Anima el scroll de la página con rAF: Safari no respeta una duración
+      // razonable con behavior "smooth" y el resultado se ve brusco.
+      const cancelPageScroll = () => {
+        if (pageScrollAnimation !== null) {
+          cancelAnimationFrame(pageScrollAnimation);
+          pageScrollAnimation = null;
+          document.documentElement.style.scrollBehavior = "";
+        }
+      };
+
+      const animatePageScroll = (destination, onDone) => {
+        cancelPageScroll();
+
+        const start = window.scrollY;
+        const distance = destination - start;
+
+        if (Math.abs(distance) < 1) {
+          onDone();
+          return;
+        }
+
+        // Duración proporcional a la distancia, acotada para que recorridos
+        // largos no se sientan eternos ni los cortos instantáneos.
+        const duration = Math.min(1200, Math.max(500, Math.abs(distance) * 0.5));
+        let startTime = null;
+
+        // El scroll-smooth global de CSS re-suavizaría cada frame; se apaga
+        // mientras dura la animación propia.
+        document.documentElement.style.scrollBehavior = "auto";
+
+        const step = (now) => {
+          if (startTime === null) {
+            startTime = now;
+          }
+
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 4);
+          window.scrollTo(0, start + distance * eased);
+
+          if (progress < 1) {
+            pageScrollAnimation = requestAnimationFrame(step);
+          } else {
+            pageScrollAnimation = null;
+            document.documentElement.style.scrollBehavior = "";
+            onDone();
+          }
+        };
+
+        pageScrollAnimation = requestAnimationFrame(step);
+      };
+
+      const scrollToSection = (button) => {
+        const href = button.dataset.menuHref;
+
+        if (!href || href.charAt(0) !== "#" || href.length < 2) {
+          return;
+        }
+
+        const target = document.getElementById(href.slice(1));
+
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+
+        const offset = menu.getBoundingClientRect().height;
+        const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+
+        // El spy queda suprimido durante todo el desplazamiento programático:
+        // el pill ya está en la sección elegida y no debe brincar por las
+        // secciones intermedias que va cruzando el scroll.
+        spySuppressed = true;
+
+        if (prefersReducedMotion.matches) {
+          document.documentElement.style.scrollBehavior = "auto";
+          window.scrollTo(0, top);
+          document.documentElement.style.scrollBehavior = "";
+          requestAnimationFrame(() => {
+            spySuppressed = false;
+          });
+          return;
+        }
+
+        animatePageScroll(top, () => {
+          spySuppressed = false;
+        });
+      };
+
+      // Si el usuario interrumpe (rueda, gesto táctil), devuelve el control
+      // al scroll-spy de inmediato.
+      const interruptPageScroll = () => {
+        if (pageScrollAnimation !== null) {
+          cancelPageScroll();
+          spySuppressed = false;
+        }
+      };
+
+      window.addEventListener("wheel", interruptPageScroll, { passive: true });
+      window.addEventListener("touchstart", interruptPageScroll, { passive: true });
+
+      const movePill = (animate) => {
+        const button = menuItems[activeIndex];
+
+        if (!(pill instanceof HTMLElement) || !(button instanceof HTMLElement)) {
+          return;
+        }
+
+        if (!animate) {
+          pill.style.transitionDuration = "0s";
+        }
+
+        pill.style.width = `${button.offsetWidth}px`;
+        pill.style.transform = `translateX(${button.offsetLeft}px)`;
+
+        if (!animate) {
+          void pill.offsetWidth;
+          pill.style.transitionDuration = "";
+        }
+      };
+
+      const updateArrows = () => {
+        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+        const hidePrev = scroller.scrollLeft <= 1;
+        const hideNext = scroller.scrollLeft >= maxScroll - 1;
+
+        [prevButton, prevFade].forEach((element) => {
+          if (element instanceof HTMLElement) {
+            element.hidden = hidePrev;
+          }
+        });
+
+        [nextButton, nextFade].forEach((element) => {
+          if (element instanceof HTMLElement) {
+            element.hidden = hideNext;
+          }
+        });
+      };
+
+      const setActiveItem = (index, animate = true) => {
+        activeIndex = Math.max(0, Math.min(index, menuItems.length - 1));
+
+        menuItems.forEach((item) => {
+          if (!(item instanceof HTMLElement)) {
+            return;
+          }
+
+          const isSelected = Number(item.dataset.menuIndex) === activeIndex;
+          item.dataset.selected = isSelected ? "true" : "false";
+          item.setAttribute("aria-current", isSelected ? "location" : "false");
+        });
+
+        movePill(animate);
+
+        const activeButton = menuItems[activeIndex];
+
+        if (activeButton instanceof HTMLElement) {
+          const itemStart = activeButton.offsetLeft;
+          const itemEnd = itemStart + activeButton.offsetWidth;
+          let target = null;
+
+          if (itemStart < scroller.scrollLeft) {
+            target = itemStart;
+          } else if (itemEnd > scroller.scrollLeft + scroller.clientWidth) {
+            target = itemEnd - scroller.clientWidth;
+          }
+
+          if (target !== null) {
+            if (animate) {
+              animateScroll(target);
+            } else {
+              scroller.scrollLeft = target;
+            }
+          }
+        }
+      };
+
+      menuItems.forEach((button) => {
+        button.addEventListener("click", () => {
+          setActiveItem(Number(button.dataset.menuIndex));
+          scrollToSection(button);
+        });
+      });
+
+      if (prevButton instanceof HTMLElement) {
+        prevButton.addEventListener("click", () => {
+          animateScroll(scroller.scrollLeft - scroller.clientWidth);
+        });
+      }
+
+      if (nextButton instanceof HTMLElement) {
+        nextButton.addEventListener("click", () => {
+          animateScroll(scroller.scrollLeft + scroller.clientWidth);
+        });
+      }
+
+      scroller.addEventListener("scroll", updateArrows, { passive: true });
+
+      window.addEventListener("resize", () => {
+        movePill(false);
+        updateArrows();
+      });
+
+      // Scroll-spy: resalta el item de la sección visible al hacer scroll.
+      const sectionTargets = menuItems
+        .map((button) => {
+          const href = button.dataset.menuHref;
+          const targetId = href && href.charAt(0) === "#" && href.length > 1 ? href.slice(1) : null;
+          const element = targetId ? document.getElementById(targetId) : null;
+          return element instanceof HTMLElement
+            ? { index: Number(button.dataset.menuIndex), element }
+            : null;
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.element.offsetTop - b.element.offsetTop);
+
+      if (sectionTargets.length > 0) {
+        let spyScheduled = false;
+
+        const syncActiveFromScroll = () => {
+          spyScheduled = false;
+
+          // Lógica de visibilidad: mostrar/ocultar menú basado en scroll a primera sección
+          const firstSectionTop = sectionTargets[0].element.getBoundingClientRect().top;
+          const triggerPoint = 150;
+
+          if (firstSectionTop <= triggerPoint) {
+            menu.classList.remove("opacity-0", "pointer-events-none", "-translate-y-4");
+            menu.classList.add("opacity-100", "pointer-events-auto", "translate-y-0");
+          } else {
+            menu.classList.add("opacity-0", "pointer-events-none", "-translate-y-4");
+            menu.classList.remove("opacity-100", "pointer-events-auto", "translate-y-0");
+          }
+
+          if (spySuppressed) {
+            return;
+          }
+
+          const offset = menu.getBoundingClientRect().height + 8;
+          let current = sectionTargets[0].index;
+
+          for (const target of sectionTargets) {
+            if (target.element.getBoundingClientRect().top - offset <= 0) {
+              current = target.index;
+            }
+          }
+
+          if (current !== activeIndex) {
+            setActiveItem(current);
+          }
+        };
+
+        const onScrollSpy = () => {
+          if (!spyScheduled) {
+            spyScheduled = true;
+            requestAnimationFrame(syncActiveFromScroll);
+          }
+        };
+
+        window.addEventListener("scroll", onScrollSpy, { passive: true });
+        syncActiveFromScroll();
+      }
+
+      setActiveItem(0, false);
+      updateArrows();
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          movePill(false);
+          updateArrows();
+        });
+      }
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMenuAnclaSections, { once: true });
+  } else {
+    initMenuAnclaSections();
+  }
+</script>

@@ -1,0 +1,171 @@
+---
+import Icon from "@/components/foundation/Icon.astro";
+
+const tipoStyles = {
+  primario: {
+    base: "bg-boton-primario-default text-boton-primario-contenido",
+    hover: "hover:bg-boton-primario-hover",
+    pressed: "active:bg-boton-primario-pressed",
+    focus: "",
+    forced: {
+      default: "bg-boton-primario-default text-boton-primario-contenido",
+      hover: "bg-boton-primario-hover text-boton-primario-contenido",
+      pressed: "bg-boton-primario-pressed text-boton-primario-contenido",
+      focus: "bg-boton-primario-default text-boton-primario-contenido interactive-focus-ring-forced",
+    },
+  },
+  secundario: {
+    base: "bg-boton-secundario-default text-boton-secundario-contenido",
+    hover: "hover:bg-boton-secundario-hover",
+    pressed: "active:bg-boton-secundario-pressed",
+    focus: "",
+    forced: {
+      default: "bg-boton-secundario-default text-boton-secundario-contenido",
+      hover: "bg-boton-secundario-hover text-boton-secundario-contenido",
+      pressed: "bg-boton-secundario-pressed text-boton-secundario-contenido",
+      focus: "bg-boton-secundario-default text-boton-secundario-contenido interactive-focus-ring-forced",
+    },
+  },
+  terciario: {
+    base: "bg-boton-terciario-default text-boton-terciario-contenido",
+    hover: "hover:bg-boton-terciario-hover",
+    pressed: "active:bg-boton-terciario-pressed",
+    focus: "",
+    forced: {
+      default: "bg-boton-terciario-default text-boton-terciario-contenido",
+      hover: "bg-boton-terciario-hover text-boton-terciario-contenido",
+      pressed: "bg-boton-terciario-pressed text-boton-terciario-contenido",
+      focus: "bg-boton-terciario-default text-boton-terciario-contenido interactive-focus-ring-forced",
+    },
+  },
+  outlined: {
+    base: "border-2 border-boton-outlined-borde bg-boton-outlined-default text-boton-outlined-contenido",
+    hover: "hover:bg-boton-outlined-hover",
+    pressed: "active:bg-boton-outlined-pressed",
+    focus: "",
+    forced: {
+      default: "border-2 border-boton-outlined-borde bg-boton-outlined-default text-boton-outlined-contenido",
+      hover: "border-2 border-boton-outlined-borde bg-boton-outlined-hover text-boton-outlined-contenido",
+      pressed: "border-2 border-boton-outlined-borde bg-boton-outlined-pressed text-boton-outlined-contenido",
+      focus: "border-2 border-boton-outlined-borde bg-boton-outlined-default text-boton-outlined-contenido interactive-focus-ring-forced",
+    },
+  },
+} as const;
+
+const disabledStyles = {
+  primario: "bg-boton-disabled-fondo text-boton-disabled-contenido pointer-events-none",
+  secundario: "bg-boton-disabled-fondo text-boton-disabled-contenido pointer-events-none",
+  terciario: "bg-boton-disabled-fondo text-boton-disabled-contenido pointer-events-none",
+  outlined: "border-2 border-boton-disabled-borde bg-boton-disabled-fondo text-boton-disabled-contenido pointer-events-none",
+} as const;
+
+const tamanoStyles = {
+  sm: {
+    button: "h-8 gap-1 px-4 text-sm leading-5",
+    iconContainer: "h-4 w-4",
+    icon: "xs",
+  },
+  md: {
+    button: "h-10 gap-2 px-4 text-base leading-6",
+    iconContainer: "h-5 w-5",
+    icon: "base",
+  },
+  lg: {
+    button: "h-14 gap-2 px-6 text-xl leading-7",
+    iconContainer: "h-6 w-6",
+    icon: "xl",
+  },
+} as const;
+
+type Tipo = keyof typeof tipoStyles;
+type Tamano = keyof typeof tamanoStyles;
+type Estado = "default" | "hover" | "pressed" | "focus" | "disabled";
+
+interface Props {
+  texto: string;
+  tipo?: Tipo;
+  tamano?: Tamano;
+  icono?: string;
+  estado?: Estado;
+  disabled?: boolean;
+  id?: string;
+  type?: "button" | "submit" | "reset";
+  className?: string;
+  fullWidth?: boolean;
+  url?: string;
+  target?: string;
+  rel?: string;
+}
+
+const {
+  texto,
+  tipo = "primario",
+  tamano = "md",
+  icono,
+  estado = "default",
+  disabled = false,
+  type = "button",
+  className = "",
+  fullWidth = false,
+  url,
+  target,
+  rel,
+  ...rest
+} = Astro.props;
+
+const isDisabled = disabled || estado === "disabled";
+const showIcon = Boolean(icono);
+const tamanoActual = tamanoStyles[tamano];
+const tipoActual = tipoStyles[tipo];
+const defaultStateClasses = [
+  tipoActual.base,
+  tipoActual.hover,
+  tipoActual.pressed,
+  tipoActual.focus,
+].join(" ");
+const stateClasses = isDisabled
+  ? disabledStyles[tipo]
+  : estado === "default"
+    ? defaultStateClasses
+    : tipoActual.forced[estado];
+const commonClasses = [
+  "interactive-focus-ring inline-flex items-center justify-center rounded-full text-center align-middle font-bolivar font-bold whitespace-nowrap select-none outline-none transition-colors duration-200 ease-out",
+  tamanoActual.button,
+  fullWidth ? "w-full" : "w-auto",
+  className,
+  stateClasses,
+].join(" ");
+---
+
+{url ? (
+  <a
+    href={url}
+    target={target ?? "_blank"}
+    rel={rel ?? "noopener noreferrer"}
+    aria-label={texto}
+    class={commonClasses}
+    {...rest}
+  >
+    {showIcon && icono ? (
+      <span class:list={["inline-flex shrink-0 items-center justify-center leading-none", tamanoActual.iconContainer]}>
+        <Icon name={icono} size={tamanoActual.icon} className="leading-none" />
+      </span>
+    ) : null}
+    <span>{texto}</span>
+  </a>
+) : (
+  <button
+    type={type}
+    disabled={isDisabled}
+    aria-label={texto}
+    class={commonClasses}
+    {...rest}
+  >
+    {showIcon && icono ? (
+      <span class:list={["inline-flex shrink-0 items-center justify-center leading-none", tamanoActual.iconContainer]}>
+        <Icon name={icono} size={tamanoActual.icon} className="leading-none" />
+      </span>
+    ) : null}
+    <span>{texto}</span>
+  </button>
+)}

@@ -1,0 +1,120 @@
+---
+import Icon from "@/components/foundation/Icon.astro";
+
+interface Props {
+  target: string;
+  class?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+}
+
+const {
+  target,
+  class: className = "",
+  prevLabel = "Ver elemento anterior",
+  nextLabel = "Ver siguiente elemento",
+} = Astro.props;
+
+const arrowClasses = [
+  "interactive-focus-ring flex size-10 shrink-0 items-center justify-center rounded-full p-2 outline-none transition-colors duration-200 ease-out",
+  "bg-accion-secundaria text-en-secundaria hover:bg-hover-secundaria",
+  "disabled:pointer-events-none disabled:bg-neutral-95 disabled:text-neutral-60",
+].join(" ");
+---
+
+<div
+  class:list={["flex items-center gap-4", className]}
+  data-carousel-controls={target}
+  hidden
+>
+  <button
+    type="button"
+    class={arrowClasses}
+    data-carousel-prev="true"
+    aria-label={prevLabel}
+    disabled
+  >
+    <Icon name="chevron-left" className="text-base leading-4" />
+  </button>
+
+  <button
+    type="button"
+    class={arrowClasses}
+    data-carousel-next="true"
+    aria-label={nextLabel}
+  >
+    <Icon name="chevron-right" className="text-base leading-4" />
+  </button>
+</div>
+
+<script>
+  const initCarouselControls = () => {
+    document.querySelectorAll("[data-carousel-controls]").forEach((controls) => {
+      if (!(controls instanceof HTMLElement) || controls.dataset.bound === "true") {
+        return;
+      }
+
+      const target = controls.dataset.carouselControls ?? "";
+      const scroller = document.querySelector(`[data-carousel-scroll="${target}"]`);
+      const prevButton = controls.querySelector("[data-carousel-prev='true']");
+      const nextButton = controls.querySelector("[data-carousel-next='true']");
+
+      if (
+        !(scroller instanceof HTMLElement) ||
+        !(prevButton instanceof HTMLButtonElement) ||
+        !(nextButton instanceof HTMLButtonElement)
+      ) {
+        return;
+      }
+
+      controls.dataset.bound = "true";
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const step = () => {
+        const first = scroller.children[0];
+        const second = scroller.children[1];
+
+        if (first instanceof HTMLElement && second instanceof HTMLElement) {
+          return second.offsetLeft - first.offsetLeft;
+        }
+
+        return first instanceof HTMLElement ? first.offsetWidth : scroller.clientWidth;
+      };
+
+      const scrollByStep = (direction: number) => {
+        scroller.scrollBy({
+          left: direction * step(),
+          behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+        });
+      };
+
+      const updateControls = () => {
+        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+        const hasNavigation = maxScroll > 4;
+
+        controls.hidden = !hasNavigation;
+        prevButton.disabled = !hasNavigation || scroller.scrollLeft <= 1;
+        nextButton.disabled = !hasNavigation || scroller.scrollLeft >= maxScroll - 1;
+      };
+
+      prevButton.addEventListener("click", () => {
+        scrollByStep(-1);
+      });
+
+      nextButton.addEventListener("click", () => {
+        scrollByStep(1);
+      });
+
+      scroller.addEventListener("scroll", updateControls, { passive: true });
+      window.addEventListener("resize", updateControls);
+      updateControls();
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCarouselControls, { once: true });
+  } else {
+    initCarouselControls();
+  }
+</script>

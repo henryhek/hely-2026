@@ -1,0 +1,126 @@
+---
+import Card from "@/components/molecules/Card.astro";
+import CarouselControls from "@/components/molecules/CarouselControls.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface CardAction {
+  texto: string;
+  icono?: string;
+  tipo?: "primario" | "secundario" | "outlined";
+  tamano?: "sm" | "md" | "lg";
+  id?: string;
+  disabled?: boolean;
+  url?: string;
+  target?: string;
+  rel?: string;
+}
+
+interface CardRecord {
+  imageSrc: string;
+  imageAlt: string;
+  titulo: string;
+  copy: string;
+  botonPrincipal?: CardAction;
+  botonSecundario?: CardAction;
+}
+
+interface SectionContent {
+  titulo: string;
+  cards: CardRecord[];
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  idBase?: string;
+  titulo?: string;
+  cards?: CardRecord[];
+}
+
+const defaultCards: CardRecord[] = [
+  {
+    imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/82d1da26-55e3-4023-8dff-0a7c0d8b53b5.jpg",
+    imageAlt: "Casa asegurada con protección de seguros.",
+    titulo: "Mi Casa",
+    copy: "Recibe tu dinero cada mes, así tu inquilino deje de pagar.",
+  },
+  {
+    imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/be04eed1-2644-472d-9151-d2e792371433.jpg",
+    imageAlt: "Propiedades en arriendo con protección asegurada.",
+    titulo: "Mi Carro",
+    copy: "¿Tienes una propiedad en arriendo? Te cubrimos si tu inquilino no paga.",
+  },
+  {
+    imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/f8cc4ab0-ebf7-455e-902b-bd952e265aea.jpg",
+    imageAlt: "Familia cuidando su salud con asistencia médica.",
+    titulo: "Mi Salud",
+    copy: "Cuidamos tu salud, tu bienestar y a quienes más amas, en todo momento.",
+  }
+];
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-white",
+  idBase = "ventaCruzadaSection",
+  titulo,
+  cards,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "¿Qué más quiere asegurar hoy?",
+  cards: defaultCards,
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalCards = cards ?? sectionContent.cards;
+---
+
+<section id={id} class:list={["venta-cruzada w-full py-10 md:py-10 xl:py-16", fondo, className]}>
+  <div class="shell lg:px-10! xl:px-[72px]! mb-10">
+    <div class="flex flex-col gap-8 md:gap-10">
+      <div class="flex items-end justify-between gap-4">
+        <h2 class="m-0 max-w-[18ch] text-2xl leading-8 font-bold text-neutral-10 md:max-w-none md:text-[2rem] md:leading-10">
+          {finalTitulo}
+        </h2>
+
+        <CarouselControls
+          target={idBase}
+          prevLabel="Ver card anterior"
+          nextLabel="Ver siguiente card"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="shell lg:px-10! xl:px-[72px]!">
+    <div
+      class="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-6 px-6 md:-mx-4 md:scroll-px-4 md:px-4 lg:-mx-10 lg:scroll-px-10 lg:px-10 xl:-mx-[72px] xl:scroll-px-[72px] xl:px-[72px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      data-carousel-scroll={idBase}
+    >
+      {finalCards.map((card) => (
+        <div
+          class="min-w-0 shrink-0 basis-full w-auto snap-start sm:max-w-[340px] lg:max-w-none lg:basis-[calc((100%-2rem)/3)]"
+        >
+          <Card
+            tipo="imagen"
+            estilo="outlined"
+            imageSrc={card.imageSrc}
+            imageAlt={card.imageAlt}
+            titulo={card.titulo}
+            copy={card.copy}
+            botonPrincipal={card.botonPrincipal ?? { texto: `Proteger ${card.titulo.toLowerCase()}`, tipo: "primario" }}
+            botonSecundario={card.botonSecundario ?? { texto: "Conocer más" }}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+

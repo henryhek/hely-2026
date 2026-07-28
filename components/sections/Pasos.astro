@@ -1,0 +1,99 @@
+---
+import Card from "@/components/molecules/Card.astro";
+import { resolveSectionData } from "@/data/resolveSectionData";
+
+interface StepRecord {
+  icono: string;
+  titulo: string;
+  copy: string;
+}
+
+interface SectionContent {
+  titulo: string;
+  copy: string;
+  pasos: StepRecord[];
+}
+
+interface Props {
+  class?: string;
+  id?: string;
+  data?: string;
+  fondo?: string;
+  titulo?: string;
+  copy?: string;
+  pasos?: StepRecord[];
+}
+
+const defaultPasos: StepRecord[] = [
+  {
+    icono: "1",
+    titulo: "Complete sus datos",
+    copy: "Ingrese sus datos para que nos podamos comunicar con usted.",
+  },
+  {
+    icono: "2",
+    titulo: "Nos ponemos en contacto",
+    copy: "Un asesor se pondra en contacto con usted en menos de 10 minutos.",
+  },
+  {
+    icono: "3",
+    titulo: "Compare y elija",
+    copy: "Conozca la oferta que mejor se adapta a usted y cotice su seguro.",
+  },
+];
+
+const {
+  class: className = "",
+  id,
+  data: dataPath,
+  fondo = "bg-white",
+  titulo,
+  copy,
+  pasos,
+} = Astro.props;
+
+const defaultContent: SectionContent = {
+  titulo: "Asi empieza a proteger su carro",
+  copy: "Cotice en minutos y encuentre el seguro que mejor se adapta a su uso y presupuesto.",
+  pasos: defaultPasos,
+};
+
+const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
+const finalTitulo = titulo ?? sectionContent.titulo;
+const finalCopy = copy ?? sectionContent.copy;
+const finalPasos = pasos ?? sectionContent.pasos;
+---
+
+<section id={id} class:list={["w-full py-10 md:py-10 xl:py-16", fondo, className]}>
+  <div class="shell lg:px-10! xl:px-[72px]!">
+    <div class="flex flex-col gap-10">
+      <div class="flex max-w-[44rem] flex-col gap-2">
+        <h2 class="m-0 text-2xl leading-8 font-bold text-neutral-10 md:text-[2rem] md:leading-10">
+          {finalTitulo}
+        </h2>
+        <p class="m-0 text-lg leading-7 font-normal text-neutral-10">
+          {finalCopy}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {finalPasos.map((paso) => (
+          <Card
+            tipo="icono"
+            estilo="outlined"
+            icono={paso.icono}
+            iconoVariant="solid"
+            titulo={paso.titulo}
+            copy={paso.copy}
+            className="min-h-0 rounded-2xl bg-neutral-95/60!"
+            titleClassName="text-2xl leading-8 font-bold text-neutral-10"
+            copyClassName="text-base leading-6 font-normal text-neutral-10"
+            iconContainerClassName="bg-accion-primaria"
+            iconInnerClassName="text-white"
+            infoContainerClassName="gap-4"
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,68 @@
+{
+  "titulo": "Elija la proteccion ideal para su carro",
+  "planes": [
+    {
+      "titulo": "Premium + Cobertura 360",
+      "precioLabel": "Ano sin IVA desde:",
+      "precio": "$2,927,392",
+      "beneficio": "Carro de reemplazo extendido.",
+      "botonPrincipalTexto": "Recibir Asesoria",
+      "botonPrincipalId": "planPremium360Button",
+      "botonSecundarioTexto": "Consultar coberturas",
+      "botonSecundarioId": "planPremium360CoberturasButton"
+    },
+    {
+      "titulo": "Premium",
+      "precioLabel": "Ano sin IVA desde:",
+      "precio": "$2,843,625",
+      "beneficio": "Carro de reemplazo extendido.",
+      "destacado": true,
+      "tagTexto": "Recomendado",
+      "tagIcono": "star",
+      "botonPrincipalTexto": "Recibir Asesoria",
+      "botonPrincipalId": "planPremiumButton",
+      "botonSecundarioTexto": "Consultar coberturas",
+      "botonSecundarioId": "planPremiumCoberturasButton"
+    },
+    {
+      "titulo": "Proteccion Plus",
+      "precioLabel": "Ano sin IVA desde:",
+      "precio": "$1,482,298",
+      "beneficio": "Carro de reemplazo extendido.",
+      "botonPrincipalTexto": "Recibir Asesoria",
+      "botonPrincipalId": "planProteccionPlusButton",
+      "botonSecundarioTexto": "Consultar coberturas",
+      "botonSecundarioId": "planProteccionPlusCoberturasButton"
+    },
+    {
+      "titulo": "Cobertura Total",
+      "precioLabel": "Ano sin IVA desde:",
+      "precio": "$2,156,840",
+      "beneficio": "Asistencia vial prioritaria.",
+      "botonPrincipalTexto": "Recibir Asesoria",
+      "botonPrincipalId": "planCoberturaTotalButton",
+      "botonSecundarioTexto": "Consultar coberturas",
+      "botonSecundarioId": "planCoberturaTotalCoberturasButton"
+    },
+    {
+      "titulo": "Proteccion Clasica",
+      "precioLabel": "Ano sin IVA desde:",
+      "precio": "$1,968,420",
+      "beneficio": "Cobertura para danos y asistencia.",
+      "botonPrincipalTexto": "Recibir Asesoria",
+      "botonPrincipalId": "planProteccionClasicaButton",
+      "botonSecundarioTexto": "Consultar coberturas",
+      "botonSecundarioId": "planProteccionClasicaCoberturasButton"
+    },
+    {
+      "titulo": "Esencial",
+      "precioLabel": "Ano sin IVA desde:",
+      "precio": "$1,294,300",
+      "beneficio": "Proteccion base para su carro.",
+      "botonPrincipalTexto": "Recibir Asesoria",
+      "botonPrincipalId": "planEsencialButton",
+      "botonSecundarioTexto": "Consultar coberturas",
+      "botonSecundarioId": "planEsencialCoberturasButton"
+    }
+  ]
+}

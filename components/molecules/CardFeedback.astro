@@ -1,0 +1,46 @@
+---
+interface Props {
+  cita: string;
+  nombre: string;
+  cargo: string;
+  avatar: string;
+  avatarAlt?: string;
+  class?: string;
+}
+
+const {
+  cita,
+  nombre,
+  cargo,
+  avatar,
+  avatarAlt,
+  class: className = "",
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    "flex w-full flex-col gap-6 rounded-2xl border border-neutral-80 bg-white p-6",
+    className,
+  ]}
+>
+  <p class="w-full font-bolivar text-base leading-6 font-normal text-neutral-10">
+    {cita}
+  </p>
+
+  <div class="flex w-full items-center gap-4">
+    <img
+      src={avatar}
+      alt={avatarAlt ?? `Foto de ${nombre}`}
+      width="48"
+      height="48"
+      loading="lazy"
+      class="size-12 shrink-0 rounded-full object-cover"
+    />
+
+    <div class="flex min-w-px flex-1 flex-col gap-0.5 text-neutral-10">
+      <p class="w-full font-bolivar text-2xl leading-8 font-bold">{nombre}</p>
+      <p class="w-full font-bolivar text-base leading-6 font-normal">{cargo}</p>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,23 @@
+---
+/**
+ * Drawer con la historia de cliente (prueba social). Se abre desde cualquier
+ * trigger con `data-drawer-target="historiaDrawer"`.
+ */
+
+import Drawer from "@/components/foundation/Drawer.astro";
+
+const parrafos = [
+  `Carlos viajaba frecuentemente con su familia entre ciudades. Un martes, fue impactado por otro vehículo que no respetó una señal de alto. El daño fue considerable: parachoques, radiador y suspensión dañados.`,
+  `En un taller certificado, las reparaciones costaban <strong>más de $50 millones de pesos</strong>. Carlos llamó al <a href="tel:%23322" class="font-semibold text-link-external underline">#322</a> desde el sitio del accidente. <strong>En 15 minutos, una grúa lo trasladó a un taller de confianza.</strong>`,
+  `Su seguro cubrió el <strong>100% de los gastos</strong> sin que pagara un peso. Mientras reparaban su auto, recibió un vehículo de reemplazo. En 8 días todo estaba listo.`,
+  `<em class="text-xl font-semibold text-accion-primaria">"No se trata de si algo malo ocurre en la vía, sino de estar protegido cuando suceda,"</em> dice Carlos.`,
+];
+---
+
+<Drawer id="historiaDrawer" titulo="La historia de Carlos">
+  <div class="flex flex-col gap-4 text-balance">
+    {parrafos.map((parrafo) => (
+      <p class="m-0 text-base leading-7 text-neutral-10 font-light" set:html={parrafo} />
+    ))}
+  </div>
+</Drawer>

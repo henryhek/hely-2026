@@ -1,0 +1,16 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={["h-2 w-full overflow-hidden rounded-full bg-primario-95", className]}
+  aria-hidden="true"
+>
+  <span
+    class="block h-full w-0 rounded-full bg-accion-primaria transition-all duration-300 ease-in-out"
+    data-form-progress-fill></span>
+</div>

@@ -1,0 +1,34 @@
+---
+import Nav from "@/components/atoms/Nav.astro";
+import Breadcrumb from "@/components/atoms/Breadcrumb.astro";
+import Footer from "@/components/atoms/Footer.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import MenuAncla from "@/components/sections/MenuAncla.astro";
+import Asistencias from "@/components/sections/Asistencias.astro";
+import Banner from "@/components/sections/Banner.astro";
+import BannerHero from "@/components/sections/BannerHero.astro";
+import Beneficios from "@/components/sections/Beneficios.astro";
+import VentaCruzada from "@/components/sections/VentaCruzada.astro";
+import PreguntasFrecuentes from "@/components/sections/PreguntasFrecuentes.astro";
+import DrawerCotizar from "@/components/molecules/DrawerCotizar.astro";
+
+---
+
+<BaseLayout title="Seguro para Autos">
+    <Nav />
+
+    <main class="flex flex-col">
+        <Breadcrumb crumbs={['home', 'productos', 'seguro-autos']} bgColor="bg-white" />
+        <BannerHero id="bannerHero" data="autos/bannerHero.json" fondo="bg-primario-60" showButton={true} />
+        <MenuAncla data="autos/menuAncla.json" fondo="bg-transparent" />
+        <Beneficios id="beneficios" data="autos/beneficios.json" fondo="bg-white" />
+        <Banner data="autos/banner.json" fondo="bg-primario-50" ctaScrollTo="#cotizar" />
+        <Asistencias id="asistencias" data="autos/asistencias.json" fondo="bg-neutra-95" />
+        <PreguntasFrecuentes id="preguntas" data="autos/preguntasFrecuentes.json" fondo="bg-white" />
+        <VentaCruzada id="otros-productos" data="autos/ventaCruzada.json" fondo="bg-neutral-95" />
+    </main>
+
+    <Footer class="py-8"/>
+
+    <DrawerCotizar />
+</BaseLayout>
