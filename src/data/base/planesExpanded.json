@@ -1,0 +1,86 @@
+{
+  "titulo": "Elija la proteccion ideal para su carro",
+  "planes": [
+    {
+      "titulo": "Premium + Cobertura 360",
+      "precioLabel": "Ano sin IVA desde:",
+      "precio": "$2,927,392",
+      "beneficio": "Carro de reemplazo extendido.",
+      "botonPrincipalTexto": "Recibir Asesoria",
+      "botonPrincipalId": "planExpandedPremium360Button",
+      "disclosureTexto": "Consultar todas las coberturas",
+      "disclosureId": "planExpandedPremium360DisclosureButton",
+      "bullets": [
+        {
+          "texto": "Cubrimos danos a otras personas."
+        },
+        {
+          "texto": "Dano y hurto total o parcial del carro."
+        },
+        {
+          "texto": "Protegemos sus recorridos en bici, patineta o transporte publico."
+        },
+        {
+          "texto": "Deducible desde 0% - 0,8 SMMLV.",
+          "resaltado": true,
+          "mostrarAccion": true,
+          "accionId": "planExpandedPremium360FeatureButton"
+        }
+      ]
+    },
+    {
+      "titulo": "Premium",
+      "precioLabel": "Ano sin IVA desde:",
+      "precio": "$2,843,625",
+      "beneficio": "Carro de reemplazo extendido.",
+      "destacado": true,
+      "tagTexto": "Recomendado",
+      "tagIcono": "star",
+      "botonPrincipalTexto": "Recibir Asesoria",
+      "botonPrincipalId": "planExpandedPremiumButton",
+      "disclosureTexto": "Consultar todas las coberturas",
+      "disclosureId": "planExpandedPremiumDisclosureButton",
+      "bullets": [
+        {
+          "texto": "Cubrimos danos a otras personas."
+        },
+        {
+          "texto": "Dano y hurto total o parcial del carro."
+        },
+        {
+          "texto": "Vehiculo de reemplazo hasta por 30 dias."
+        },
+        {
+          "texto": "Deducible desde 0% - 0,8 SMMLV.",
+          "resaltado": true,
+          "mostrarAccion": true,
+          "accionId": "planExpandedPremiumFeatureButton"
+        }
+      ]
+    },
+    {
+      "titulo": "Ligero",
+      "precioLabel": "Ano sin IVA desde:",
+      "precio": "$1,482,298",
+      "beneficio": "El precio mas bajo",
+      "botonPrincipalTexto": "Recibir Asesoria",
+      "botonPrincipalId": "planExpandedLigeroButton",
+      "disclosureTexto": "Consultar todas las coberturas",
+      "disclosureId": "planExpandedLigeroDisclosureButton",
+      "bullets": [
+        {
+          "texto": "Cubrimos danos a otras personas."
+        },
+        {
+          "texto": "Dano y hurto total."
+        },
+        {
+          "texto": "Deducible desde 0% hasta 10 anos.",
+          "resaltado": true,
+          "mostrarAccion": true,
+          "accionId": "planExpandedLigeroFeatureButton"
+        }
+      ]
+    }
+  ]
+}

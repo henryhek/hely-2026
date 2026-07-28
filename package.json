@@ -1,0 +1,18 @@
+{
+  "name": "hely-2026",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.1.4",
+    "hiraki": "^0.0.7",
+    "tailwindcss": "^4.3.3"
+  }
+}

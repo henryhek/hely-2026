@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hely - Diseño web y consultoría de comunicación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js para interactividad sencilla (Modal) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#b950db', 
+                        primaryLight: '#d280eb',
+                        dark: '#1a1824',    
+                        light: '#f8f9fc',   
+                    },
+                    animation: {
+                        'marquee': 'marquee 30s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 7s infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Clases para revelar al hacer scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Ocultar barra de scroll para el marquee de clientes */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-700 antialiased bg-white overflow-x-hidden" x-data="{ modalOpen: false, modalImg: '', modalTitle: '', modalDesc: '' }">
+
+    <!-- Navbar -->
+    <header class="container mx-auto px-6 py-4 flex justify-between items-center relative z-50 fixed w-full top-0 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="flex items-center gap-2">
+            <a href="#inicio">
+                <img src="https://hely.com.co/php/img/logo.png" alt="Hely Logo" class="h-8 object-contain" onerror="this.src='https://placehold.co/100x40/b950db/white?text=Hely'">
+            </a>
+        </div>
+        <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-600">
+            <a href="#inicio" class="hover:text-primary transition-colors">Inicio</a>
+            <a href="#servicios" class="hover:text-primary transition-colors">Servicios</a>
+            <a href="#nosotros" class="hover:text-primary transition-colors">Nosotros</a>
+            <a href="#portafolio" class="hover:text-primary transition-colors">Portafolio</a>
+            <a href="#clientes" class="hover:text-primary transition-colors">Clientes</a>
+        </nav>
+        <a href="#contacto" class="bg-primary text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition shadow-lg shadow-primary/30 transform hover:scale-105">
+            Hablemos
+        </a>
+    </header>
+
+    <!-- Modal del Portafolio -->
+    <div x-show="modalOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-dark/80 backdrop-blur-sm" x-transition.opacity style="display: none;">
+        <div @click.away="modalOpen = false" class="bg-white rounded-[2rem] w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col md:flex-row relative">
+            <button @click="modalOpen = false" class="absolute top-4 right-4 bg-white/50 hover:bg-gray-200 rounded-full p-2 z-10 transition">
+                <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="md:w-3/5 bg-gray-100 flex items-center justify-center">
+                <img :src="modalImg" alt="Proyecto" class="w-full h-auto max-h-[70vh] object-contain">
+            </div>
+            <div class="md:w-2/5 p-8 flex flex-col justify-center bg-white">
+                <div class="inline-block bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full mb-4 w-max">Proyecto Hely</div>
+                <h3 class="text-3xl font-bold text-gray-900 mb-4" x-text="modalTitle"></h3>
+                <p class="text-gray-500 mb-6 text-sm leading-relaxed" x-text="modalDesc"></p>
+                <a href="#contacto" @click="modalOpen = false" class="inline-block text-center bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition shadow-lg shadow-primary/30">
+                    Quiero algo así
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="pt-32 pb-24 relative overflow-hidden">
+        <!-- Blobs decorativos animados -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl mix-blend-multiply filter animate-blob"></div>
+        <div class="absolute top-20 left-10 w-72 h-72 bg-blue-100/50 rounded-full blur-3xl mix-blend-multiply filter animate-blob animation-delay-2000"></div>
+
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10 reveal">
+            <!-- Left: Content -->
+            <div class="max-w-lg order-2 md:order-1">
+                <div class="inline-block bg-primary/10 text-primary text-xs font-semibold px-4 py-2 rounded-full mb-6 flex items-center gap-2 w-max border border-primary/20">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                    Bienvenido a Hely
+                </div>
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">
+                    Diseño web y consultoría: <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">tu impulso digital.</span>
+                </h1>
+                <p class="text-gray-500 mb-8 max-w-md">Transformamos ideas en experiencias digitales memorables que conectan, comunican y convierten.</p>
+                <div class="flex gap-4">
+                    <a href="#contacto" class="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition shadow-lg shadow-primary/30 hover:-translate-y-1">
+                        Empezar proyecto
+                    </a>
+                    <a href="#portafolio" class="bg-white text-gray-700 border border-gray-200 px-8 py-3 rounded-full font-semibold hover:bg-gray-50 transition hover:-translate-y-1">
+                        Ver trabajos
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: 3D Illustration -->
+            <div class="relative flex justify-center items-center order-1 md:order-2 animate-float">
+                <img src="https://hely.com.co/php/img/hero-img.png" alt="Ilustración 3D de mujer con chat" class="max-w-full h-auto drop-shadow-2xl" onerror="this.src='https://placehold.co/500x500/f8f9fc/b950db?text=Ilustración+3D'">
+            </div>
+        </div>
+        
+        <!-- Curva SVG Inferior -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0 rotate-180">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-[60px] md:h-[100px]">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="fill-light"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Services Cards -->
+    <section id="servicios" class="bg-light relative pb-20 pt-10">
+        <div class="container mx-auto px-6 relative z-20">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Nuestras Soluciones</h2>
+                <p class="text-gray-500 max-w-xl mx-auto">Te acompañamos en cada etapa de tu transformación digital.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="reveal bg-white rounded-[2rem] shadow-xl shadow-gray-200/40 p-8 text-center border border-white hover:border-primary/20 hover:-translate-y-3 transition-all duration-300 group">
+                    <div class="w-20 h-20 mx-auto bg-orange-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition text-3xl shadow-sm">💻</div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Diseño Web</h3>
+                    <p class="text-sm text-gray-500">Desarrollamos interfaces intuitivas, rápidas y orientadas a la conversión (Tailwind, JS, WordPress, Shopify).</p>
+                </div>
+                <div class="reveal bg-white rounded-[2rem] shadow-xl shadow-gray-200/40 p-8 text-center border border-white hover:border-primary/20 hover:-translate-y-3 transition-all duration-300 md:-translate-y-6 group">
+                    <div class="w-20 h-20 mx-auto bg-purple-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition text-3xl shadow-sm">🚀</div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Estrategia de Comunicación</h3>
+                    <p class="text-sm text-gray-500">Definimos tu voz de marca y creamos estrategias de marketing digital para conectar con tu audiencia ideal.</p>
+                </div>
+                <div class="reveal bg-white rounded-[2rem] shadow-xl shadow-gray-200/40 p-8 text-center border border-white hover:border-primary/20 hover:-translate-y-3 transition-all duration-300 group">
+                    <div class="w-20 h-20 mx-auto bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition text-3xl shadow-sm">🎨</div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Diseño Gráfico & Branding</h3>
+                    <p class="text-sm text-gray-500">Logos, banners, íconos y material visual de alto impacto (Pixel Art, Cinematic, UI/UX).</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Olas SVG Inferior -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-[50px]">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.15,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="fill-white"></path>
+                <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="fill-white"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="fill-white"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="nosotros" class="py-24 relative">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <!-- Left: Content -->
+            <div class="reveal">
+                <span class="text-primary font-semibold text-sm mb-2 block tracking-wider uppercase">Sobre Nosotros</span>
+                <h2 class="text-4xl font-bold text-gray-900 mb-6 leading-tight">
+                    Solos podemos hacer poco;<br>juntos podemos hacer mucho más.
+                </h2>
+                <p class="text-gray-500 text-sm mb-8 leading-relaxed">
+                    Contamos con un equipo multidisciplinario liderado por expertos en diseño, desarrollo y estrategia corporativa. Unimos talento, tecnología y creatividad para ofrecerte soluciones integrales. Nuestra metodología ágil garantiza resultados adaptados a tus objetivos comerciales.
+                </p>
+                
+                <div class="space-y-6 mb-8">
+                    <div class="flex gap-4 items-start p-4 bg-gray-50 rounded-2xl border border-gray-100 hover:border-primary/20 transition">
+                        <div class="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-xl shrink-0 text-primary">🔍</div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Diagnóstico & Estrategia</h4>
+                            <p class="text-xs text-gray-500 mt-1">Evaluamos tu situación actual y trazamos un plan de acción medible.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 items-start p-4 bg-gray-50 rounded-2xl border border-gray-100 hover:border-primary/20 transition">
+                        <div class="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-xl shrink-0 text-primary">⚡</div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Desarrollo Tecnológico</h4>
+                            <p class="text-xs text-gray-500 mt-1">Implementamos soluciones robustas con código limpio y optimizado.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right: 3D Illustration / Composition -->
+            <div class="relative flex justify-center items-center h-[500px] bg-light rounded-[3rem] p-8 border border-gray-100 reveal">
+                 <div class="absolute inset-4 border border-dashed border-gray-300 rounded-[2.5rem] -z-0"></div>
+                 <img src="https://hely.com.co/php/img/about-img.png" alt="Hombre trabajando con laptop" class="max-w-full h-auto drop-shadow-xl relative z-10 hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/400x400/fff/b950db?text=Ilustración+Nosotros'">
+                 
+                 <!-- Elementos flotantes decorativos -->
+                 <div class="absolute top-10 left-10 bg-white p-3 rounded-2xl shadow-lg animate-float" style="animation-delay: 1s;">💡</div>
+                 <div class="absolute bottom-20 right-10 bg-white p-3 rounded-2xl shadow-lg animate-float" style="animation-delay: 2s;">📈</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUEVO: Portafolio Section (Dinámico / Modal Gallery) -->
+    <section id="portafolio" class="py-24 bg-dark text-white relative overflow-hidden">
+        <!-- SVG Superior (Transición de Blanco a Oscuro) -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-none z-0">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-[40px] md:h-[60px] rotate-180">
+                <path d="M1200 120L0 16.48 0 0 1200 0 1200 120z" class="fill-white"></path>
+            </svg>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 pt-10">
+            <div class="text-center mb-16 reveal">
+                <span class="text-primaryLight font-semibold text-sm mb-2 block tracking-wider uppercase">Nuestro Trabajo</span>
+                <h2 class="text-4xl font-bold mb-4">Portafolio Creativo</h2>
+                <p class="text-gray-400 max-w-xl mx-auto">Explora algunos de nuestros proyectos más recientes. Haz clic en cada uno para ver los detalles.</p>
+            </div>
+
+            <!-- Galería Grid: Fácil de llenar copiando y pegando el div de la tarjeta -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                
+                <!-- Ítem 1 -->
+                <div class="reveal group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] bg-gray-800 border border-gray-700" 
+                     @click="modalImg = 'https://placehold.co/800x600/1a1824/b950db?text=Proyecto+Web+1'; modalTitle = 'Rediseño E-commerce UI/UX'; modalDesc = 'Desarrollo frontend utilizando Tailwind CSS y Alpine.js. Mejoramos la tasa de conversión en un 35% mediante una interfaz limpia y procesos de pago simplificados.'; modalOpen = true;">
+                    <!-- IMAGEN DEL PROYECTO (Cambiar el src) -->
+                    <img src="https://placehold.co/600x450/1a1824/b950db?text=Proyecto+Web+1" alt="Proyecto 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100">
+                    <!-- Overlay de texto -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-primaryLight text-xs font-bold mb-1">Diseño Web</span>
+                        <h3 class="text-xl font-bold text-white">Rediseño E-commerce</h3>
+                        <p class="text-sm text-gray-300 mt-2 line-clamp-2">Desarrollo frontend utilizando Tailwind CSS y Alpine.js.</p>
+                    </div>
+                </div>
+
+                <!-- Ítem 2 -->
+                <div class="reveal group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] bg-gray-800 border border-gray-700 md:translate-y-6"
+                     @click="modalImg = 'https://placehold.co/800x600/1a1824/3b82f6?text=Branding+Corporativo'; modalTitle = 'Branding Corporativo Tech'; modalDesc = 'Creación de identidad visual completa para startup tecnológica. Incluye manual de marca, diseño de logotipo, papelería y assets para redes sociales.'; modalOpen = true;">
+                    <img src="https://placehold.co/600x450/1a1824/3b82f6?text=Branding+Corporativo" alt="Proyecto 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-blue-400 text-xs font-bold mb-1">Branding</span>
+                        <h3 class="text-xl font-bold text-white">Identidad Visual Startup</h3>
+                    </div>
+                </div>
+
+                <!-- Ítem 3 -->
+                <div class="reveal group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] bg-gray-800 border border-gray-700"
+                     @click="modalImg = 'https://placehold.co/800x600/1a1824/10b981?text=App+Mobile+UI'; modalTitle = 'Diseño UI para App Móvil'; modalDesc = 'Prototipado y diseño de interfaces de usuario para aplicación móvil iOS/Android del sector salud. Flujos de usuario optimizados y dark mode integrado.'; modalOpen = true;">
+                    <img src="https://placehold.co/600x450/1a1824/10b981?text=App+Mobile+UI" alt="Proyecto 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-green-400 text-xs font-bold mb-1">UI/UX Design</span>
+                        <h3 class="text-xl font-bold text-white">App Sector Salud</h3>
+                    </div>
+                </div>
+                
+                 <!-- Ítem 4 -->
+                 <div class="reveal group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] bg-gray-800 border border-gray-700" 
+                 @click="modalImg = 'https://placehold.co/800x600/1a1824/f59e0b?text=Landing+Page+SEO'; modalTitle = 'Landing Page Optimizada'; modalDesc = 'Maquetación HTML/CSS/JS orientada a SEO y alto rendimiento en PageSpeed. Campaña de marketing de producto digital.'; modalOpen = true;">
+                <img src="https://placehold.co/600x450/1a1824/f59e0b?text=Landing+Page+SEO" alt="Proyecto 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100">
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <span class="text-orange-400 text-xs font-bold mb-1">Desarrollo Web</span>
+                    <h3 class="text-xl font-bold text-white">Landing Page Producto</h3>
+                </div>
+            </div>
+
+            <!-- Ítem 5 -->
+            <div class="reveal group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] bg-gray-800 border border-gray-700 md:translate-y-6"
+                 @click="modalImg = 'https://placehold.co/800x600/1a1824/ec4899?text=Campaña+Ads'; modalTitle = 'Gráficas Campaña Ads'; modalDesc = 'Diseño de banners y piezas gráficas animadas para campañas de Google Ads y Meta Ads. Estilo moderno y llamativo.'; modalOpen = true;">
+                <img src="https://placehold.co/600x450/1a1824/ec4899?text=Campaña+Ads" alt="Proyecto 5" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100">
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <span class="text-pink-400 text-xs font-bold mb-1">Marketing Digital</span>
+                    <h3 class="text-xl font-bold text-white">Assets Publicitarios</h3>
+                </div>
+            </div>
+
+            <!-- Ítem 6 -->
+            <div class="reveal group relative overflow-hidden rounded-2xl cursor-pointer aspect-[4/3] bg-gray-800 border border-gray-700"
+                 @click="modalImg = 'https://placehold.co/800x600/1a1824/8b5cf6?text=Diseño+Editorial'; modalTitle = 'Diseño Editorial Corporativo'; modalDesc = 'Maquetación de reportes anuales y revistas corporativas digitales. Tipografía cuidada y presentación de datos estadísticos claros.'; modalOpen = true;">
+                <img src="https://placehold.co/600x450/1a1824/8b5cf6?text=Diseño+Editorial" alt="Proyecto 6" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-80 group-hover:opacity-100">
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <span class="text-purple-400 text-xs font-bold mb-1">Diseño Gráfico</span>
+                    <h3 class="text-xl font-bold text-white">Reporte Anual</h3>
+                </div>
+            </div>
+
+            </div>
+        </div>
+        
+        <!-- SVG Inferior Oscuro -->
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-[40px] md:h-[80px]">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="fill-white"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- NUEVO: Sección de Clientes (Marquee Dinámico) -->
+    <section id="clientes" class="py-20 bg-white border-b border-gray-100 overflow-hidden">
+        <div class="container mx-auto px-6 mb-10 text-center reveal">
+            <h3 class="text-2xl font-bold text-gray-900">Empresas que confían en nuestro trabajo</h3>
+        </div>
+        
+        <!-- Contenedor Marquee -->
+        <div class="relative w-full flex overflow-x-hidden no-scrollbar bg-gray-50/50 py-10 border-y border-gray-100">
+            <!-- Efectos de difuminado en los bordes para un look premium -->
+            <div class="absolute top-0 left-0 w-24 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
+            <div class="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
+            
+            <div class="animate-marquee whitespace-nowrap flex items-center gap-16 px-8">
+                <!-- CLIENTE 1 -->
+                <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Cliente+Logo" alt="Cliente 1" class="max-h-full max-w-full object-contain">
+                </div>
+                <!-- CLIENTE 2 -->
+                <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Marca+2" alt="Cliente 2" class="max-h-full max-w-full object-contain">
+                </div>
+                <!-- CLIENTE 3 -->
+                <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Partner+3" alt="Cliente 3" class="max-h-full max-w-full object-contain">
+                </div>
+                <!-- CLIENTE 4 -->
+                <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Empresa+4" alt="Cliente 4" class="max-h-full max-w-full object-contain">
+                </div>
+                <!-- CLIENTE 5 -->
+                <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Startup+5" alt="Cliente 5" class="max-h-full max-w-full object-contain">
+                </div>
+                <!-- DUPLICADOS PARA SCROLL INFINITO (Copiar exactamente los mismos de arriba) -->
+                 <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Cliente+Logo" alt="Cliente 1" class="max-h-full max-w-full object-contain">
+                </div>
+                <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Marca+2" alt="Cliente 2" class="max-h-full max-w-full object-contain">
+                </div>
+                <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Partner+3" alt="Cliente 3" class="max-h-full max-w-full object-contain">
+                </div>
+                <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Empresa+4" alt="Cliente 4" class="max-h-full max-w-full object-contain">
+                </div>
+                <div class="flex-none grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition duration-300 w-32 h-16 flex items-center justify-center">
+                    <img src="https://placehold.co/150x60/fff/333?text=Startup+5" alt="Cliente 5" class="max-h-full max-w-full object-contain">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="container mx-auto px-6 py-24">
+        <div class="grid md:grid-cols-2 gap-16 items-center max-w-6xl mx-auto bg-light rounded-[3rem] p-10 md:p-16 border border-gray-100 reveal">
+            <!-- Left: Text -->
+            <div>
+                <span class="text-primary font-semibold text-sm mb-2 flex items-center gap-2 w-max bg-white px-4 py-2 rounded-full shadow-sm">
+                    <span class="text-lg">📩</span> Hablemos
+                </span>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight mt-6">
+                    ¿Listo para impulsar tu proyecto?
+                </h2>
+                <p class="text-gray-500 mb-8">Cuéntanos sobre tu idea. Nos encantaría escuchar cómo podemos ayudarte a transformarla en una realidad digital impactante.</p>
+                
+                <div class="flex flex-col gap-4">
+                    <a href="mailto:info@hely.com.co" class="flex items-center gap-4 group">
+                        <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition">✉️</div>
+                        <div>
+                            <p class="text-xs text-gray-500">Escríbenos</p>
+                            <p class="font-bold text-gray-900">info@hely.com.co</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: Form -->
+            <div class="bg-white rounded-[2rem] shadow-2xl shadow-gray-200/60 p-8 border border-gray-50 relative">
+                <div class="absolute -right-3 top-10 w-6 h-6 bg-primary/20 rounded-full animate-ping"></div>
+                
+                <h3 class="text-xl font-bold text-gray-900 mb-6">Envíanos un mensaje</h3>
+                <form class="space-y-4">
+                    <div>
+                        <input type="text" placeholder="Nombre completo" class="w-full px-4 py-3 rounded-xl bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition text-sm">
+                    </div>
+                    <div>
+                        <input type="email" placeholder="Correo electrónico" class="w-full px-4 py-3 rounded-xl bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition text-sm">
+                    </div>
+                    <div>
+                        <select class="w-full px-4 py-3 rounded-xl bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition text-sm text-gray-500 appearance-none">
+                            <option value="">¿En qué te podemos ayudar?</option>
+                            <option value="web">Diseño y Desarrollo Web</option>
+                            <option value="estrategia">Estrategia y Consultoría</option>
+                            <option value="grafico">Diseño Gráfico / Branding</option>
+                        </select>
+                    </div>
+                    <div>
+                        <textarea placeholder="Cuéntanos brevemente sobre tu proyecto" rows="4" class="w-full px-4 py-3 rounded-xl bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition text-sm resize-none"></textarea>
+                    </div>
+                    <button type="button" class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-opacity-90 transition shadow-lg shadow-primary/30 mt-2 transform hover:-translate-y-1">
+                        Enviar mensaje
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8 relative overflow-hidden">
+        <!-- Decoración footer -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
+        
+        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-12 mb-12 relative z-10">
+            <div>
+                <img src="https://hely.com.co/php/img/logo-white.png" alt="Hely Logo" class="h-10 object-contain mb-4" onerror="this.src='https://placehold.co/120x40/1a1824/white?text=Hely'">
+                <p class="text-gray-400 text-sm max-w-xs mt-4">Tu aliado estratégico en diseño, desarrollo y comunicación para escalar tu negocio en el entorno digital.</p>
+            </div>
+            <div class="space-y-4 text-sm text-gray-300">
+                <h4 class="font-bold text-white mb-6 uppercase tracking-wider text-xs">Enlaces Rápidos</h4>
+                <nav class="flex flex-col gap-3">
+                    <a href="#inicio" class="hover:text-primary transition">Inicio</a>
+                    <a href="#servicios" class="hover:text-primary transition">Servicios</a>
+                    <a href="#portafolio" class="hover:text-primary transition">Portafolio</a>
+                </nav>
+            </div>
+            <div class="space-y-4 text-sm text-gray-300">
+                <h4 class="font-bold text-white mb-6 uppercase tracking-wider text-xs">Contacto</h4>
+                <p class="flex items-center gap-3"><span class="text-primary">📞</span> +57 (300) 000-0000</p>
+                <p class="flex items-center gap-3"><span class="text-primary">✉️</span> info@hely.com.co</p>
+                <p class="flex items-center gap-3"><span class="text-primary">📍</span> Bogotá, Colombia</p>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 relative z-10">
+            <p>&copy; 2026 Hely. Todos los derechos reservados.</p>
+            <div class="space-x-4 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition">LinkedIn</a>
+                <a href="#" class="hover:text-white transition">Instagram</a>
+                <a href="#" class="hover:text-white transition">Behance</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script para Reveal Animation en Scroll -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const reveals = document.querySelectorAll(".reveal");
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                        observer.unobserve(entry.target); // Solo animar la primera vez
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.1, // Se activa cuando el 10% del elemento es visible
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            reveals.forEach(reveal => {
+                revealObserver.observe(reveal);
+            });
+        });
+    </script>
+</body>
+</html>

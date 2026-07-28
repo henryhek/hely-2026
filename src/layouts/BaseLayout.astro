@@ -1,0 +1,117 @@
+---
+import Metaicon from "@/components/foundation/Metaicon.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+const pageTitle = title ? `${title} | Hely` : "Hely";
+const siteDescription = "Hely es una consultora de diseño web y comunicación que ayuda a empresas a conectar con sus clientes en Colombia.";
+const siteKeywords = "hely, diseño web, comunicación, consultora, desarrollo web, estrategia digital, marketing digital, colombia";
+const canonicalUrl = "https://hely.com.co";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <Metaicon />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={siteDescription} />
+    <meta name="keywords" content={siteKeywords} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta
+      name="google-site-verification"
+      content="GKdjbJ8tlpDX2EdBwIYYNaEx40jiC64qkFutJsjkzFM"
+    />
+    <link rel="icon" href="https://hely.com.co/assets/img/icon_hely.ico" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script
+      is:inline
+      src="https://kit.fontawesome.com/30b50e5828.js"
+      crossorigin="anonymous"></script>
+    <title>{pageTitle}</title>
+
+    <link
+      href="https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/bolivar.woff"
+      as="font"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="https://www.segurosbolivar.com/assets/fonts/bolivar/Bolivar-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FinancialService",
+        "name": "Hely",
+        "url": "https://hely.com.co",
+        "logo": "https://hely.com.co/logo.png",
+        "description": "Hely es una consultora de diseño web y comunicación que ayuda a empresas a conectar con sus clientes en Colombia.",
+        "areaServed": "CO",
+        "sameAs": []
+      }
+    </script>
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      // Scroll suave a la sección indicada en [data-scroll-to] sin escribir el
+      // hash en la URL (evita el "#seccion" que deja un <a href>).
+      const initScrollTo = () => {
+        if (document.body.dataset.scrollToBound === "true") {
+          return;
+        }
+
+        document.body.dataset.scrollToBound = "true";
+
+        document.addEventListener("click", (event) => {
+          const objetivo = event.target instanceof Element ? event.target : null;
+          const disparador = objetivo?.closest<HTMLElement>("[data-scroll-to]");
+
+          if (!disparador) {
+            return;
+          }
+
+          const selector = disparador.dataset.scrollTo;
+
+          if (!selector) {
+            return;
+          }
+
+          const destino = document.querySelector(selector);
+
+          if (!destino) {
+            return;
+          }
+
+          event.preventDefault();
+          destino.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initScrollTo, { once: true });
+      } else {
+        initScrollTo();
+      }
+    </script>
+  </body>
+</html>
