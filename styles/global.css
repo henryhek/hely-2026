@@ -1,155 +1,52 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light-Italic.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light-Italic.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Light-Italic.ttf") format("truetype");
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Regular.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Regular.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Italic.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Italic.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Italic.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold-Italic.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold-Italic.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-SemiBold-Italic.ttf") format("truetype");
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold-Italic.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold-Italic.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-Bold-Italic.ttf") format("truetype");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bolivar";
-  src:
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold-Italic.woff2") format("woff2"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold-Italic.woff") format("woff"),
-    url("https://www.segurosbolivar.com/comunicaciones/000-assets/webfont/bolivar/?f=Bolivar-ExtraBold-Italic.ttf") format("truetype");
-  font-weight: 800;
-  font-style: italic;
-  font-display: swap;
-}
+/* Tipografía moderna y geométrica acorde al logo e identidad de Hely */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 @theme {
-  --font-bolivar: "Bolivar", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-hely: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-  --color-primario-10: #0b200f;
-  --color-primario-20: #0d381c;
-  --color-primario-30: #005229;
-  --color-primario-40: #006d3c;
-  --color-primario-50: #008951;
-  --color-primario-60: #2aa468;
-  --color-primario-70: #58be87;
-  --color-primario-80: #85d8a8;
-  --color-primario-90: #bdeed0;
-  --color-primario-95: #e0f6e9;
-  --color-primario-98: #f1fcf5;
+  /* Primario: Gama de púrpura / violeta principal (Logo y botones principales) */
+  --color-primario-10: #1d072b;
+  --color-primario-20: #330b4d;
+  --color-primario-30: #4c0f71;
+  --color-primario-40: #620092;
+  --color-primario-50: #8c25ca;
+  --color-primario-60: #a843e6;
+  --color-primario-70: #be69f2;
+  --color-primario-80: #d596f7;
+  --color-primario-90: #ecc4fc;
+  --color-primario-95: #f6e6fe;
+  --color-primario-98: #fdf8ff;
 
-  --color-secundario-10: #241a00;
-  --color-secundario-20: #3d2f00;
-  --color-secundario-30: #564500;
-  --color-secundario-40: #705d00;
-  --color-secundario-50: #8a7600;
-  --color-secundario-60: #a7901c;
-  --color-secundario-70: #c1ab47;
-  --color-secundario-80: #dcc673;
-  --color-secundario-90: #f9e17f;
-  --color-secundario-95: #f8f0da;
-  --color-secundario-98: #fdf9ee;
+  /* Secundario / Acento: Tono magenta / rosa suave presente en la ilustración e íconos */
+  --color-secundario-10: #29001b;
+  --color-secundario-20: #4a0033;
+  --color-secundario-30: #6c004b;
+  --color-secundario-40: #910065;
+  --color-secundario-50: #b81b85;
+  --color-secundario-60: #d941a5;
+  --color-secundario-70: #ed6fc1;
+  --color-secundario-80: #f7a1da;
+  --color-secundario-90: #fccfed;
+  --color-secundario-95: #fee9f6;
+  --color-secundario-98: #fff5fb;
 
+  /* Neutros ajustados con matiz frío/púrpura sutil */
   --color-neutral-0: #000000;
-  --color-neutral-10: #1a1c1c;
-  --color-neutral-20: #2e3033;
-  --color-neutral-30: #42474d;
-  --color-neutral-40: #595e66;
-  --color-neutral-50: #707880;
-  --color-neutral-60: #8b9299;
-  --color-neutral-70: #a8abb2;
-  --color-neutral-80: #c2c7cf;
-  --color-neutral-90: #e0e3e5;
-  --color-neutral-95: #f0f0f2;
+  --color-neutral-10: #16151a;
+  --color-neutral-20: #2b2830;
+  --color-neutral-30: #423e4a;
+  --color-neutral-40: #5a5563;
+  --color-neutral-50: #746d7e;
+  --color-neutral-60: #90899a;
+  --color-neutral-70: #aea8b8;
+  --color-neutral-80: #cec8d6;
+  --color-neutral-90: #ebe7f0;
+  --color-neutral-95: #f5f3f8;
   --color-neutral-100: #ffffff;
 
+  /* Alertas */
   --color-alerta-informacion-10: #081c36;
   --color-alerta-informacion-20: #05305e;
   --color-alerta-informacion-30: #00478c;
@@ -198,14 +95,15 @@
   --color-alerta-error-95: #ffede8;
   --color-alerta-error-98: #fff7f5;
 
-  --color-accion-primaria: var(--color-primario-50);
-  --color-hover-primario: var(--color-primario-40);
-  --color-pressed-primario: var(--color-primario-30);
-  --color-en-primaria: var(--color-primario-98);
+  /* Mapeo de acciones */
+  --color-accion-primaria: var(--color-primario-40);
+  --color-hover-primario: var(--color-primario-30);
+  --color-pressed-primario: var(--color-primario-20);
+  --color-en-primaria: var(--color-neutral-100);
 
-  --color-superficie-secundaria: #fff6d4;
+  --color-superficie-secundaria: var(--color-primario-98);
 
-  --color-link-external: #007eff;
+  --color-link-external: var(--color-primario-50);
 
   --color-accion-secundaria: var(--color-secundario-90);
   --color-hover-secundaria: var(--color-secundario-80);
@@ -213,8 +111,8 @@
   --color-en-secundaria: var(--color-primario-30);
 
   --color-accion-terciaria: var(--color-superficie-secundaria);
-  --color-hover-terciaria: var(--color-secundario-95);
-  --color-pressed-terciaria: var(--color-secundario-90);
+  --color-hover-terciaria: var(--color-primario-95);
+  --color-pressed-terciaria: var(--color-primario-90);
   --color-en-terciaria: var(--color-accion-primaria);
 
   --color-boton-primario-default: var(--color-accion-primaria);
@@ -241,14 +139,15 @@
   --color-boton-disabled-fondo: var(--color-neutral-95);
   --color-boton-disabled-borde: var(--color-neutral-60);
   --color-boton-disabled-contenido: var(--color-neutral-60);
-  --color-boton-focus: var(--color-primario-40);
+  --color-boton-focus: var(--color-primario-50);
+
   --shadow-interactive-focus:
     0 0 0 2px var(--color-neutral-100),
     0 0 0 4px var(--color-boton-focus);
 
   --shadow-nav:
-    1px 1px 8px rgba(115, 115, 115, 0.16),
-    1px 4px 4px rgba(115, 115, 115, 0.04);
+    1px 1px 8px rgba(98, 0, 146, 0.08),
+    1px 4px 12px rgba(98, 0, 146, 0.04);
 }
 
 @layer components {
@@ -285,7 +184,7 @@
 
   html,
   body {
-    @apply m-0 bg-white p-0 font-bolivar font-normal text-black overflow-x-clip scroll-smooth;
+    @apply m-0 bg-white p-0 font-hely font-normal text-neutral-10 overflow-x-clip scroll-smooth;
   }
 
   body {
@@ -304,8 +203,4 @@
   a {
     @apply cursor-pointer;
   }
-
-  /*a[target="_blank"]::after {
-    @apply ml-1 inline-block font-sans font-light content-['\2197'];
-  }*/
 }
