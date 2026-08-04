@@ -1,7 +1,4 @@
 ---
-import Button from "@/components/atoms/Button.astro";
-import Logo from "@/components/foundation/Logo.astro";
-
 interface HeaderLink {
   text: string;
   url: string;
@@ -13,97 +10,113 @@ interface HeaderCta {
 }
 
 interface Props {
-  /**
-   * Acción del botón "Cotizar ahora", definida por la página:
-   * - `ctaScrollTo`: ancla a la que hace scroll (ej. "#cotizar") si el
-   *   formulario ya vive en la página.
-   * - `ctaDrawer`: id del drawer que abre (default "navCotizarDrawer").
-   *   `ctaScrollTo` tiene prioridad.
-   */
   ctaScrollTo?: string;
-  ctaDrawer?: string;
   header?: {
     logo?: string;
     desktopLinks?: HeaderLink[];
     mobileLinks?: HeaderLink[];
     cta?: HeaderCta;
   };
-  showLogin?: boolean;
 }
 
-const {
-  ctaScrollTo,
-  ctaDrawer = "navCotizarDrawer",
-  header,
-  showLogin = false,
-} = Astro.props;
+const { header, ctaScrollTo } = Astro.props;
+
+const defaultCtaUrl = ctaScrollTo ?? header?.cta?.url ?? "#contacto";
 
 const headerConfig = {
-  logo: header?.logo ?? "https://image.comunicaciones.proyectivaseguros.com/lib/fe2a117473640574761479/m/1/e60e8a62-aba0-42b8-b7b8-a2b65c1662b0.png",
+  logo: header?.logo ?? "https://hely.com.co/php/assets/img/logo/logo.png",
   desktopLinks: header?.desktopLinks ?? [
-    { text: "Nuestros productos", url: "/nuestros-productos" },
-    //{ text: "Nosotros", url: "#" },
-    //{ text: "Blog", url: "#" },
-    //{ text: "Centro de ayuda", url: "#" },
+    { text: "Servicios", url: "#servicios" },
+    { text: "Sobre Hely", url: "#nosotros" },
+    { text: "Equipo", url: "#equipo" },
+    { text: "Contacto", url: "#contacto" },
   ],
   mobileLinks: header?.mobileLinks ?? [
-    { text: "Nuestros productos", url: "/nuestros-productos" },
-    //{ text: "Quienes somos", url: "#" },
-    //{ text: "Blog", url: "#" },
-    //{ text: "Centro de ayuda", url: "#" },
+    { text: "Servicios", url: "#servicios" },
+    { text: "Sobre Hely", url: "#nosotros" },
+    { text: "Equipo", url: "#equipo" },
+    { text: "Contacto", url: "#contacto" },
   ],
-  cta: header?.cta ?? { text: "Comprar seguros", url: "#" },
+  cta: {
+    text: header?.cta?.text ?? "Escribenos",
+    url: defaultCtaUrl,
+  },
 };
+
+const getScrollToSelector = (url: string) => (url.startsWith("#") ? url : undefined);
 ---
-<header class="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
+
+<header class="sticky top-0 z-50 w-full border-b border-white/30 bg-[#f5f4fc]/95 backdrop-blur-md">
   <input type="checkbox" id="menu-toggle" class="peer hidden" />
-  <div class="container mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
-    <a href="#top" class="flex items-center gap-2 cursor-pointer" aria-label="Proyectiva">
-      {headerConfig.logo ? (
-        <img src={headerConfig.logo} alt="Proyectiva" class="h-8 w-auto" />
-      ) : (
-        <Logo class="w-39 h-auto" title="Proyectiva" />
-      )}
+
+  <div class="shell flex items-center justify-between py-5">
+    <a href="#top" class="flex items-center" aria-label="Hely" data-scroll-to="#top">
+      <img
+        src={headerConfig.logo}
+        alt="Hely"
+        class="h-9 w-auto object-contain md:h-10"
+        onerror="this.src='https://placehold.co/120x40/f5f4fc/160f32?text=hely.'"
+      />
     </a>
 
-    <nav class="hidden lg:flex items-center space-x-8">
-      {headerConfig.desktopLinks.map((link) => (
-        <a href={link.url} class="text-[#1A1A1A] font-medium hover:text-[#E85D25]">
-          {link.text}
-        </a>
-      ))}
+    <nav class="hidden flex-1 items-center justify-center lg:flex">
+      <div class="flex items-center gap-12 xl:gap-14">
+        {headerConfig.desktopLinks.map((link) => (
+          <a
+            href={link.url}
+            data-scroll-to={getScrollToSelector(link.url)}
+            class="text-[0.92rem] font-semibold uppercase tracking-[0.12em] text-[#5b5575] transition-colors duration-200 hover:text-[#22153f]"
+          >
+            {link.text}
+          </a>
+        ))}
+      </div>
     </nav>
 
-    <div class="flex items-center space-x-4">
-      <a href={headerConfig.cta.url} class="hidden sm:inline-block bg-[#D44102] text-white px-6 py-2.5 rounded-full font-bold hover:bg-[#d15321] transition-shadow shadow-sm">
+    <div class="flex items-center gap-3">
+      <a
+        href={headerConfig.cta.url}
+        data-scroll-to={getScrollToSelector(headerConfig.cta.url)}
+        class="hidden items-center gap-2 rounded-full bg-[#20103e] px-7 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#160a31] sm:inline-flex interactive-focus-ring"
+      >
         {headerConfig.cta.text}
+        <span aria-hidden="true" class="text-lg leading-none">&nearr;</span>
       </a>
 
-      <label for="menu-toggle" class="lg:hidden p-2 text-gray-600 cursor-pointer">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      <label
+        for="menu-toggle"
+        class="rounded-lg p-2 text-neutral-20 transition-colors hover:text-[#20103e] lg:hidden"
+        aria-label="Abrir menu"
+      >
+        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </label>
     </div>
   </div>
 
-  <div class="peer-not-checked:hidden peer-checked:flex lg:hidden flex-col bg-white px-4 pt-2 pb-6 border-t border-gray-100 shadow-lg absolute w-full left-0 top-full">
-    <nav class="flex flex-col">
-      {!showLogin && headerConfig.mobileLinks.map((link) => (
-        <a href={link.url} class="py-3 border-b border-gray-100 text-[#1A1A1A] font-medium">
-          {link.text}
-        </a>
-      ))}
+  <div class="peer-not-checked:hidden peer-checked:flex absolute left-0 top-full w-full flex-col border-t border-[#e6e2f0] bg-[#f8f7fd] shadow-[0_10px_30px_rgba(28,14,60,0.08)] lg:hidden">
+    <div class="shell py-4">
+      <nav class="flex flex-col">
+        {headerConfig.mobileLinks.map((link) => (
+          <a
+            href={link.url}
+            data-scroll-to={getScrollToSelector(link.url)}
+            class="border-b border-[#ebe8f3] py-3.5 text-sm font-semibold uppercase tracking-[0.12em] text-[#433b58] transition-colors hover:text-[#22153f]"
+          >
+            {link.text}
+          </a>
+        ))}
 
-      {showLogin && (
-        <a href="#" class="py-3 border-b border-gray-100 text-[#1A1A1A] font-medium">
-          Ingresar
+        <a
+          href={headerConfig.cta.url}
+          data-scroll-to={getScrollToSelector(headerConfig.cta.url)}
+          class="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-[#20103e] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#160a31] sm:hidden"
+        >
+          {headerConfig.cta.text}
+          <span aria-hidden="true">&nearr;</span>
         </a>
-      )}
-
-      <a href={headerConfig.cta.url} class="sm:hidden mt-6 text-center bg-[#D44102] text-white px-6 py-3 rounded-full font-bold hover:bg-[#d15321] transition-shadow shadow-sm">
-        {headerConfig.cta.text}
-      </a>
-    </nav>
+      </nav>
+    </div>
   </div>
 </header>

@@ -1,123 +1,125 @@
 ---
-import Button from "@/components/atoms/Button.astro";
-import { resolveSectionData } from "@/data/resolveSectionData";
-
-interface SectionContent {
-  titulo: string;
-  tituloDestacado?: string;
-  colorDestacado?: string;
-  copy: string;
-  buttonText: string;
-  buttonId: string;
-  imageSrc: string;
-  imageAlt: string;
-}
-
+// Hero.astro
 interface Props {
-  class?: string;
-  id?: string;
-  data?: string;
-  fondo?: string;
-  titulo?: string;
-  tituloDestacado?: string;
-  colorDestacado?: string;
-  copy?: string;
-  buttonText?: string;
-  buttonId?: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  /**
-   * Acción del botón, definida por la página:
-   * - `ctaScrollTo`: ancla a la que hace scroll (ej. "#cotizar") cuando el
-   *   formulario ya vive en la misma página.
-   * - `ctaDrawer`: id del drawer que abre (default "navCotizarDrawer").
-   *   `ctaScrollTo` tiene prioridad.
-   */
-  ctaScrollTo?: string;
-  ctaDrawer?: string;
-  showButton?: boolean;
+    id?: string;
 }
 
-const {
-  class: className = "",
-  id,
-  data: dataPath,
-  fondo = "bg-primario-50",
-  titulo,
-  tituloDestacado,
-  colorDestacado,
-  copy,
-  buttonText,
-  buttonId,
-  imageSrc,
-  imageAlt,
-  ctaScrollTo,
-  ctaDrawer = "navCotizarDrawer",
-  showButton = true,
-} = Astro.props;
-
-const defaultContent: SectionContent = {
-  titulo: "¿Listo para estar protegido?",
-  tituloDestacado: "",
-  colorDestacado: "text-amarillo-400",
-  copy: "Cotice hoy mismo y acceda a talleres, gruas y asistencias viales en Colombia.",
-  buttonText: "Cotizar ahora",
-  buttonId: "bannerCotizarAhoraButton",
-  imageSrc: "https://image.experienciasbolivar.segurosbolivar.com/lib/fe3511747364047b751475/m/1/b03342e5-c24b-454c-90e8-2d7722d51da0.jpg",
-  imageAlt: "Pareja viajando en carro por carretera de montana.",
-};
-
-const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
-const finalTitulo = titulo ?? sectionContent.titulo;
-const finalTituloDestacado = tituloDestacado ?? sectionContent.tituloDestacado ?? "";
-const finalColorDestacado = colorDestacado ?? sectionContent.colorDestacado ?? "text-amarillo-400";
-const finalCopy = copy ?? sectionContent.copy;
-const finalButtonText = buttonText ?? sectionContent.buttonText;
-const finalButtonId = buttonId ?? sectionContent.buttonId;
-const finalImageSrc = imageSrc ?? sectionContent.imageSrc;
-const finalImageAlt = imageAlt ?? sectionContent.imageAlt;
+const { id } = Astro.props;
 ---
 
-<section id={id} class:list={["w-full pt-10 pb-10", fondo, className]}>
-  <div class="container mx-auto max-w-6xl px-4">
-    <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,32rem)] lg:items-center">
-      <div class="max-w-2xl">
-        <div class="p-4 px-8 w-fit rounded-xl bg-primario-50 mb-8">
-          <h1 class="text-4xl text-wrap md:text-5xl font-bold text-white mb-6 leading-[1.1]">
-            {finalTitulo}
-            {finalTituloDestacado && (
-              <>
-                <br />
-                <span class:list={[finalColorDestacado]}>{finalTituloDestacado}</span>
-              </>
-            )}
-          </h1>
-          <p class="!text-white text-lg text-wrap leading-relaxed max-w-lg font-light">
-            {finalCopy}
-          </p>
+<section id={id || "inicio"} class="relative isolate overflow-hidden bg-white pb-14 pt-8 md:pb-20 md:pt-10 lg:pb-24">
+    <div class="absolute -left-24 -top-20 -z-10 h-105 w-105 rounded-full bg-[#eef1f7] md:h-155 md:w-155"></div>
+
+    <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        <span class="float-orb orb-a"></span>
+        <span class="float-orb orb-b"></span>
+        <span class="float-orb orb-c"></span>
+        <span class="float-orb orb-d"></span>
+    </div>
+
+    <div class="shell relative z-10 grid items-center gap-10 md:grid-cols-12 md:gap-8 lg:gap-10">
+        <div class="order-2 flex items-center justify-center md:col-span-6 md:order-1">
+            <img
+                src="https://hely.com.co/php/assets/img/banner/header-hely.png"
+                alt="Ilustracion 3D Hely"
+                class="h-auto w-full max-w-140 object-contain"
+                onerror="this.src='https://placehold.co/560x540/f5f3f8/a843e6?text=Ilustracion+3D+Hely'"
+            />
         </div>
 
-        {showButton && (
-          <button
-            id={finalButtonId}
-            type="button"
-            class="bg-white text-[#E85D25] font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition duration-300 shadow-sm"
-            data-scroll-to={ctaScrollTo}
-            data-drawer-target={ctaScrollTo ? undefined : ctaDrawer}
-          >
-            {finalButtonText}
-          </button>
-        )}
-      </div>
+        <div class="order-1 md:col-span-6 md:order-2">
+            <div class="relative mb-6 inline-block max-w-160 rounded-full border border-[#ece9f4] bg-[#f7f5fb] px-5 py-2.5 text-sm font-semibold leading-tight text-neutral-20 sm:px-6 md:mb-8 md:text-[1.02rem]">
+                Bienvenidos a <strong class="mx-1 text-primario-60">Hely</strong>, tu aliado experto en diseño web y comunicación interna.
+            </div>
 
-      <div class="overflow-hidden rounded-2xl">
-        <img
-          src={finalImageSrc}
-          alt={finalImageAlt}
-          class="h-64 w-full object-cover md:h-72 lg:h-full lg:min-h-[20rem]"
-          loading="lazy"
-        />
-      </div>
+            <h1 class="max-w-170 text-[2.35rem] font-extrabold leading-[0.98] tracking-[-0.01em] text-neutral-10 sm:text-5xl md:text-[3.45rem] lg:text-[4.9rem]">
+                Diseño web y consultoría de comunicación: tu impulso digital.
+            </h1>
+
+            <div class="mt-8 md:mt-10">
+                <a
+                    href="#contacto"
+                    data-scroll-to="#contacto"
+                    class="inline-flex min-w-49 items-center justify-center rounded-3xl bg-primario-60 px-8 py-4 text-lg font-semibold text-white shadow-[0_10px_30px_rgba(168,67,230,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-primario-50 hover:shadow-[0_14px_34px_rgba(168,67,230,0.34)] active:translate-y-0 interactive-focus-ring"
+                >
+                    Escribenos
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
+
+<style>
+    .float-orb {
+        position: absolute;
+        border-radius: 9999px;
+        will-change: transform;
+        animation-name: float-slow;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+    }
+
+    .orb-a {
+        top: 10%;
+        left: 11%;
+        width: 18px;
+        height: 18px;
+        background: radial-gradient(circle at 35% 30%, #f7c8f5 0%, #d86ed1 58%, #b637a8 100%);
+        animation-duration: 17s;
+    }
+
+    .orb-b {
+        top: 8%;
+        left: 19%;
+        width: 26px;
+        height: 26px;
+        background: radial-gradient(circle at 32% 30%, #e2ceff 0%, #9d77e6 58%, #6940ba 100%);
+        animation-duration: 21s;
+        animation-delay: -6s;
+    }
+
+    .orb-c {
+        top: 20%;
+        left: 8%;
+        width: 58px;
+        height: 58px;
+        background: radial-gradient(circle at 35% 28%, #d2fff6 0%, #87d8cc 52%, #4ea5a6 100%);
+        animation-duration: 24s;
+        animation-delay: -12s;
+        box-shadow: inset -10px -8px 18px rgba(32, 84, 88, 0.28);
+    }
+
+    .orb-d {
+        bottom: 15%;
+        left: 3%;
+        width: 44px;
+        height: 44px;
+        background: radial-gradient(circle at 30% 28%, #ffffff 0%, #f0edf5 70%, #ddd5ea 100%);
+        animation-duration: 26s;
+        animation-delay: -9s;
+    }
+
+    @keyframes float-slow {
+        0% {
+            transform: translate3d(0, 0, 0) rotate(0deg);
+        }
+        25% {
+            transform: translate3d(10px, -14px, 0) rotate(3deg);
+        }
+        50% {
+            transform: translate3d(-8px, -20px, 0) rotate(-2deg);
+        }
+        75% {
+            transform: translate3d(-14px, 8px, 0) rotate(2deg);
+        }
+        100% {
+            transform: translate3d(0, 0, 0) rotate(0deg);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .float-orb {
+            animation: none;
+        }
+    }
+</style>

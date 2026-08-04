@@ -1,92 +1,85 @@
 ---
+// Servicios.astro
 import Card from "@/components/molecules/Card.astro";
-import { resolveSectionData } from "@/data/resolveSectionData";
 
-interface BenefitRecord {
-  icono: string;
+interface ServiceRecord {
+  imageSrc?: string;
+  imageAlt?: string;
+  icono?: string;
   titulo: string;
   copy: string;
-}
-
-interface SectionContent {
-  titulo: string;
-  beneficios: BenefitRecord[];
+  bgCircleColor?: string;
 }
 
 interface Props {
   class?: string;
   id?: string;
-  data?: string;
   fondo?: string;
   titulo?: string;
-  beneficios?: BenefitRecord[];
+  servicios?: ServiceRecord[];
 }
 
-const defaultBeneficios: BenefitRecord[] = [
+const defaultServicios: ServiceRecord[] = [
   {
-    icono: "message-dots",
-    titulo: "Respuesta oportuna",
-    copy: "Si tiene un accidente o un imprevisto, reciba atencion rapida y acompanamiento en todo momento.",
+    imageSrc: "https://hely.com.co/php/assets/img/icon/services_icon04.png",
+    imageAlt: "Ilustración 3D Diseño Web",
+    titulo: "Diseño Web",
+    copy: "Creación y Asesoría de sitios web adaptables.",
+    bgCircleColor: "bg-[#fff7e6]",
   },
   {
-    icono: "headset",
-    titulo: "Asistencia 24/7",
-    copy: "Grua, cerrajeria o carro taller cuando lo necesite, sin importar la hora o el lugar.",
+    imageSrc: "https://hely.com.co/php/assets/img/icon/services_icon04.png",
+    imageAlt: "Ilustración 3D Estrategia de comunicación",
+    titulo: "Estrategia de comunicación",
+    copy: "Planes de comunicación interna, Campañas de comunicación interna y Comunicación en crisis.",
+    bgCircleColor: "bg-primario-95",
   },
   {
-    icono: "mobile-screen-button",
-    titulo: "Gestion de su seguro",
-    copy: "Gestione solicitudes, haga seguimiento y reciba ayuda directamente desde la App de Seguros Bolivar o WhatsApp.",
+    imageSrc: "https://hely.com.co/php/assets/img/icon/services_icon04.png",
+    imageAlt: "Ilustración 3D Gestión del cambio",
+    titulo: "Gestión del cambio",
+    copy: "Propuesta de valor al empleado y marca empleadora.",
+    bgCircleColor: "bg-[#f0f2f5]",
   },
 ];
 
 const {
   class: className = "",
-  id,
-  data: dataPath,
+  id = "servicios",
   fondo = "bg-white",
-  titulo,
-  beneficios,
+  titulo = "Nuestros Servicios",
+  servicios = defaultServicios,
 } = Astro.props;
 
-const defaultContent: SectionContent = {
-  titulo: "Beneficios de este seguro",
-  beneficios: defaultBeneficios,
-};
+// Nos aseguramos de tener un array válido
+const listaServicios = servicios && servicios.length > 0 ? servicios : defaultServicios;
 
-const sectionContent = resolveSectionData<SectionContent>(dataPath, defaultContent);
-const finalTitulo = titulo ?? sectionContent.titulo;
-const finalBeneficios = beneficios ?? sectionContent.beneficios;
-
-const highlightPhrase = "sin letra chiquita";
-const hasHighlight = finalTitulo.toLowerCase().includes(highlightPhrase);
-const tituloBefore = hasHighlight ? finalTitulo.replace(new RegExp(highlightPhrase, 'i'), '').trim() : finalTitulo;
-const tituloHighlight = hasHighlight ? finalTitulo.match(new RegExp(highlightPhrase, 'i'))?.[0] ?? highlightPhrase : "";
+const words = titulo.trim().split(" ");
+const lastWord = words.length > 1 ? words.pop() : "";
+const mainTitle = words.join(" ");
 ---
 
-<section id={id} class:list={["w-full py-10 md:py-10 xl:py-16", fondo, className]}>
-  <div class="shell text-wrap lg:px-10! xl:px-[72px]!">
-    <div class="flex flex-col gap-10">
-      <div class="flex items-center justify-between gap-4 !text-wrap">
-        <h2 class="m-0 text-2xl leading-8 font-bold text-neutral-10 md:text-[2rem] md:leading-10">
-          {tituloBefore}
-          {tituloHighlight && (
-            <span class="text-accion-primaria"> {tituloHighlight}</span>
-          )}
+<section id={id} class:list={["w-full py-16 md:py-24 relative overflow-hidden", fondo, className]}>
+  <div class="shell">
+    <div class="flex flex-col gap-12">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="m-0 text-3xl md:text-4xl lg:text-5xl font-extrabold text-neutral-10 tracking-tight leading-tight">
+          {mainTitle} {lastWord && <span class="text-primario-50">{lastWord}</span>}
         </h2>
       </div>
 
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {finalBeneficios.map((beneficio) => (
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        {listaServicios.map((servicio) => (
           <Card
-            tipo="icono"
-            estilo="outlined"
-            icono={beneficio.icono}
-            iconoVariant="regular"
-            titulo={beneficio.titulo}
-            copy={beneficio.copy}
-            className="min-h-0 rounded-3xl"
-            infoContainerClassName="gap-4"
+            tipo={servicio.imageSrc ? "imagen" : "icono"}
+            estilo="elevada"
+            imageSrc={servicio.imageSrc}
+            imageAlt={servicio.imageAlt || servicio.titulo}
+            icono={servicio.icono}
+            titulo={servicio.titulo}
+            copy={servicio.copy}
+            iconContainerClassName={servicio.bgCircleColor || "bg-primario-95"}
+            className="h-full"
           />
         ))}
       </div>

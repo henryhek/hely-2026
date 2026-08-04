@@ -3,7 +3,7 @@ import Button from "@/components/atoms/Button.astro";
 import Icon from "@/components/foundation/Icon.astro";
 
 type CardTipo = "imagen" | "icono";
-type CardEstilo = "outlined" | "rellena";
+type CardEstilo = "outlined" | "rellena" | "elevada";
 type ButtonTipo = "primario" | "secundario" | "outlined";
 type ButtonTamano = "sm" | "md" | "lg";
 type IconVariant = "regular" | "light" | "solid" | "brands";
@@ -43,7 +43,7 @@ interface Props {
 
 const {
   tipo = "imagen",
-  estilo = "outlined",
+  estilo = "elevada",
   imageSrc,
   imageAlt = "",
   icono,
@@ -62,70 +62,72 @@ const {
   infoContainerClassName = "",
 } = Astro.props;
 
-const iconContainerClasses = iconContainerClassName || "bg-accion-secundaria";
-const iconInnerClasses = iconInnerClassName || "text-primario-50";
-
+/* Clases por defecto para el contenedor de la tarjeta */
 const cardContainerClasses = {
-  outlined: "border border-neutral-80 bg-white",
+  outlined: "border border-neutral-90 bg-white shadow-sm",
   rellena: "border border-transparent bg-neutral-95",
+  elevada: "border border-neutral-95/60 bg-white shadow-xl shadow-neutral-90/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300",
 } as const;
 
-const cardSpacingClasses = tipo === "imagen"
-  ? "gap-4 px-4 py-6"
-  : "gap-6 p-6";
+/* Spacing e intencionalidad centrada como en el diseño de Hely */
+const cardSpacingClasses = "p-8 gap-6";
 
-const titleClasses = tipo === "imagen"
-  ? "text-xl leading-7 font-bold text-neutral-10 md:text-xl md:leading-8"
-  : "text-xl leading-8 font-semibold text-neutral-10";
+/* Estilos de tipografía */
+const titleClasses = "text-xl md:text-2xl font-extrabold text-neutral-10 leading-snug tracking-tight";
+const subtitleClasses = "text-base font-bold text-neutral-20";
+const copyClasses = "text-sm md:text-base font-normal text-neutral-50 leading-relaxed";
 
-const subtitleClasses = "text-lg leading-7 font-bold text-neutral-10";
-const copyClasses = tipo === "imagen"
-  ? "text-base leading-6 font-normal text-neutral-10"
-  : "text-base leading-6 font-normal text-neutral-30";
+/* Clases para contenedor de ícono/imagen 3D en círculo */
+const iconContainerClasses = iconContainerClassName || "bg-primario-95/60 border border-primario-90/30";
+const iconInnerClasses = iconInnerClassName || "text-primario-50";
+
 const hasMedia = tipo === "imagen" && Boolean(imageSrc);
 const hasIcon = tipo === "icono" && Boolean(icono);
 const hasInfo = Boolean(titulo || subtitulo || copy);
 const hasActions = Boolean(botonPrincipal || botonSecundario);
 
-const primaryButtonTipo = botonPrincipal?.tipo ?? (tipo === "imagen" ? "primario" : "outlined");
-const primaryButtonTamano = botonPrincipal?.tamano ?? (tipo === "imagen" ? "lg" : "md");
+const primaryButtonTipo = botonPrincipal?.tipo ?? "primario";
+const primaryButtonTamano = botonPrincipal?.tamano ?? "md";
 const secondaryButtonTipo = botonSecundario?.tipo ?? "outlined";
 const secondaryButtonTamano = botonSecundario?.tamano ?? "md";
 ---
 
 <article
   class:list={[
-    "flex h-full min-h-[12rem] flex-col rounded-2xl",
+    "flex h-full min-h-[16rem] flex-col items-center text-center rounded-3xl",
     cardContainerClasses[estilo],
     cardSpacingClasses,
     className,
   ]}
 >
+  {/* Render de Imagen / Ilustración 3D centrada en círculo o libre */}
   {hasMedia ? (
-    <div class="overflow-hidden rounded-lg">
+    <div class:list={["flex items-center justify-center w-28 h-28 rounded-full p-3 overflow-hidden shrink-0", iconContainerClasses]}>
       <img
         src={imageSrc}
         alt={imageAlt}
-        class="aspect-[328/184] w-full object-cover"
+        class="w-full h-full object-contain"
         loading="lazy"
       />
     </div>
   ) : null}
 
+  {/* Render de Ícono vectorial de FontAwesome u otra librería */}
   {hasIcon ? (
-    <div class:list={["inline-flex w-fit items-center rounded-md p-1", iconContainerClasses]}>
-      <span class:list={["inline-flex h-9 w-9 items-center justify-center", iconInnerClasses]}>
+    <div class:list={["flex items-center justify-center w-24 h-24 rounded-full p-4 shrink-0", iconContainerClasses]}>
+      <span class:list={["inline-flex items-center justify-center", iconInnerClasses]}>
         <Icon name={icono!} variant={iconoVariant} size="2xl" className="leading-none" />
       </span>
     </div>
   ) : null}
 
+  {/* Contenido de texto de la card */}
   {hasInfo ? (
-    <div class:list={["flex flex-col gap-2", infoContainerClassName]}>
-      {titulo ? <p class:list={["m-0", titleClasses, titleClassName]}>{titulo}</p> : null}
+    <div class:list={["flex flex-col gap-3 w-full items-center", infoContainerClassName]}>
+      {titulo ? <h3 class:list={["m-0", titleClasses, titleClassName]}>{titulo}</h3> : null}
 
       {(subtitulo || copy) ? (
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-2 max-w-xs">
           {subtitulo ? <p class:list={["m-0", subtitleClasses, subtitleClassName]}>{subtitulo}</p> : null}
           {copy ? <p class:list={["m-0", copyClasses, copyClassName]}>{copy}</p> : null}
         </div>
@@ -133,8 +135,9 @@ const secondaryButtonTamano = botonSecundario?.tamano ?? "md";
     </div>
   ) : null}
 
+  {/* Botones de acción */}
   {hasActions ? (
-    <div class="mt-auto flex flex-col gap-4">
+    <div class="mt-auto pt-2 flex flex-col gap-3 w-full">
       {botonPrincipal ? (
         <Button
           texto={botonPrincipal.texto}
